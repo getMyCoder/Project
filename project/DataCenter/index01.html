@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/myEchart.js"></script>
+</head>
+<body>
+<div class="mainBody" id="mainBody">
+    <div class="mainCon">
+        <div class="main">
+            <div class="title">采集器监控</div>
+            <div class="mainConC"></div>
+        </div>
+    </div>
+    <!--弹窗A-->
+    <div class="ClassA ClassAll">
+        <div class="ClassATitle ClassAllTitle">主机漏洞趋势</div>
+        <div class="classACon classAllCon">
+            <div id="echart-main" class="echart-main" style="height:250px;background:#fff;"></div>
+            <i class="ClassAI"></i>
+        </div>
+    </div>
+    <!--弹窗B-->
+    <div class="ClassB ClassAllJs ClassAll">
+        <div class="ClassBTitle ClassAllTitle"></div>
+        <div class="classBCon classAllCon">
+            <i class="ClassBI"></i>
+        </div>
+    </div>
+    <!--弹窗C-->
+    <div class="ClassC ClassAllJs ClassAll">
+        <div class="ClassCTitle ClassAllTitle">当前主机部署采集器的信息</div>
+        <div class="classCCon classAllCon">
+            <i class="ClassCI"></i>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        var arrs1 = [
+            {
+                title: "主机1",
+                content: {
+                    title: "当前主机部署采集器的信息1",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器AA', '采集器BB', '采集器H', '采集器W'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称11", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称12", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称13", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称14", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            }
+        ];
+        var arrs2 = [
+            {
+                title: "主机1",
+                content: {
+                    title: "当前主机部署采集器的信息1",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器AA', '采集器BB', '采集器H', '采集器W'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称11", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称12", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称13", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称14", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机2",
+                content: {
+                    title: "当前主机部署采集器的信息2",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器C', '采集器D'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称21", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称22", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            }
+        ];
+        var arrs3 = [
+            {
+                title: "主机1",
+                content: {
+                    title: "当前主机部署采集器的信息1",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器AA', '采集器BB', '采集器H', '采集器W'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称11", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称12", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称13", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称14", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机2",
+                content: {
+                    title: "当前主机部署采集器的信息2",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器C', '采集器D'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称21", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称22", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机3",
+                content: {
+                    title: "当前主机部署采集器的信息3",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器C', '采集器D'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称31", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称32", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            }
+        ];
+        var arrs4 = [
+            {
+                title: "主机1",
+                content: {
+                    title: "当前主机部署采集器的信息1",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器AA', '采集器BB', '采集器H', '采集器W'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称11", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称12", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称13", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称14", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机2",
+                content: {
+                    title: "当前主机部署采集器的信息2",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器C', '采集器D'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称21", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称22", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机3",
+                content: {
+                    title: "当前主机部署采集器的信息3",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器C', '采集器D'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称31", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称32", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机4",
+                content: {
+                    title: "当前主机部署采集器的信息4",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器AA', '采集器BB', '采集器H', '采集器W'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称41", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称42", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称43", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称44", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            }
+        ];
+        var arrs5 = [
+            {
+                title: "主机1",
+                content: {
+                    title: "当前主机部署采集器的信息1",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器AA', '采集器BB', '采集器H', '采集器W'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称11", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称12", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称13", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称14", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机2",
+                content: {
+                    title: "当前主机部署采集器的信息2",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器C', '采集器D'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称21", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称22", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机3",
+                content: {
+                    title: "当前主机部署采集器的信息3",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器C', '采集器D'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称31", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称32", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机4",
+                content: {
+                    title: "当前主机部署采集器的信息4",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器AA', '采集器BB', '采集器H', '采集器W'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称41", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称42", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称43", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称44", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            },
+            {
+                title: "主机5",
+                content: {
+                    title: "当前主机部署采集器的信息5",
+                    text: [
+                        {name: "采集器名称", str: "采集器A", classname: ""},
+                        {name: "采集器类型", str: "日志接口", classname: ""},
+                        {name: "采集器状态", str: "运行", classname: "ClassActive"},
+                        {name: "触发类型", str: "事件触发", classname: ""},
+                        {name: "调用次数", str: "50次", classname: ""},
+                        {name: "启动时长", str: "60分钟", classname: ""},
+                    ]
+                },
+                text: {
+                    title: ['采集器C', '采集器D'],
+                    ChildCon: [
+                        [
+                            {name: "采集器名称51", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ],
+                        [
+                            {name: "采集器名称52", str: "采集器C", classname: ""},
+                            {name: "目标采集次数", str: "200次", classname: ""},
+                            {name: "目标采集成功次数", str: "150次", classname: ""},
+                            {name: "目标采集失败次数", str: "50次", classname: ""}
+                        ]
+                    ]
+                }
+            }
+        ];
+        var echartArr = {
+            data: [
+                {
+                    title: '主机1',
+                    data: [120, 132, 101, 134, 90, 230, 210],
+                },
+                {
+                    title: '主机2',
+                    data: [220, 182, 191, 234, 290, 330, 310]
+                },
+                {
+                    title: '主机3',
+                    data: [150, 232, 201, 154, 190, 330, 410]
+                },
+                {
+                    title: '主机4',
+                    data: [320, 332, 301, 334, 390, 330, 320]
+                }
+            ],
+            time:["21:00","1:00","5:00","9:00","13:00","17:00"]
+        };
+        getEchart(arrs5, echartArr);
+    });
+
+
+</script>
+</body>
+</html>

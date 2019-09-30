@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/EchartDom.js"></script>
+</head>
+<body>
+<div class="mainOBody">
+    <div class="mainCon mainConS">
+        <div class="mainCon ywjk">
+            <div class="mainItemsLeft ">
+                <div class="ywjkItems">
+                    <div class="title">任务节点失败排名</div>
+                    <div class="itemsTimeSide"></div>
+                </div>
+                <div class="ywjkItems">
+                    <div class="title">任务执行走势图</div>
+                    <div id="itemsTimeRank"></div>
+                </div>
+                <div class="ywjkItems">
+                    <div class="title">数据中心调用应用排名</div>
+                    <div id="itemsTimeDRank" style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="mainItemsModdle">
+                <div class="mainItemsMnC">
+                    <div id="mainItemsMnC"></div>
+                </div>
+                <div class="ywjkItems">
+                    <div class="title">数据中心调用应用排名</div>
+                    <div id="dataCall" style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="mainItemsRight ">
+                <div class="ywjkItems">
+                    <div class="title">集群使用情况</div>
+                    <div class="mainItemsRI">
+                        <div class="mainItemsRIL">
+                            <h6>磁盘使用率分布</h6>
+                            <div class="mainItemsRILC" id="mainItemsRILC1"></div>
+                        </div>
+                        <div class="mainItemsRIR">
+                            <h6>磁盘使用Top</h6>
+                            <h5>
+                                <p><img src="images/computer.png" alt=""><span>172.16.2.113</span><i>0.0/1核</i></p>
+                                <p><img src="images/computer.png" alt=""><span>172.16.2.113</span><i>0.0/1核</i></p>
+                                <p><img src="images/computer.png" alt=""><span>172.16.2.113</span><i>0.0/1核</i></p>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="mainItemsRI">
+                        <div class="mainItemsRIL">
+                            <h6>内存使用率分布</h6>
+                            <div class="mainItemsRILC" id="mainItemsRILC2"></div>
+                        </div>
+                        <div class="mainItemsRIR">
+                            <h6>内存使用Top5</h6>
+                            <h5>
+                                <p><img src="images/computer.png" alt=""><span>172.16.2.113</span><i>0.0/1核</i></p>
+                                <p><img src="images/computer.png" alt=""><span>172.16.2.113</span><i>0.0/1核</i></p>
+                                <p><img src="images/computer.png" alt=""><span>172.16.2.113</span><i>0.0/1核</i></p>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="mainItemsRI">
+                        <div class="mainItemsRIL">
+                            <h6>CPU使用率分布</h6>
+                            <div class="mainItemsRILC" id="mainItemsRILC3"></div>
+                        </div>
+                        <div class="mainItemsRIR">
+                            <h6>CPU使用Top5</h6>
+                            <h5>
+                                <p><img src="images/computer.png" alt=""><span>172.16.2.113</span><i>0.0/1核</i></p>
+                                <p><img src="images/computer.png" alt=""><span>172.16.2.113</span><i>0.0/1核</i></p>
+                                <p><img src="images/computer.png" alt=""><span>172.16.2.113</span><i>0.0/1核</i></p>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="ywjkItems">
+                    <div class="title">接口调用失败率走势图</div>
+                    <div id="InterFail" style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        // 左侧-----------------------------------------------------------
+        var arr = [
+            {title: "节点1", index: 7},
+            {title: "节点2", index: 8},
+            {title: "节点3", index: 2},
+            {title: "节点4", index: 5},
+            {title: "节点5", index: 7}
+        ];
+        // 任务节点失败排名
+        setPoint(arr);
+
+        var arr1 = [
+            {
+                title: "任务1",
+                data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3, 20]
+            },
+            {
+                title: "任务2",
+                data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3, 15]
+            }
+        ];
+        // 任务执行走势图
+        setTrend('itemsTimeRank', arr1);
+
+        // 数据中心调用应用排名
+        var arr2 = {
+            title: ['应用1', '应用2', '应用3', '应用4'],
+            data: [891, 1220, 660, 1670]
+        }
+        DataRank(arr2, 2000);
+
+        // 中间-----------------------------------------------------------
+        // 安全大数据中心
+        var dataArr = [
+            {
+                title: "应用1",
+                text: ['1、响应时间：914ms', '2、缓慢数：39个', '3、错误数：45个']
+            },
+            {
+                title: "应用2",
+                text: ['1、响应时间：914ms', '2、缓慢数：39个', '3、错误数：45个']
+            },
+            {
+                title: "应用3",
+                text: ['1、响应时间：914ms', '2、缓慢数：39个', '3、错误数：45个']
+            },
+            {
+                title: "应用4",
+                text: ['1、响应时间：914ms', '2、缓慢数：39个', '3、错误数：45个']
+            },
+            {
+                title: "应用5",
+                text: ['1、响应时间：914ms', '2、缓慢数：39个', '3、错误数：45个']
+            }
+        ];
+        safeData(dataArr);
+
+        // 数据中心调用应用排名
+        DataInter([
+            ['1200', '1400', '808', '811', '626', '488', '1600', '1100', '500', '300', '1998', '822'],
+            ['1100', '1300', '808', '711', '526', '488', '1500', '1800', '600', '200', '1998', '922']
+        ]);
+
+        // 右侧-----------------------------------------------------------
+        // 集群使用情况
+        colonyUse();
+        colonyEchart('mainItemsRILC1', 70, "#7dc67d");
+        colonyEchart('mainItemsRILC2', 70, "#7aacde");
+        colonyEchart('mainItemsRILC3', 70, "#7aacde");
+
+        // 接口调用失败率走势图
+        var arr3 = {
+            title: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            data: [
+                {
+                    name: '接口1',
+                    data: [90, 50, 39, 50, 120, 82, 80, 39, 50, 120, 82, 80]
+                },
+                {
+                    name: '标准版',
+                    data: [70, 50, 50, 87, 90, 80, 70, 87, 90, 80, 70, 90]
+                }
+            ]
+        };
+        InterFail(arr3);
+
+    });
+
+
+</script>
+
+</body>
+</html>

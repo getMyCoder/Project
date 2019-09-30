@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/EchartDom.js"></script>
+</head>
+<body>
+<div class="mainOBody">
+    <div class="mainCon mainConS">
+        <div class="mainItems">
+            <div class="title">主机管理</div>
+            <div class="mainConC">
+                <div id="zjgl"></div>
+            </div>
+            <!--弹窗-->
+            <div class="zjglPop">
+                <div class="zjglPopConM">
+                    <div class="zjglPopTitle"></div>
+                    <div class="zjglPopText">
+                        <h2></h2>
+                        <p></p>
+                    </div>
+                    <div class="zjglPopCon">
+                        <div class="zjglPopConIte">
+                            <h6></h6>
+                            <div id="zjglPopCon1"></div>
+                        </div>
+                        <div class="zjglPopConIte">
+                            <h6></h6>
+                            <div id="zjglPopCon2"></div>
+                        </div>
+                        <div class="zjglPopConIte">
+                            <h6></h6>
+                            <div id="zjglPopCon3"></div>
+                        </div>
+                    </div>
+                </div>
+                <i></i>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var dataList = [
+            {
+                title: "主机1",
+                ip: '192.168.2.3',
+                state: {
+                    text:'正常',
+                    data:'default'
+                },
+                memory: '16GB',
+                kernel: '三核',
+                harddisk: '200GB',
+                // content:{
+                //     memoryUsage:'70%',
+                //     kernelUsage:'50%',
+                //     harddiskUsage:'35%'
+                // },
+                echartData:[
+                    {title:"内存使用率分布",value:80},
+                    {title:"硬盘使用率分布",value:60},
+                    {title:"CPU使用率分布",value:70}
+                ]
+            },
+            {
+                title: "主机2",
+                ip: '192.168.2.3',
+                state: {
+                    text:'警告',
+                    data:'warning'
+                },
+                memory: '16GB',
+                kernel: '三核',
+                harddisk: '200GB',
+                content:{
+                    memoryUsage:'70%',
+                    kernelUsage:'50%',
+                    harddiskUsage:'35%'
+                },
+                echartData:[
+                    {title:"内存使用率分布",value:10},
+                    {title:"硬盘使用率分布",value:60},
+                    {title:"CPU使用率分布",value:70}
+                ]
+            },
+            {
+                title: "主机3",
+                ip: '192.168.2.3',
+                state: {
+                    text:'异常',
+                    data:'danger'
+                },
+                memory: '16GB',
+                kernel: '三核',
+                harddisk: '200GB',
+                content:{
+                    memoryUsage:'70%',
+                    kernelUsage:'50%',
+                    harddiskUsage:'35%'
+                },
+                echartData:[
+                    {title:"内存使用率分布",value:80},
+                    {title:"硬盘使用率分布",value:60},
+                    {title:"CPU使用率分布",value:70}
+                ]
+            },
+            {
+                title: "主机4",
+                ip: '192.168.2.3',
+                state: {
+                    text:'异常',
+                    data:'danger'
+                },
+                memory: '16GB',
+                kernel: '三核',
+                harddisk: '200GB',
+                content:{
+                    memoryUsage:'70%',
+                    kernelUsage:'50%',
+                    harddiskUsage:'35%'
+                },
+                echartData:[
+                    {title:"内存使用率分布",value:80},
+                    {title:"硬盘使用率分布",value:60},
+                    {title:"CPU使用率分布",value:70}
+                ]
+            },
+            {
+                title: "主机5",
+                ip: '192.168.2.3',
+                state: {
+                    text:'异常',
+                    data:'danger'
+                },
+                memory: '16GB',
+                kernel: '三核',
+                harddisk: '200GB',
+                content:{
+                    memoryUsage:'70%',
+                    kernelUsage:'50%',
+                    harddiskUsage:'35%'
+                },
+                echartData:[
+                    {title:"内存使用率分布",value:80},
+                    {title:"硬盘使用率分布",value:60},
+                    {title:"CPU使用率分布",value:70}
+                ]
+            },
+            {
+                title: "主机6",
+                ip: '192.168.2.3',
+                state: {
+                    text:'异常',
+                    data:'danger'
+                },
+                memory: '16GB',
+                kernel: '三核',
+                harddisk: '200GB',
+                content:{
+                    memoryUsage:'70%',
+                    kernelUsage:'50%',
+                    harddiskUsage:'35%'
+                },
+                echartData:[
+                    {title:"内存使用率分布",value:80},
+                    {title:"硬盘使用率分布",value:60},
+                    {title:"CPU使用率分布",value:70}
+                ]
+            },
+            {
+                title: "主机7",
+                ip: '192.168.2.3',
+                state: {
+                    text:'异常',
+                    data:'danger'
+                },
+                memory: '16GB',
+                kernel: '三核',
+                harddisk: '200GB',
+                content:{
+                    memoryUsage:'70%',
+                    kernelUsage:'50%',
+                    harddiskUsage:'35%'
+                },
+                echartData:[
+                    {title:"内存使用率分布",value:80},
+                    {title:"硬盘使用率分布",value:60},
+                    {title:"CPU使用率分布",value:70}
+                ]
+            },
+            {
+                title: "主机8",
+                ip: '192.168.2.3',
+                state: {
+                    text:'异常',
+                    data:'danger'
+                },
+                memory: '16GB',
+                kernel: '三核',
+                harddisk: '200GB',
+                content:{
+                    memoryUsage:'70%',
+                    kernelUsage:'50%',
+                    harddiskUsage:'35%'
+                },
+                echartData:[
+                    {title:"内存使用率分布",value:80},
+                    {title:"硬盘使用率分布",value:60},
+                    {title:"CPU使用率分布",value:70}
+                ]
+            },
+            {
+                title: "主机9",
+                ip: '192.168.2.3',
+                state: {
+                    text:'异常',
+                    data:'danger'
+                },
+                memory: '16GB',
+                kernel: '三核',
+                harddisk: '200GB',
+                content:{
+                    memoryUsage:'70%',
+                    kernelUsage:'50%',
+                    harddiskUsage:'35%'
+                },
+                echartData:[
+                    {title:"内存使用率分布",value:80},
+                    {title:"硬盘使用率分布",value:60},
+                    {title:"CPU使用率分布",value:70}
+                ]
+            },
+            // {
+            //     title: "主机10",
+            //     ip: '192.168.2.3',
+            //     state: {
+            //         text:'异常',
+            //         data:'danger'
+            //     },
+            //     memory: '16GB',
+            //     kernel: '三核',
+            //     harddisk: '200GB',
+            //     content:{
+            //         memoryUsage:'70%',
+            //         kernelUsage:'50%',
+            //         harddiskUsage:'35%'
+            //     },
+            //     echartData:[
+            //         {title:"内存使用率分布",value:80},
+            //         {title:"硬盘使用率分布",value:60},
+            //         {title:"CPU使用率分布",value:90}
+            //     ]
+            // }
+        ];
+        HostManagement(dataList)
+
+    });
+</script>
+
+</body>
+</html>
