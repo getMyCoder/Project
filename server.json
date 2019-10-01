@@ -1,10 +1,14 @@
 {
   "project": [
-    {"name": "Vue-Element","src": "vue.png","href": "https://getmycoder.github.io/index"}
+    {"name": "Vue-Element","src": "vue.png","href": "https://getmycoder.github.io/index"},
+    {"name": "大屏展示","src": "BigScreen.png","href": "https://getmycoder.github.io/Project/project/BigScreen/index.html"},
+    {"name": "数据中心","src": "DataCenter02.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index02.html"}
   ],
   "plug": [
     {"name": "Kui框架","src": "kui.png","href": "http://www.nodeserver.gq/kui/"},
     {"name": "canvas数据","src": "canvas.png","href": "https://getmycoder.github.io/echart/"},
-    {"name": "树插件","src": "tree.png","href": "https://getmycoder.github.io/Tree/"}
+    {"name": "树插件","src": "tree.png","href": "https://getmycoder.github.io/Tree/"},
+    {"name": "canvas树","src": "DataCenter01.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index01.html"},
+    {"name": "canvas特效","src": "DataCenter03.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index03.html"}
   ]
 }
