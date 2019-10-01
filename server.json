@@ -3,7 +3,7 @@
     {"name": "Vue-Element","src": "vue.png","href": "https://getmycoder.github.io/index"}
   ],
   "plug": [
-    {"name": "Kui框架","src": "Kui.png","href": "http://www.nodeserver.gq/kui/"},
+    {"name": "Kui框架","src": "kui.png","href": "http://www.nodeserver.gq/kui/"},
     {"name": "canvas数据","src": "canvas.png","href": "https://getmycoder.github.io/echart/"},
     {"name": "树插件","src": "tree.png","href": "https://getmycoder.github.io/Tree/"}
   ]
