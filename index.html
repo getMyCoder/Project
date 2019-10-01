@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script type="text/javascript" src="jquery.min.js"></script>
     <style type="text/css">
         body {margin: 0;padding: 0;}
 
-        .main {width: 98%;margin: 15px auto;border:1px solid #ccc;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
+        .main {width: 98%;margin: 15px auto;border: 1px solid #ccc;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
 
         .mainUl {list-style: none;overflow: hidden; padding: 0;width: 99%;margin: 0 auto;}
 
@@ -28,59 +29,29 @@
         @media (min-width: 1000px) and (max-width: 1200px) {
             .mainUl li {width: 12%;margin: 15px 0.25%;}
         }
-        .title{width: 100%;margin:0 auto;height: 40px;background: #f1f1f1;line-height: 40px;border-bottom: 1px solid #ccc;}
-        .title h2{font-size: 14px;color: #666; margin: 0;padding:0 0 0 15px;}
-        .top-title{width: 98%;margin: 10px auto;text-align: center;font-size: 16px;color: #666;background: #f1f1f1;height: 45px;line-height: 45px;border:1px solid #ccc;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
+
+        .title {width: 100%;margin: 0 auto;height: 40px;background: #f1f1f1;line-height: 40px;border-bottom: 1px solid #ccc;}
+
+        .title h2 {font-size: 14px;color: #666; margin: 0;padding: 0 0 0 15px;}
+
+        .top-title {width: 98%;margin: 10px auto;text-align: center;font-size: 16px;color: #666;background: #f1f1f1;height: 45px;line-height: 45px;border: 1px solid #ccc;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
     </style>
 </head>
 <body>
-<div class="top-title">作品案例</div>
+<div class="top-title">前端小达人</div>
 <div class="main">
     <div class="title"><h2>项目</h2></div>
-    <ul class="mainUl mainPro">
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-    </ul>
+    <ul class="mainUl mainPro"></ul>
 </div>
 <div class="main">
     <div class="title"><h2>插件</h2></div>
-    <ul class="mainUl mainPlu">
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/kui.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/vue.png" alt=""><span>模板</span></a></li>
-        <li><a href=""><img src="images/canvas.png" alt=""><span>模板</span></a></li>
-    </ul>
+    <ul class="mainUl mainPlu"></ul>
 </div>
 <script type="text/javascript">
     $(function () {
         $(window).resize(function () {
             loading();
         });
-        loading();
         function loading() {
             $(" .mainUl li a").width($(".mainUl li").width() - 2);
             $(".mainUl li").height($(".mainUl li").width());
@@ -90,10 +61,30 @@
             });
         }
         $.ajax({
-            type:"GET",
-            url:"server.json",
+            type: "GET",
+            url: "server.json",
             success: function (data) {
-                console.log(data);
+                var proData = '';
+                for (var i = 0; i < data.project.length; i++) {
+                    proData += '<li>' +
+                        '<a href="' + data.project[i].href + '">' +
+                        '<img src="images/'+ data.project[i].src + '" alt="">' +
+                        '<span>' + data.project[i].name + '</span>' +
+                        '</a>' +
+                        '</li>'
+                }
+                $(".mainPro").append(proData);
+                var plgData = '';
+                for (var j = 0; j < data.plug.length; j++) {
+                    plgData += '<li>' +
+                        '<a href="' + data.plug[j].href + '">' +
+                        '<img src="images/'+ data.plug[j].src+'" alt="">' +
+                        '<span>' + data.plug[j].name + '</span>' +
+                        '</a>' +
+                        '</li>'
+                }
+                $(".mainPlu").append(plgData);
+                loading();
             },
             error: function (err) {
                 console.log(err);
