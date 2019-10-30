@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/swiper.min.js"></script>
+    <script type="text/javascript" src="js/style.js"></script>
+</head>
+<body>
+<div class="hd-xq-box hideBox">
+    <div class="hd-xq-img"><img src="images/hd01.png" alt=""></div>
+</div>
+<div class="hd-xq-box hideBox">
+    <div class="hd-xq-box-con">
+        <div class="hd-xq-dress">
+            <h2>云天安全网络培训全国开启</h2>
+            <h3><i class="fa fa-clock-o"></i><span>2019-10-20 10:00</span></h3>
+            <h3><i class="fa fa-map-marker"></i><span>山东省济南市历下区泉城大酒店四层</span><i class="fa fa-angle-right i-hd-xq"></i></h3>
+            <h3><i class="fa fa-user"></i><span><em>20</em>人要参加</span></h3>
+        </div>
+    </div>
+</div>
+<div class="hd-xq-box hideBox">
+    <div class="hd-xq-box-con">
+        <div class="hd-xq-box-con-title"><span>活动介绍</span></div>
+        <div class="hd-xq-box-con-text">随着互联网的飞速发展和信息量的猛增，大量的图片、暴力等不良信息夹杂在部分信息中，严重影响着互联网的健康发展。各大互联网公司为了保持自己所提供的服务不触犯国家法律和法规，使得鉴黄工作变得尤为重要。智能鉴黄服务基于深度学习的智能鉴黄算法，识别精准度高达99%，可以帮助企业完成95%的图片内容审查工作，节省90%的时间及人工成本。</div>
+    </div>
+</div>
+<!--按钮-->
+<div class="btn-wycj">
+    <div class="ht-edit-submit">
+        <div class="sl-box-con hideBox">
+            <div class="ht-edit-btn">
+                <button>我要参加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        // 活动弹窗
+        $(".ht-edit-btn button").click(function () {
+            actPopup(function () {
+                console.log('回调');
+            });
+        });
+    });
+</script>
+</body>
+</html>
