@@ -11,6 +11,7 @@
     {"name": "canvas数据","src": "canvas.png","href": "https://getmycoder.github.io/echart/"},
     {"name": "树插件","src": "tree.png","href": "https://getmycoder.github.io/Tree/"},
     {"name": "canvas树","src": "DataCenter01.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index01.html"},
-    {"name": "canvas特效","src": "DataCenter03.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index03.html"}
+    {"name": "canvas特效","src": "DataCenter03.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index03.html"},
+    {"name": "音频播放器","src": "music.png","href": "https://getmycoder.github.io/Project/project/musicNav/music.html"}
   ]
 }

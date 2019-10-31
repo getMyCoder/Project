@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="font/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="font/jquery.min.js"></script>
+    <style type="text/css">
+        body {margin: 0;padding: 0;}
+
+        .music {width: 75%;height: 300px;margin: 15px auto;}
+
+        .progress {width: 100%;height: 70px;background: #000;padding-top: 30px;}
+
+        .musicbtn {width: 100%;height: 100px;overflow: hidden;background: #666;}
+
+        .musicitems {float: left;width: 33.333%;height: inherit;line-height: 100px;}
+
+        .musicitems i {cursor: pointer;font-size: 24px;color: #fff;line-height: 100px;}
+
+        .musicLeft {text-align: right}
+
+        .musicMiddle {text-align: center}
+
+        .musicRight {text-align: left}
+
+        .progress-box {height: 8px;width: 90%;margin: 0 auto;background: #999;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;position: relative;}
+
+        .progress-bar {width: 0%;height: inherit;background: red;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
+
+        .progress-bar-p {width: 14px;height: 14px;background: #fff;-webkit-border-radius: 50%;-moz-border-radius: 50%;border-radius: 50%;position: absolute;top: -3px; }
+
+        .progress-box-text {width: 90%;margin: 10px auto;overflow: hidden;}
+
+        .progress-box-text h2 {float: left;font-weight: normal;line-height: 20px;color: #fff;margin: 0;padding: 0;font-size: 16px}
+
+        .progress-box-text h3 {float: right;font-weight: normal;line-height: 20px;color: #fff;margin: 0;padding: 0;font-size: 16px}
+
+        .musicTitle {width: 100%;line-height: 100px;color: #fff;font-size: 16px;text-align: center;background: #999;}
+
+        .musicMiddle i {display: none;}
+
+        .musicMiddle i:first-child {display: block;}
+    </style>
+</head>
+<body>
+<div class="music ">
+    <div class="progress">
+        <div class="progress-box">
+            <div class="progress-bar"></div>
+            <div class="progress-bar-p"></div>
+        </div>
+        <div class="progress-box-text">
+            <h2>0:00</h2>
+            <h3></h3>
+        </div>
+    </div>
+    <div class="musicbtn">
+        <div class="musicitems musicLeft"><i class="fa fa-backward"></i></div>
+        <div class="musicitems musicMiddle"><i class="fa fa-play"></i><i class="fa fa-pause"></i></div>
+        <div class="musicitems musicRight"><i class="fa fa-forward"></i></div>
+    </div>
+    <div class="musicTitle"></div>
+</div>
+<audio controls id="musicAudio" src="" style="display: none;"></audio>
+<script type="text/javascript">
+    var audioObj = {
+        second: null,
+        minute: null,
+        percentage: null,
+        timer: null,
+        index: 0,
+        divTimer: null,
+        judgePlay: false
+    };
+    var srcJson = [
+        {id: 0, src: "https://webfs.yun.kugou.com/201910311613/d5ca40aba7fe5ef121ac324fa05fb6dc/G177/M0B/1A/11/kZQEAF2yo-6APQyfADiYyZlH-HA691.mp3", name: "不会离开"},
+        {id:1, src: "https://webfs.yun.kugou.com/201910311614/418b514165948a54a3eb8e8161592287/G171/M09/03/11/S4cBAF2e6PiAH6xgAEBz8tJdObk786.mp3", name: "如果你不经意想起"},
+        {id: 2, src: "https://webfs.yun.kugou.com/201910311608/3f01b2ecf39b60997716ef16bc2f9188/G155/M09/05/03/e5QEAF0CDkmAX1HsADhb7UMy7qw565.mp3", name: "入戏有动心"}
+    ];
+    $(function () {
+        $("#musicAudio").attr('src', srcJson[audioObj.index].src);
+        $(".musicTitle").text(srcJson[audioObj.index].name);
+        $(".progress-bar-p").css({
+            'left': $(".progress-bar").width() - $(".progress-bar-p").width() * 0.5 + "px"
+        });
+        $(".progress-bar-p").mousedown(function (evD) {
+            var evDDown = {
+                x: evD.clientX - $(".progress-bar").offset().left,
+                y: evD.clientY - $(".progress-bar").offset().top,
+                w: $(".progress-bar").width(),
+                h: $(".progress-bar").height(),
+                l: $(".progress-bar").offset().left,
+                r: $(".progress-bar").offset().top,
+                pBW: null,
+                pBL: null
+            };
+            musicAudio.pause();
+            $(document).bind('mousemove', function (evtM) {
+                if (evtM.clientX > $(".progress-box").offset().left + $(".progress-box").width()) {
+                    evDDown.pBW = $(".progress-box").width();
+                    evDDown.pBL = $(".progress-box").width() - $(".progress-bar-p").width() * 0.5 + "px";
+                } else if (evtM.clientX < $(".progress-box").offset().left) {
+                    evDDown.pBW = 0;
+                    evDDown.pBL = -$(".progress-bar-p").width() * 0.5 + "px";
+                } else {
+                    evDDown.pBW = evtM.clientX - evDDown.l;
+                    evDDown.pBL = evtM.clientX - evDDown.l - $(".progress-bar-p").width() * 0.5 + "px";
+                }
+                $(".progress-bar").width(evDDown.pBW);
+                $(".progress-bar-p").css('left', evDDown.pBL);
+                musicAudio.currentTime = musicAudio.duration * audioObj.percentage;
+                musicAudio.play();
+                getTimer(musicAudio.currentTime);
+            });
+        });
+        $(document).mouseup(function () {
+            $(document).unbind('mousemove');
+            audioObj.percentage = parseInt($(".progress-bar").width()) / parseInt($(".progress-box").width());
+        });
+        $(".progress-box").click(function (evt) {
+            $(".progress-bar").width(evt.clientX - $(".progress-bar").offset().left);
+            $(".progress-bar-p").css('left', evt.clientX - $(".progress-bar").offset().left - $(".progress-bar-p").width() * 0.5 + "px");
+            audioObj.percentage = parseInt($(".progress-bar").width()) / parseInt($(".progress-box").width());
+            musicAudio.currentTime = musicAudio.duration * audioObj.percentage;
+            getTimer(musicAudio.currentTime);
+            setDivTimer(musicAudio);
+        });
+        // vadio
+        var musicAudio = document.getElementById('musicAudio');
+        musicAudio.load();
+        musicAudio.oncanplay = function () {
+            audioObj.second = parseInt((musicAudio.duration - parseInt(musicAudio.duration / 60) * 60));
+            audioObj.minute = parseInt(musicAudio.duration / 60);
+            $(".progress-box-text h3").html(audioObj.minute + ":" + audioObj.second);
+        };
+        // 开始/暂停
+        $(".musicMiddle").click(function () {
+            if (musicAudio.paused) {
+                $(".musicMiddle i").eq(1).show().siblings().hide();
+                musicAudio.play();
+                audioObj.timer = setInterval(function () {
+                    getTimer(musicAudio.currentTime);
+                    setDivTimer(musicAudio);
+                }, 1000);
+                audioObj.judgePlay = true;
+            } else {
+                $(".musicMiddle i").eq(0).show().siblings().hide();
+                clearInterval(audioObj.timer);
+                musicAudio.pause();
+                audioObj.judgePlay = false;
+            }
+        });
+        // 上一首
+        $(".musicLeft").click(function () {
+            if (audioObj.index == 0) {
+                alert('已是第一首');
+            } else {
+                audioObj.index = audioObj.index - 1;
+                $("#musicAudio").attr('src', srcJson[audioObj.index].src);
+                $(".musicTitle").text(srcJson[audioObj.index].name);
+                if (audioObj.judgePlay) {
+                    musicAudio.play();
+                    $(".musicMiddle i").eq(1).show().siblings().hide();
+                } else {
+                    musicAudio.pause();
+                    $(".musicMiddle i").eq(0).show().siblings().hide();
+                }
+                $(".progress-bar").width(0);
+                $(".progress-bar-p").css('left', -$(".progress-bar-p").width() * 0.5);
+                $(".progress-box-text h2").html("0:00");
+            }
+        });
+        // 下一首
+        $(".musicRight").click(function () {
+            if (audioObj.index == srcJson.length - 1) {
+                alert('已是第最后一首');
+            } else {
+                audioObj.index = audioObj.index + 1;
+                $("#musicAudio").attr('src', srcJson[audioObj.index].src);
+                $(".musicTitle").text(srcJson[audioObj.index].name);
+                if (audioObj.judgePlay) {
+                    musicAudio.play();
+                    $(".musicMiddle i").eq(1).show().siblings().hide();
+                } else {
+                    musicAudio.pause();
+                    $(".musicMiddle i").eq(0).show().siblings().hide();
+                }
+                $(".progress-bar").width(0);
+                $(".progress-bar-p").css('left', -$(".progress-bar-p").width() * 0.5);
+                $(".progress-box-text h2").html("0:00");
+            }
+        });
+    });
+
+    function getTimer(data) {
+        var getNewData = {
+            second: 0,
+            minute: 0
+        };
+        getNewData.second = parseInt((data - parseInt(data / 60) * 60));
+        getNewData.minute = parseInt(data / 60);
+        if (getNewData.second < 10) {
+            getNewData.second = "0" + parseInt(getNewData.second);
+        }
+        $(".progress-box-text h2").html(getNewData.minute + ":" + getNewData.second);
+    }
+
+    // 进度条
+    function setDivTimer(Obj) {
+        audioObj.percentage = Obj.currentTime / Obj.duration;
+        $(".progress-bar").width($(".progress-box").width() * audioObj.percentage);
+        $(".progress-bar-p").css('left', $(".progress-box").width() * audioObj.percentage - $(".progress-bar-p").width() * 0.5);
+    }
+
+</script>
+</body>
+</html>
