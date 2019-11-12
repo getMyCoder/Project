@@ -2,6 +2,7 @@
   "project": [
     {"name": "Vue-Element","src": "vue.png","href": "https://getmycoder.github.io/index"},
     {"name": "大屏展示","src": "BigScreen.png","href": "https://getmycoder.github.io/Project/project/BigScreen/index.html"},
+    {"name": "业务大屏","src": "maxNewWeb.png","href": "https://getmycoder.github.io/Project/project/maxNewWeb/index.html"},
     {"name": "数据中心","src": "DataCenter02.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index02.html"},
     {"name": "移动端","src": "yd.png","href": "https://getmycoder.github.io/Project/project/Mobile/index.html"},
     {"name": "程序开发","src": "tz.png","href": "https://getmycoder.github.io/Project/project/DragDrop/index.html"}
