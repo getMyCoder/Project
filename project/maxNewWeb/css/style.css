@@ -419,8 +419,8 @@ button {outline: none;}
 .mainRightRightCon03ConTextItem h4 {color: #fff;font-weight: normal;float: left;width: 65%;}
 
 /*弹窗1*/
-.defense-data-itmes {margin: 0 2.7%;}
-
+/*.defense-data-itmes {margin: 0 2.7%;}*/
+.defense-data-itmes {margin: 0 2.7% 30px 2.7%;}
 .defense-data-itmesTitle {color: #fff;}
 
 .defense-data-itmesCon {background: url("../images/defenseTitle.png") no-repeat top left;background-size: 100% auto;position: relative;}
@@ -450,7 +450,7 @@ button {outline: none;}
 
 .defenseError h4 {color: #ff1700 !important;}
 
-.gxqzhs-data-itmes {margin: 0 2.7%;}
+.gxqzhs-data-itmes {margin: 0 2.7% 10px 2.7%;}
 
 .gxqzhs-pop {}
 
@@ -467,3 +467,14 @@ button {outline: none;}
 .gxqzhs-pop li h5 {}
 
 .gxqzhs-pop li h6 {text-align: center}
+
+.warningTips{position: fixed;color: #fff;z-index: 99999;top: 100px;left: 100px;display: none;}
+.warningTipsCon{background: rgba(102,35,37,0.8);-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;padding-right: 30px;}
+.warningTips h2{float: left;margin-left: -8px;}
+.warningTips span{float: left;padding-left: 3px;}
+.warningTips h2 img{width: 100%;height: inherit;}
+.warningTips h3{padding-left: 30px;}
+
+.defIrfame{width: 100%;height: inherit;overflow-x: hidden;overflow-y: auto;padding-bottom: 30px;}
+.errLog{position: fixed;top: 0;left: 0;z-index: 99999;cursor: pointer;}
+.errLog img{width: 100%;height: inherit;}

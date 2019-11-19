@@ -93,6 +93,11 @@ function onload() {
     var createSize = [
         {obj: $(".container"), val: [5040, 1440, null, null, null]},
         {obj: $(".top"), val: [null, 104, null, null, null]},
+        {
+            obj: $(".main"), val: [null, null, null, null, null], callback: function () {
+                $(".main").css({'paddingTop': personFun.getH(70) + "px"});
+            }
+        },
         {obj: $(".logo"), val: [1564, 104, null, null, null]},
         {obj: $(".logoCon"), val: [null, 104, null, null, null]},
         {obj: $(".logo h2 img"), val: [null, 47, null, null, null]},
@@ -218,7 +223,7 @@ function onload() {
                 });
             }
         },
-        {obj: $(".defense-data-itmesCon ul"), val: [1400, null, null, null, null]},
+        {obj: $(".defense-data-itmesCon ul"), val: [1450, null, null, null, null]},
         {obj: $(".defense-pop li h2"), val: [68, 97, null, null, 23]},
         {obj: $(".defense-pop li h3"), val: [null, 37, 24, 37, null]},
         {
@@ -238,19 +243,28 @@ function onload() {
         },
         {obj: $(".gxqzhs-pop"), val: [null, null, null, null, null]},
         {obj: $(".gxqzhs-pop li"), val: [null, 165, null, null, null]},
-        {obj: $(".gxqzhs-pop li h2"), val: [94, null, null, null, null],callback:function () {
-                $(".gxqzhs-pop li h2").css('marginLeft',personFun.getW(74) + "px")
-            }},
+        {
+            obj: $(".gxqzhs-pop li h2"), val: [94, null, null, null, null], callback: function () {
+                $(".gxqzhs-pop li h2").css('marginLeft', personFun.getW(74) + "px");
+            }
+        },
         {obj: $(".gxqzhs-pop li h2 img"), val: [94, 92, null, null, 34]},
         {obj: $(".gxqzhs-pop li h3"), val: [165, 165, 24, 165, null]},
         {obj: $(".gxqzhs-pop li h4"), val: [632, null, null, null, null]},
         {obj: $(".gxqzhs-pop li h4 img"), val: [632, 27, null, null, 70]},
-        {obj: $(".gxqzhs-pop li h5"), val: [136, null, null, null, null],callback:function () {
-                $(".gxqzhs-pop li h5").css('marginLeft',personFun.getW(52) + "px")
-            }},
+        {
+            obj: $(".gxqzhs-pop li h5"), val: [136, null, null, null, null], callback: function () {
+                $(".gxqzhs-pop li h5").css('marginLeft', personFun.getW(52) + "px");
+            }
+        },
         {obj: $(".gxqzhs-pop li h5 img"), val: [136, 132, null, null, 19]},
         {obj: $(".gxqzhs-pop li h6"), val: [150, 165, 24, 165, null]},
         {obj: $(".gxqzhs-data-itmes"), val: [null, null, null, null, 13]},
+        {obj: $(".warningTips"), val: [null, null, null, 36, null]},
+        {obj: $(".warningTipsCon"), val: [null, 36, 18, 36, null]},
+        {obj: $(".warningTips h2"), val: [50, 41, null, null, -5]},
+        {obj: $(".warningTips h3 img"), val: [21, 25, null, null, null]},
+        {obj: $(".errLog"), val: [45, 30, null, null, null]},
 
     ];
     personFun.setSize(createSize);
@@ -260,7 +274,6 @@ function onload() {
     // 左侧底部滚动
     bannerToggle();
     $(".container").removeClass('hideBox');
-
 }
 
 // onload-function
@@ -369,6 +382,7 @@ function OverallNetworkHealthIndex(dataList, callback) {
     $("#earthMapData").append('<canvas id="ONHealth" width="' + $("#earthMapData").width() + '" height="' + $("#earthMapData").height() + '"></canvas>');
     var canvas = document.getElementById('ONHealth');
     var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     // 1894
     // 690
     var sizePos = [
@@ -564,6 +578,7 @@ function mainB_01Echart(dataList) {
     $("#mainB_01").append('<canvas id="mainB_01Echart" width="' + $("#mainB_01").width() + '" height="' + $("#mainB_01").height() + '"></canvas>');
     var canvas = document.getElementById('mainB_01Echart');
     var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     var newW = 715;
     var hrSize = canvas.width;
     var colorImg = [
@@ -912,7 +927,7 @@ function mainB_05_01(dataList) {
             data: dataList.value[i].data
         });
     }
-    myChart.setOption(option);
+    myChart.setOption(option, true);
 }
 
 // 配置合规资产覆盖率
@@ -1087,7 +1102,7 @@ function mainB_02Echart(dataList) {
                 }
             ]
         };
-        myChart.setOption(option);
+        myChart.setOption(option, true);
         $("#mainB_02_01").append('<div class="mainB_02H2"><h2 style="color: rgb(255,160,3);">' + dataL.benchmark[0] + '：<i>' + dataL.benchmark[1] + '%</i></h2></div>');
     }
 
@@ -1262,7 +1277,7 @@ function mainB_02Echart(dataList) {
                 }
             ]
         };
-        myChart.setOption(option);
+        myChart.setOption(option, true);
         $("#mainB_02_02").append('<div class="mainB_02H2"><h2 style="color: rgb(234,32,22);">' + dataL.benchmark[0] + '：<i>' + dataL.benchmark[1] + '%</i></h2></div>');
     }
 
@@ -1437,7 +1452,7 @@ function mainB_02Echart(dataList) {
                 }
             ]
         };
-        myChart.setOption(option);
+        myChart.setOption(option, true);
         $("#mainB_02_03").append('<div class="mainB_02H2"><h2 style="color: rgb(0,108,255);">' + dataL.benchmark[0] + '：<i>' + dataL.benchmark[1] + '%</h2></div>');
     }
 
@@ -1709,7 +1724,7 @@ function middleTop() {
     middleTopImg.src = 'images/middleBG.png';
     middleTopImg.onload = function () {
         ctx.drawImage(middleTopImg, 0, 0, mainMTopSize.width, mainMTopSize.height);
-        lineTimer = coordinate[0].spead * moveTimer * (coordinate[0].lineCoordinate.length - 1) + coordinate[0].SeparateCoordinate[0].spead * moveTimer * coordinate[0].SeparateCoordinate[0].lineCoordinate.length;
+        lineTimer = coordinate[0].spead * moveTimer * coordinate[0].lineCoordinate.length + coordinate[0].SeparateCoordinate[0].spead * moveTimer * coordinate[0].SeparateCoordinate[0].lineCoordinate.length;
         spotMove(coordinate, function () {
             spotMove(coordinate[0].SeparateCoordinate);
         });
@@ -1834,7 +1849,7 @@ function prepareData(dataList, flage) {
             'top': $(".mainLeft").offset().top - personFun.getH(52) + "px",
             'left': $(".mainLeft").offset().left + "px",
             'width': $(".mainLeft").width() + "px",
-            'height': personFun.getH(1330) + "px",
+            'height': personFun.getH(1350) + "px",
         });
         // $(".hrefDiv").css({
         //     'top': personFun.getH(540) + "px",
@@ -1885,7 +1900,7 @@ function engineeringModule(flage) {
         'top': $(".mainLeft").offset().top - personFun.getH(52) + "px",
         'left': $(".mainLeft").offset().left + "px",
         'width': $(".mainLeft").width() + "px",
-        'height': personFun.getH(1330) + "px",
+        'height': personFun.getH(1350) + "px",
     });
     $(".mainMiddleBotRight ul li").eq(3).click(function () {
         $(".gxqzhs").fadeIn(100);
@@ -1920,7 +1935,8 @@ function securityIncidents() {
 }
 
 // 右侧滚动
-var cltTimer=null;
+var cltTimer = null;
+
 function rightScroll(dataList, flage) {
     $(".mainRightRightCon01Con").html('');
     // 添加html
@@ -2002,7 +2018,7 @@ function rightScroll(dataList, flage) {
         indexItems = indexItems + 1;
         indexTable(indexItems, createHtml, 'start', dataList.data.length, indexItems);
         var setSpeed = 0, indexCount = indexItems;
-        cltTimer=setInterval(function () {
+        cltTimer = setInterval(function () {
             if (Math.abs(setSpeed) > $(".no_warningTable").height()) {
                 indexCount++;
                 setSpeed = 0;
@@ -2170,6 +2186,122 @@ function popWarning(dataList, flage) {
     //         });
     //     });
     // });
-    clearInterval(cltTimer)
+    clearInterval(cltTimer);
     tableTemplate(dataList, flage);
+}
+
+// 服务器弹窗内的提示信息
+function warningTips() {
+    $(".defense-data .defense-data-itmes").each(function () {
+        $(this).find('ul li.defenseError').each(function () {
+            $(this).hover(function () {
+                var _this = this;
+                $(".warningTips").show();
+                $(".warningTips").css({
+                    'left': $(_this).offset().left + "px",
+                    'top': ($(_this).offset().top + $(_this).height()) + "px"
+                });
+            }, function () {
+                $(".warningTips").hide();
+            });
+        });
+    });
+}
+
+// 告警标志
+function warningSign(dataList, callback) {
+    var coordinate = {
+        // 人防传输网
+        transportnetwork: [
+            {index: 0, x: 1615, y: 317},
+            {index: 1, x: 1435, y: 428},
+            {index: 2, x: 1243, y: 317},
+            {index: 3, x: 1063, y: 428},
+            {index: 4, x: 542, y: 450},
+            {index: 5, x: 565, y: 259},
+            {index: 6, x: 206, y: 259},
+            {index: 7, x: 206, y: 450}
+        ],
+        // 人防战备数据中心
+        dataCenter: [
+            {index: 0, x: 146, y: 922},
+            {index: 1, x: 362, y: 922},
+            {index: 2, x: 359, y: 1100},
+            {index: 3, x: 359, y: 1300},
+            {index: 4, x: 576, y: 993},
+            {index: 5, x: 576, y: 1050},
+            {index: 6, x: 576, y: 1120},
+            {index: 7, x: 576, y: 1185},
+            {index: 8, x: 576, y: 1245},
+            {index: 9, x: 513, y: 1330},
+        ],
+        // 901工程
+        engineering911: [
+            {index: 0, x: 904, y: 852},
+            {index: 1, x: 904, y: 1066},
+            {index: 2, x: 904, y: 1274}
+        ],
+        // 1101工程
+        engineering1101: [
+            {index: 0, x: 1129, y: 852},
+            {index: 1, x: 1129, y: 1066},
+            {index: 2, x: 1129, y: 1274}
+        ],
+        // 1201工程
+        engineering1201: [
+            {index: 0, x: 1357, y: 852},
+            {index: 1, x: 1357, y: 1066},
+            {index: 2, x: 1357, y: 1274}
+        ],
+        // 各区县指挥所
+        commandPost: [
+            {index: 0, x: 1583, y: 852},
+            {index: 1, x: 1583, y: 1066}
+        ]
+    };
+    var proportion = {
+        x: $(".mainMiddle").width() / 1700,
+        y: $(".mainMiddle").height() / 1440
+    };
+    // 人防传输网
+    signImg(dataList.transportnetwork, coordinate.transportnetwork, 'transportnetwork', personFun.getH(100));
+    // 人防战备数据中心
+    signImg(dataList.dataCenter, coordinate.dataCenter, 'dataCenter', personFun.getH(45));
+    // 901工程
+    signImg(dataList.engineering911, coordinate.engineering911, 'engineering911', personFun.getH(45));
+    // 1101工程
+    signImg(dataList.engineering1101, coordinate.engineering1101, 'engineering1101', personFun.getH(45));
+    // 1201工程
+    signImg(dataList.engineering1201, coordinate.engineering1201, 'engineering1201', personFun.getH(45));
+    // 各区县指挥所
+    signImg(dataList.commandPost, coordinate.commandPost, 'commandPost', personFun.getH(45));
+
+    // 告警标志
+    function signImg(proData, coordinateData, strClass, changeSize) {
+        for (var i = 0; i < proData.length; i++) {
+            $("." + strClass + i).remove();
+            for (var j = 0; j < coordinateData.length; j++) {
+                if (proData[i].index == coordinateData[j].index) {
+                    proData[i].coordinate = {};
+                    proData[i].coordinate = coordinateData[j];
+                }
+            }
+            if (proData[i].state == '0') {
+                $('body').append('<div class="errLog ' + strClass + i + '"><img src="images/errLog.png" alt=""></div>');
+                $("." + strClass + i).css({
+                    'width': personFun.getW(45) + "px",
+                    'height': personFun.getH(30) + "px",
+                    'left': proData[i].coordinate.x * proportion.x + $(".mainMiddle").offset().left - personFun.getW(45) * 0.5 + "px",
+                    'top': proData[i].coordinate.y * proportion.y + $(".mainMiddle").offset().top - changeSize + "px"
+                });
+                (function (Data,A,classStr) {
+                    $("." + classStr + A).click(function () {
+                        if (callback) {
+                            callback(Data[A]);
+                        }
+                    });
+                })(proData,i,strClass);
+            }
+        }
+    }
 }
