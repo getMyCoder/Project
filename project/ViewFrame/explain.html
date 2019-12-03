@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <style type="text/css">
+        body {margin: 0;padding: 0;font-family: '微软雅黑'}
+
+        .container {max-width: 1200px;margin: 0 auto 50px;}
+
+        .title {text-align: center;font-size: 16px;color: #333;line-height: 80px;}
+
+        .main {}
+
+        .main h3 {line-height: 30px;color: #333;font-size: 16px}
+
+        .main p { line-height: 25px;color: #333;font-size: 16px;}
+
+        .proP {margin-left: 30px;}
+
+        .items {background: #f9f9f9;border: 1px solid #ddd;margin: 15px 0 0 0;padding: 15px;}
+
+        .items h4 {color: #333;font-weight: normal;margin-top: 20px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title"><h2>使用说明</h2></div>
+    <div class="main">
+        <div class="items">
+            <h3>使用方法</h3>
+            <p>html标签:</p>
+            <pre class="htmlLable" style="padding-left: 30px;"></pre>
+        </div>
+        <div class="items">
+            <h3>使用方法1:</h3>
+            <h4>右上角的个人信息、登录、退出、消息</h4>
+            <pre>
+        webView('viewLog').navLog('images', {
+            id: 'viewLog',
+            data: [
+                {title:"系统管理员",children:[
+                        {text:'基本资料',href:''},
+                        {text:'修改密码',href:''}
+                    ]},
+                {img:"home.png",href:'#',external:true},
+                {img:"msg.png",children:[
+                        {text:'系统消息',value:20,href:'https://cn.bing.com/',tips:false},
+                        {text:'我的通知',value:10,href:'http://www.baidu.com',tips:true}
+                    ]},
+                {img:"shutdown.png",href:'http://www.baidu.com',external:true}
+            ],
+            callback: function (href) {
+                if (href == '#') {
+                    window.location.reload();
+                } else {
+                    window.location.href = href;
+                }
+            }
+        });
+    </pre>
+            <div class="proP">
+                <p>参数：</p>
+                <p>webView接受的参数是id字符串</p>
+                <p>navLog接受的参数是图片的路径、传入的数据</p>
+                <p>navLog参数中的id会替换webView，如果navLog中的id和webViewd的参数是一个id，则navLog中的id不用配置</p>
+                <p>data：<br>
+                    navLog参数data,title为字符串，img为login图片，title和img可二选一；<br>
+                    href为iframe跳转的链接；<br>
+                    children为下拉列表；<br>
+                    children中的value为消息的显示数量；<br>
+                    children中的tips接受的参数为true或是false，该参数可不配置，该参数的作用为，在不触发下拉列表的时候提示的信息数量；<br>
+                    external为链接为非iframe的链接(如：外部链接，退出登入)，可在callback中配置，回调中的参数为链接；<br>
+                    callback，data中的配置external的数据可执行的回调方法。</p>
+            </div>
+            <h4>顶部导航</h4>
+            <pre>
+        webView('viewTopNav').topNav('images', {
+            id: 'viewTopNav',
+            data: [
+                {title: '待办事项', ico: "home.png", parameter: {href: ''}},
+                {title: '待办事项', ico: "home.png", parameter: {href: '', a: "A", b: "B"}},
+                {title: '待办事项', ico: "home.png", parameter: {href: '', a: "A", b: "B"}},
+                {title: '待办事项', ico: "home.png", parameter: {href: '', a: "A", b: "B"}},
+                {title: '待办事项', ico: "home.png", parameter: {href: '', a: "A", b: "B"}},
+                {title: '待办事项', ico: "home.png", parameter: {href: '', a: "A", b: "B"}}
+            ],
+            callback: function (data) {
+                console.log(data);
+                return {
+                    id: 'viewLeft',
+                    toggle: true,
+                    src: '',
+                    data: [
+                        {
+                            text: '待办事项', ico: 'home.png', children: [
+                                {text: '待办事项', href: 'http://www.baidu.com'}
+                            ]
+                        },
+                        {
+                            text: '待办事项', ico: 'home.png', children: [
+                                {text: '待办事项', href: 'http://www.baidu.com'}
+                            ]
+                        },
+                        {text: '待办事项', ico: 'home.png', href: 'http://www.hao123.com'}
+                    ]
+                };
+            }
+        });
+            </pre>
+            <div class="proP">
+                <p>参数：</p>
+                <p>webView接受的参数、topNav接受的参数是图片的路径、传入的数据同上</p>
+                <p>navLog参数中的id会替换webView，如果navLog中的id和webViewd的参数是一个id，则navLog中的id不用配置</p>
+                <p>
+                    data：<br>
+                    data中的数据是导航的标题、图标、parameter，这里的链接需要到callback中配置<br>
+                    callback中的返回的是点击当前的导航的参数parameter参数，可根据该参数进行相应的ajax数据请求<br>
+                    callback中返回的数据会根据ajax请求的数据生成左侧是导航<br>
+                    callback中返回的数据在左侧导航中
+                </p>
+            </div>
+            <h4>左侧导航</h4>
+            <pre>
+        webView('viewLeft').leftNav("images", {
+            id: 'viewLeft',
+            toggle: true,
+            src: '',
+            data: [
+                {
+                    text: '待办事项1', ico: 'home.png', children: [
+                        {text: '待办事项', href: 'http://www.baidu.com'}
+                    ]
+                },
+                {
+                    text: '待办事项2', ico: 'home.png', children: [
+                        {text: '待办事项', href: 'http://www.baidu.com'},
+                        {text: '待办事项', href: 'http://www.baidu.com'}
+                    ]
+                },
+                {text: '待办事项3', ico: 'home.png', href: 'http://www.hao123.com'}
+            ]
+        });
+            </pre>
+            <div class="proP">
+                <p>参数：</p>
+                <p>webView接受的参数、leftNav接受的参数是图片的路径、传入的数据同上</p>
+                <p>
+                    data：<br>
+                    text为标题<br>
+                    children为二级菜单<br>
+                    ico为图标
+                </p>
+            </div>
+        </div>
+        <div class="items">
+            <h3>使用方法2:</h3>
+            <h4>整体</h4>
+            <pre>
+        webView({
+            static:'images',
+            nav:{
+                id:'viewLog',
+                data:[
+                    {title:"系统管理员",children:[
+                            {text:'基本资料',href:'iframe/Administration.html'},
+                            {text:'修改密码',href:'iframe/Administration.html'}
+                        ]},
+                    {img:"home.png",href:'#',external:true},
+                    {img:"msg.png",children:[
+                            {text:'系统消息',value:20,href:'iframe/message.html',tips:false},
+                            {text:'我的通知',value:10,href:'iframe/message.html',tips:true}
+                        ]},
+                    {img:"shutdown.png",href:'iframe/loginOut.html',external:true}
+                ],
+                callback:function (href) {
+                    if (href=='#'){
+                        window.location.reload()
+                    } else{
+                        window.location.href=href
+                    }
+                }
+            },
+            topNav:{
+                id:'viewTopNav',
+                data:[
+                    {title:'待办事项',ico:"ico01.png",parameter:{href:''}},
+                    {title:'待办事项',ico:"ico02.png",parameter:{href:'',a:"A",b:"B"}},
+                    {title:'待办事项',ico:"ico03.png",parameter:{href:'',a:"A",b:"B"}},
+                    {title:'待办事项',ico:"ico04.png",parameter:{href:'',a:"A",b:"B"}},
+                    {title:'待办事项',ico:"ico05.png",parameter:{href:'',a:"A",b:"B"}},
+                    {title:'待办事项',ico:"ico06.png",parameter:{href:'',a:"A",b:"B"}}
+                ],
+                callback:function (data) {
+                    console.log(data);
+                    return {
+                        id:'viewLeft',
+                        toggle:true,
+                        data:[
+                            {text:'待办事项',ico:'ico01.png',href:"iframe/nav-left01.html"},
+                            {text:'待办事项',ico:'ico02.png',children:[
+                                    {text:'待办事项',href:'iframe/nav-left02.html'},
+                                    {text:'待办事项',href:'iframe/nav-left02.html'},
+                                    {text:'待办事项',href:'iframe/nav-left02.html'},
+                                ]},
+                            {text:'待办事项',ico:'ico03.png',href:"iframe/nav-left01.html"},
+                            {text:'待办事项',ico:'ico04.png',href:"iframe/nav-left01.html"}
+                        ]
+                    }
+                }
+            },
+            leftNav:{
+                id:'viewLeft',
+                toggle:true,
+                data:[
+                    {text:'待办事项',ico:'ico01.png',href:"iframe/nav-left01.html"},
+                    {text:'待办事项',ico:'ico02.png',children:[
+                            {text:'待办事项',href:'iframe/nav-left02.html'},
+                            {text:'待办事项',href:'iframe/nav-left02.html'},
+                            {text:'待办事项',href:'iframe/nav-left02.html'},
+                        ]},
+                    {text:'待办事项',ico:'ico03.png',href:"iframe/nav-left01.html"},
+                    {text:'待办事项',ico:'ico04.png',href:"iframe/nav-left01.html"},
+                    {text:'待办事项',ico:'ico05.png',children:[
+                            {text:'待办事项',href:'iframe/nav-left02.html'},
+                            {text:'待办事项',href:'iframe/nav-left02.html'},
+                            {text:'待办事项',href:'iframe/nav-left02.html'}
+                        ]},
+                    {text:'待办事项',ico:'ico06.png',children:[
+                            {text:'待办事项',href:'iframe/nav-left02.html'},
+                            {text:'待办事项',href:'iframe/nav-left02.html'},
+                            {text:'待办事项',href:'iframe/nav-left02.html'}
+                        ]}
+                ]
+            }
+        })
+            </pre>
+            <div class="proP">
+                <p>参数</p>
+                <p>
+                    webView接受的参数是参入的jon<br>
+                    这里json中每一个模块需要指定相应的id<br>
+                    static为图片的路径<br>
+                    data中的参数同第一种方法<br>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var createHtml = '<div class="viewContainer">\n' +
+            '    <!--个人信息、登录、退出、消息-->\n' +
+            '    <div class="viewLog" id="viewLog"></div>\n' +
+            '    <!--顶部导航-->\n' +
+            '    <div class="viewTop">\n' +
+            '        <div class="viewTopLog"><h2><img src="images/logo.png" alt=""></h2></div>\n' +
+            '        <div class="viewTopNav" id="viewTopNav"></div>\n' +
+            '    </div>\n' +
+            '    <!--主体部分-->\n' +
+            '    <div class="viewMain">\n' +
+            '        <!--左侧导航-->\n' +
+            '        <div class="viewLeft" id="viewLeft" data-select="0"></div>\n' +
+            '        <!--iframe内容-->\n' +
+            '        <div class="viewRight">\n' +
+            '            <iframe src="" frameborder="0" class="iframeA"></iframe>\n' +
+            '        </div>\n' +
+            '    </div>\n' +
+            '</div>';
+        createHtml = createHtml.replace(/</g, '&lt;');
+        createHtml = createHtml.replace(/>/g, '&gt;');
+        $(".htmlLable").html(createHtml);
+
+
+
+
+
+
+    });
+</script>
+</body>
+</html>

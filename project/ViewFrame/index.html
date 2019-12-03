@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/viewFrame.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/viewFrame.js"></script>
+</head>
+<body>
+<div class="viewContainer">
+    <!--个人信息、登录、退出、消息-->
+    <div class="viewLog" id="viewLog"></div>
+    <!--顶部导航-->
+    <div class="viewTop">
+        <div class="viewTopLog"><h2><img src="images/logo.png" alt=""></h2></div>
+        <div class="viewTopNav" id="viewTopNav"></div>
+    </div>
+    <!--主体部分-->
+    <div class="viewMain">
+        <!--左侧导航-->
+        <div class="viewLeft" id="viewLeft" data-select="0"></div>
+        <!--iframe内容-->
+        <div class="viewRight">
+            <iframe src="" frameborder="0" class="iframeA"></iframe>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        webView({
+            static:'images',
+            nav:{
+                id:'viewLog',
+                data:[
+                    {title:"系统管理员",children:[
+                            {text:'基本资料',href:'iframe/Administration.html'},
+                            {text:'修改密码',href:'iframe/Administration.html'}
+                        ]},
+                    {img:"home.png",href:'#',external:true},
+                    {img:"msg.png",children:[
+                            {text:'系统消息',value:20,href:'iframe/message.html',tips:false},
+                            {text:'我的通知',value:10,href:'iframe/message.html',tips:true}
+                        ]},
+                    {img:"shutdown.png",href:'iframe/loginOut.html',external:true}
+                ],
+                callback:function (href) {
+                    if (href=='#'){
+                        window.location.reload()
+                    } else{
+                        window.location.href=href
+                    }
+                }
+            },
+            topNav:{
+                id:'viewTopNav',
+                data:[
+                    {title:'工作台',ico:"ico01.png",parameter:{href:''}},
+                    {title:'量化分析平台',ico:"ico02.png",parameter:{href:'',a:"A",b:"B"}},
+                    {title:'运营服务平台',ico:"ico03.png",parameter:{href:'',a:"A",b:"B"}},
+                    {title:'工作管理平台',ico:"ico04.png",parameter:{href:'',a:"A",b:"B"}},
+                    {title:'数据中心',ico:"ico05.png",parameter:{href:'',a:"A",b:"B"}},
+                    {title:'大数据引擎',ico:"ico06.png",parameter:{href:'',a:"A",b:"B"}}
+                ],
+                callback:function (data) {
+                    console.log(data);
+                    return {
+                        id:'viewLeft',
+                        toggle:true,
+                        src:'',
+                        data:[
+                            {text:'首页',ico:'ico01.png',href:"iframe/nav-left01.html"},
+                            {text:'待办&消息',ico:'ico02.png',children:[
+                                    {text:'待办事项',href:'iframe/nav-left02.html'},
+                                    {text:'已办事项',href:'iframe/nav-left02.html'},
+                                    {text:'我的通知',href:'iframe/nav-left02.html'},
+                                ]},
+                            {text:'通知管理',ico:'ico03.png',href:"iframe/nav-left01.html"},
+                            {text:'模板管理',ico:'ico04.png',href:"iframe/nav-left01.html"}
+                        ]
+                    }
+                }
+            },
+            leftNav:{
+                id:'viewLeft',
+                toggle:true,
+                src:'static',
+                data:[
+                    {text:'首页',ico:'ico01.png',href:"iframe/nav-left01.html"},
+                    {text:'待办&消息',ico:'ico02.png',children:[
+                            {text:'待办事项',href:'iframe/nav-left02.html'},
+                            {text:'已办事项',href:'iframe/nav-left02.html'},
+                            {text:'我的通知',href:'iframe/nav-left02.html'},
+                        ]},
+                    {text:'通知管理',ico:'ico03.png',href:"iframe/nav-left01.html"},
+                    {text:'模板管理',ico:'ico04.png',href:"iframe/nav-left01.html"},
+                    {text:'服务管理',ico:'ico05.png',children:[
+                            {text:'工单列表',href:'iframe/nav-left02.html'},
+                            {text:'项目管理',href:'iframe/nav-left02.html'},
+                            {text:'实施管理',href:'iframe/nav-left02.html'},
+                            {text:'运维管理',href:'iframe/nav-left02.html'},
+                            {text:'试用申请管理',href:'iframe/nav-left02.html'},
+                            {text:'G01告警监测',href:'iframe/nav-left02.html'},
+                            {text:'G01数据概览',href:'iframe/nav-left02.html'},
+                            {text:'G01监测报告',href:'iframe/nav-left02.html'}
+                        ]},
+                    {text:'运营管理',ico:'ico06.png',children:[
+                            {text:'人员信息',href:'iframe/nav-left02.html'},
+                            {text:'角色列表',href:'iframe/nav-left02.html'},
+                            {text:'客户档案',href:'iframe/nav-left02.html'}
+                        ]},
+                    {text:'知识库',ico:'ico07.png',href:"iframe/nav-left01.html"},
+                    {text:'统计分析',ico:'ico08.png',children:[
+                            {text:'实施统计',href:'iframe/nav-left02.html'},
+                            {text:'工单统计',href:'iframe/nav-left02.html'}
+                        ]},
+                    {text:'系统管理',ico:'ico09.png',children:[
+                            {text:'用户管理',href:'iframe/nav-left02.html'},
+                            {text:'角色管理',href:'iframe/nav-left02.html'},
+                            {text:'菜单管理',href:'iframe/nav-left02.html'},
+                            {text:'部门管理',href:'iframe/nav-left02.html'},
+                            {text:'岗位管理',href:'iframe/nav-left02.html'},
+                            {text:'字典管理',href:'iframe/nav-left02.html'},
+                            {text:'参数设置',href:'iframe/nav-left02.html'},
+                            {text:'通知公告',href:'iframe/nav-left02.html'},
+                            {text:'日志管理',href:'iframe/nav-left02.html'},
+                            {text:'安全策略',href:'iframe/nav-left02.html'},
+                            {text:'个人信息',href:'iframe/nav-left02.html'}
+                        ]},
+                    {text:'系统监控',ico:'ico10.png',children:[
+                            {text:'在线用户',href:'iframe/nav-left02.html'},
+                            {text:'定时任务',href:'iframe/nav-left02.html'},
+                            {text:'数据监控',href:'iframe/nav-left02.html'}
+                        ]},
+                    {text:'系统工具',ico:'ico11.png',children:[
+                            {text:'表单构建',href:'iframe/nav-left02.html'},
+                            {text:'代码生成',href:'iframe/nav-left02.html'},
+                            {text:'系统接口',href:'iframe/nav-left02.html'}
+                        ]}
+                ]
+            }
+        })
+    });
+</script>
+</body>
+</html>

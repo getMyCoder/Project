@@ -1,0 +1,114 @@
+body {margin: 0;padding: 0;font-family: '微软雅黑';}
+h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dd, dt, p {list-style: none;margin: 0;padding: 0;}
+a {text-decoration: none;outline: none}
+a:link{}
+a:visited{}
+a:active{ outline:none;background: none;text-decoration: none;-webkit-tap-highlight-color:rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;}
+img {margin: 0;padding: 0; }
+.clear {clear: both;}
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {width: 10px;height: 10px;background-color: #232323;}
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);border-radius: 5px;background-color: #F5F5F5;}
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {border-radius: 5px;-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);background-color: rgba(0,0,0,0.3);}
+
+.viewContainer{position: relative;width: 100%;}
+/*个人信息、登录、退出、消息*/
+.viewLog{position: absolute;top: 0;right: 0;height: 60px;}
+.logItems{float: left;display: inline-block;height: 27px;margin-top: 16px;border-left: 1px solid #3c669b;border-right: 1px solid #122640;cursor: pointer;position: relative;}
+.viewLog img{vertical-align: top}
+.logItems>a{padding: 0 20px;}
+.logItemsTrue>a{padding: 0 14px 0 20px;}
+.viewLog .logItems:first-child{border-left:none}
+.viewLog .logItems:last-child{border-right: none;}
+.logItems h2,.logItems h3,.logItems h4{float: left;height: 27px;}
+.logItems h2{width: 28px;text-align: center}
+.logItems h2 img{height: 80%;margin: 10% auto;}
+.logItems h3{}
+.logItems h3 img{margin: 10px 0 0 9px;}
+.logItems h4{color: #fff;font-size: 14px;font-weight: normal;line-height: 27px;}
+.logItemsSelect{position: absolute;top: 27px;right:0;background: #fff; padding: 8px 0;width: 110px;
+    -webkit-box-shadow: 0 0 5px 0 #ccc;
+    -moz-box-shadow: 0 0 5px 0 #ccc;
+    box-shadow: 0 0 5px 0 #ccc;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    display: none;
+    }
+.logItemsSelect ul{}
+.logItemsSelect ul li{padding: 3px 10px;line-height: 28px;color: #333;font-size: 14px;transition: all 0.53s;}
+.logItemsSelect ul li:hover{background: #eee;color: #000;}
+.logItemsSelect ul li a{color: #333;}
+.imgRotate{-webkit-transform: rotate(180deg);-moz-transform: rotate(180deg);-ms-transform: rotate(180deg);-o-transform: rotate(180deg);transform: rotate(180deg);}
+.logItems a{display: block;height: inherit;}
+.logItemsTrue{position: relative;padding: 0 20px;}
+.tipVal{position: absolute;top: -5px;left: 40%;padding: 0 5px;height: 18px;background:red;color: #fff;text-align: center;font-size: 12px;line-height: 18px;z-index: 999;font-family: 'Arial';
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    }
+/*顶部导航*/
+.viewTop{width: 100%;height: 60px;background: #284468;overflow: hidden;}
+.viewTopLog{width: 246px;height: inherit;display: table;float: left;}
+.viewTopLog h2{display: table-cell;vertical-align: middle;padding-left: 20px;}
+.viewTopLog img{width: 100%;}
+.viewTopNav{float: left;height: inherit;margin-left: 15px;}
+.viewTopNav ul{overflow: hidden;height: inherit;}
+.viewTopNav ul li{float: left;height: inherit;}
+.viewTopNav ul li:hover{background: #11233b;}
+.viewTopNavLiActive{background: #11233b !important;}
+.viewTopNav ul li a{height: 40px;border-left: 1px solid #3c669b;border-right: 1px solid #122640;line-height: 40px;color: #fff;font-size: 16px;margin-top: 10px;padding: 0 15px;display: block;overflow: hidden;}
+.viewTopNav ul li:first-child a{border-left:none}
+.viewTopNav ul li:last-child a{border-right: none;}
+.viewTopNav ul li h2{float: left;width: 30px;height: 40px;text-align: center;}
+.viewTopNav ul li h2 img{width: 22px;height: 22px;margin-top: 9px;}
+.viewTopNav ul li span{float: left;display: block;height: 40px;}
+/*主体部分*/
+.viewMain{overflow: hidden;}
+/*右侧导航*/
+.viewLeft{float: left;width: 246px;background: #2c486d;}
+.viewLeftToggle{width: 100%;height: 44px;position: relative;background: #11233b;}
+.viewLeftToggle h2{height: inherit;width: 100%;line-height: 40px;}
+.viewLeftToggle h2 span{color: #fff;font-size: 14px;padding-left: 20px;}
+.viewLeftToggle h3{height: inherit;position: absolute;top: 0;right: 15px;cursor: pointer;}
+.viewLeftToggle h3 img{height: 14px;margin-top: 15px;}
+.viewLeftList{width: 100%; height: inherit;}
+.viewLeftListAuto{overflow-y: auto}
+.viewLeftUl{}
+.viewLeftUl li{width: 100%;min-height: 44px;position: relative;}
+.viewLeftUl li a{display: block;width: 100%;height: inherit;overflow: hidden;}
+.viewLeftUl li a i{width: 20px;height: 44px;display: table;float: left;margin-left: 20px;}
+.viewLeftUl li a i strong{display: table-cell;vertical-align: middle;height: 44px;}
+.viewLeftUl li a i img{height: 20px;}
+.viewLeftUl li a span{margin-left: 10px;width: 150px;overflow: hidden;height: 44px;line-height: 44px;font-size: 14px;color: #fff;font-weight: normal;display: block;float: left;}
+.viewLeftUl li a em{display: block;width: 12px;height: 12px;float: right;margin-right: 15px;}
+.viewLeftUl li a em img{margin-top: 16px;}
+.viewLeftUlImgActive{-webkit-transform: rotate(-90deg);-moz-transform: rotate(-90deg);-ms-transform: rotate(-90deg);-o-transform: rotate(-90deg);transform: rotate(-90deg);}
+.viewLeftUlActive{background: #1890ff !important;}
+.viewLeftUl li dl{background: #1d2f47;width: 100%;display: none;}
+.viewLeftUl li h2:hover{background: #1890ff;}
+.viewLeftUl li:first-child dl{display: block;}
+.viewLeftUl li dl dd{padding-left: 40px;}
+/*.viewLeftUl li dl dd{padding-left: 20px;}*/
+.viewLeftUl li dl dd:hover{background: #1890ff;}
+.viewLeftUl li dl dd h3{line-height: 44px;}
+.viewLeftUl li dl dd h3 a{color: #fff;font-weight: normal;font-size: 14px}
+
+.toggleLeft{}
+.toggleLeft ul{}
+.toggleLeft ul li{}
+.toggleLeft ul li h2 span{display: none;}
+.toggleLeft ul li h2 em{display: none;}
+.toggleLeft ul li h2 a i{width: 78px !important;margin: 0 !important;text-align: center}
+.toggleLeft ul li h2 a i strong{;}
+/*.toggleLeft ul li dl{display: none !important;}*/
+.toggleLeft .viewLeftToggle h2{display: none;}
+.toggleLeft .viewLeftToggle h3{right: 31px;}
+.toggleDl{position: absolute;top: 0;left:78px;display: block !important;width: 246px !important;}
+.toggleDl dd{padding-left: 20px !important;}
+.viewToggleDd{background: #2c486d !important;}
+/*iframe内容-*/
+.viewRight{float: left;}
