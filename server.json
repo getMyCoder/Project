@@ -9,6 +9,7 @@
   ],
   "plug": [
     {"name": "Kui框架","src": "kui.png","href": "http://www.nodeserver.gq/kui/"},
+    {"name": "后台管理框架","src": "nav.png","href": "https://getmycoder.github.io/Project/project/ViewFrame/index.html"},
     {"name": "canvas数据","src": "canvas.png","href": "https://getmycoder.github.io/echart/"},
     {"name": "树插件","src": "tree.png","href": "https://getmycoder.github.io/Tree/"},
     {"name": "canvas树","src": "DataCenter01.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index01.html"},
