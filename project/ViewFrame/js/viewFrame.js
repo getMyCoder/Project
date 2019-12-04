@@ -296,6 +296,7 @@ function topNav(src, data) {
                 if (data.callback) {
                     var getData = data.callback(parame);
                     leftNav(src, getData);
+                    $(".viewLeftToggle h2 span").text($(this).text())
                 }
             });
         })(i, createDiv.parameter);
@@ -314,11 +315,15 @@ function leftNav(src, data) {
         liTop: '',
         children: '',
         dl: '',
-        href: ''
+        href: '',
+        toggleText:''
     };
     if (data.toggle) {
+        if ($(".viewTopNav ul li").length>0){
+            createHtml.toggleText=$(".viewTopNav ul li").eq(0).find('a span').text()
+        }
         createHtml.toggle = '<div class="viewLeftToggle">\n' +
-            '<h2><span>首页</span></h2>\n' +
+            '<h2><span>'+createHtml.toggleText+'</span></h2>\n' +
             '<h3 class="viewSlideH3"><img src="images/toggle.png" alt=""></h3>\n' +
             '</div>';
     }
