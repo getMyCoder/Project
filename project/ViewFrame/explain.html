@@ -9,7 +9,7 @@
     <style type="text/css">
         body {margin: 0;padding: 0;font-family: '微软雅黑'}
 
-        .container {max-width: 1200px;margin: 0 auto 50px;}
+        .container {max-width: 1200px;margin: 0 auto 50px;padding: 0 20px;}
 
         .title {text-align: center;font-size: 16px;color: #333;line-height: 80px;}
 
@@ -38,6 +38,7 @@
         <div class="items">
             <h3>使用方法1:</h3>
             <h4>右上角的个人信息、登录、退出、消息</h4>
+            <h6><img src="images/lognav.png" alt=""></h6>
             <pre>
         webView('viewLog').navLog('images', {
             id: 'viewLog',
@@ -77,6 +78,7 @@
                     callback，data中的配置external的数据可执行的回调方法。</p>
             </div>
             <h4>顶部导航</h4>
+            <h6><img src="images/topnav.png" alt=""></h6>
             <pre>
         webView('viewTopNav').topNav('images', {
             id: 'viewTopNav',
@@ -124,6 +126,7 @@
                 </p>
             </div>
             <h4>左侧导航</h4>
+            <h6><img src="images/leftnav.png" alt=""></h6>
             <pre>
         webView('viewLeft').leftNav("images", {
             id: 'viewLeft',
