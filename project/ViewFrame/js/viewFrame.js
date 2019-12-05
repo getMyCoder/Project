@@ -1,92 +1,3 @@
-$(function () {
-    // // nav-log
-    // $(".viewLog .logItemsTrue").each(function () {
-    //     $(this).hover(function () {
-    //         $(this).find('.logItemsSelect').slideDown(100);
-    //         $(this).find('h3 img').addClass('imgRotate');
-    //     }, function () {
-    //         $(this).find('.logItemsSelect').slideUp(100);
-    //         $(this).find('h3 img').removeClass('imgRotate');
-    //     });
-    // })
-    // data-select
-    // $(".viewLeft").height(document.documentElement.clientHeight - $(".viewTop").height());
-    // $(".viewLeftUl li").each(function () {
-    //     var _this = this;
-    //     $(this).find('h2').click(function () {
-    //         $(this).addClass('viewLeftUlActive');
-    //         $(_this).siblings().find('h2').removeClass('viewLeftUlActive');
-    //         $(_this).siblings().find('dl dd').removeClass('viewLeftUlActive');
-    //         if ($(this).attr('data-select') == '0') {
-    //             $(this).find('em img').addClass('viewLeftUlImgActive');
-    //             $(_this).siblings().find('em img').removeClass('viewLeftUlImgActive');
-    //             $(this).attr('data-select', '1');
-    //             $(_this).siblings().find('h2').attr('data-select', '0');
-    //             $(_this).find('dl').slideDown(100);
-    //             $(_this).siblings().find('dl').slideUp(100);
-    //         } else {
-    //             $(this).find('em img').removeClass('viewLeftUlImgActive');
-    //             $(this).attr('data-select', '0');
-    //             $(_this).find('dl').slideUp(100);
-    //         }
-    //     });
-    //
-    //     $(this).find('dl dd').each(function () {
-    //         $(this).click(function () {
-    //             $(_this).find('h2').removeClass('viewLeftUlActive');
-    //             $(_this).siblings().find('dl dd').removeClass('viewLeftUlActive');
-    //             $(this).addClass('viewLeftUlActive').siblings().removeClass('viewLeftUlActive');
-    //         });
-    //     });
-    // });
-    // // toggle
-    // $(".viewSlideH3").click(function () {
-    //     if ($(".viewLeft").attr('data-select') == '0') {
-    //         $(".viewLeft").addClass('toggleLeft');
-    //         $(".viewLeft").animate({
-    //             'width': "78px"
-    //         }, 100);
-    //         $(".viewLeft").attr('data-select', '1');
-    //         $(".toggleLeft ul li dl").hide();
-    //         toggleMin();
-    //     } else {
-    //         $(".viewLeft").animate({
-    //             'width': "246px"
-    //         }, 100, function () {
-    //             $(".viewLeft").removeClass('toggleLeft');
-    //         });
-    //         $(".viewLeft").attr('data-select', '0');
-    //     }
-    // });
-    // // min状态的children
-    // function toggleMin() {
-    //     // $(".toggleLeft ul li dl")
-    //     // toggleDl
-    //     var flageDl = '1';
-    //     $(".viewLeftUl li").each(function () {
-    //         var _this = this;
-    //         $(this).hover(function () {
-    //             if ($(_this).find('dl').length == 0) {
-    //                 flageDl = '0';
-    //                 $(_this).append('<dl><dd class="viewToggleDd"><h3><a href="javascript:;">待办事项</a></h3></dd></dl>');
-    //             } else {
-    //                 $(_this).find('dl dd').eq(0).before('<dd class="viewToggleDd"><h3><a href="javascript:;">待办事项</a></h3></dd>');
-    //             }
-    //             $(_this).find('dl').addClass('toggleDl');
-    //
-    //         }, function () {
-    //             if (flageDl == '0') {
-    //                 $(_this).find('dl').remove();
-    //                 flageDl = '1';
-    //             }
-    //             $(_this).find('dl').removeClass('toggleDl');
-    //             $(_this).find('.viewToggleDd').remove();
-    //         });
-    //     });
-    // }
-
-});
-
 function webView(parameter) {
     return (function (dynamicParameter) {
         if (dynamicParameter === 'error') {
@@ -153,8 +64,8 @@ function callbackFun(data) {
 }
 
 // 登录信息
-function navLog(src, nav) {
-    $("#" + nav.id).hide();
+function navLog(src, data) {
+    $("#" + data.id).hide();
     var createNav = {
         html: '',
         title: '',
@@ -167,104 +78,119 @@ function navLog(src, nav) {
         flageHref: '',
         external: ''
     }, childData;
-    for (var i = 0; i < nav.data.length; i++) {
-        createNav = {
-            html: '',
-            title: '',
-            img: '',
-            href: '',
-            children: '',
-            chilHref: '',
-            tipVal: '',
-            flageHref: '',
-            external: ''
-        };
-        // 标题
-        if (nav.data[i].title) {
-            createNav.title = '<h4>' + nav.data[i].title + '</h4>';
+    // 加载数据
+    if (data.reload) {
+        if (data.reload(data)) {
+            data = data.reload(data);
+            loadData(data);
+        } else {
+            data.reload(data, loadData);
         }
-        // 图标
-        if (nav.data[i].img) {
-            createNav.img = '<h2><img src="' + src + '/' + nav.data[i].img + '" alt=""></h2>';
-        }
-        // 下拉列表
-        if (nav.data[i].children) {
-            createNav.img += '<h3><img src="' + src + '/nav-log.png" alt=""></h3>';
-            for (var j = 0; j < nav.data[i].children.length; j++) {
-                childData = nav.data[i].children[j];
-                // 子类中的下拉列表
-                // 判断是否有链接
-                if (childData.href) {
-                    createNav.flageHref = childData.href;
-                } else {
-                    createNav.flageHref = 'javascript:;';
+    } else {
+        loadData(data);
+    }
+
+    function loadData(nav) {
+        for (var i = 0; i < nav.data.length; i++) {
+            createNav = {
+                html: '',
+                title: '',
+                img: '',
+                href: '',
+                children: '',
+                chilHref: '',
+                tipVal: '',
+                flageHref: '',
+                external: ''
+            };
+            // 标题
+            if (nav.data[i].title) {
+                createNav.title = '<h4>' + nav.data[i].title + '</h4>';
+            }
+            // 图标
+            if (nav.data[i].img) {
+                createNav.img = '<h2><img src="' + src + '/' + nav.data[i].img + '" alt=""></h2>';
+            }
+            // 下拉列表
+            if (nav.data[i].children) {
+                createNav.img += '<h3><img src="' + src + '/nav-log.png" alt=""></h3>';
+                for (var j = 0; j < nav.data[i].children.length; j++) {
+                    childData = nav.data[i].children[j];
+                    // 子类中的下拉列表
+                    // 判断是否有链接
+                    if (childData.href) {
+                        createNav.flageHref = childData.href;
+                    } else {
+                        createNav.flageHref = 'javascript:;';
+                    }
+                    // 判断是否需要回调
+                    if (childData.external) {
+                        createNav.external = childData.external;
+                    } else {
+                        createNav.external = '';
+                    }
+                    // 判断是否有数值
+                    if (childData.value || childData.value == 0) {
+                        if (childData.tips) {
+                            createNav.tipVal = '<div class="tipVal">' + childData.value + '</div>';
+                        }
+                        createNav.chilHref += '<li>' +
+                            '<a class="log_href" href="javascript:;" data-external="' + createNav.external + '" data-url="' + createNav.flageHref + '">'
+                            + childData.text + '(' + childData.value + ')</a>' +
+                            '</li>';
+                    } else {
+                        createNav.chilHref += '<li><a class="log_href" href="javascript:;" data-url="' + createNav.flageHref + '">' + childData.text + '</a></li>';
+                    }
                 }
+                createNav.children = '<div class="logItemsSelect"><ul>' + createNav.chilHref + '</ul></div>';
+                createNav.html = '<div class="logItems logItemsTrue">' + createNav.tipVal + createNav.title + createNav.img + createNav.children + '</div>';
+            } else {
                 // 判断是否需要回调
-                if (childData.external) {
-                    createNav.external = childData.external;
+                if (nav.data[i].external) {
+                    createNav.external = nav.data[i].external;
                 } else {
                     createNav.external = '';
                 }
-                // 判断是否有数值
-                if (childData.value) {
-                    if (childData.tips) {
-                        createNav.tipVal = '<div class="tipVal">' + childData.value + '</div>';
-                    }
-                    createNav.chilHref += '<li>' +
-                        '<a class="log_href" href="javascript:;" data-external="' + createNav.external + '" data-url="' + createNav.flageHref + '">'
-                        + childData.text + '(' + childData.value + ')</a>' +
-                        '</li>';
+                // 判断是否有链接
+                if (nav.data[i].href) {
+                    createNav.setHref = nav.data[i].href;
                 } else {
-                    createNav.chilHref += '<li><a class="log_href" href="javascript:;" data-url="' + createNav.flageHref + '">' + childData.text + '</a></li>';
+                    createNav.setHref = 'javascript:;';
                 }
+                createNav.html = '<div class="logItems">' +
+                    '<a class="log_href" href="javascript:;" data-external="' + createNav.external + '" data-url="' + createNav.setHref + '">'
+                    + createNav.title + createNav.img + '</a></div>';
             }
-            createNav.children = '<div class="logItemsSelect"><ul>' + createNav.chilHref + '</ul></div>';
-            createNav.html = '<div class="logItems logItemsTrue">' + createNav.tipVal + createNav.title + createNav.img + createNav.children + '</div>';
-        } else {
-            // 判断是否需要回调
-            if (nav.data[i].external) {
-                createNav.external = nav.data[i].external;
-            } else {
-                createNav.external = '';
-            }
-            // 判断是否有链接
-            if (nav.data[i].href) {
-                createNav.setHref = nav.data[i].href;
-            } else {
-                createNav.setHref = 'javascript:;';
-            }
-            createNav.html = '<div class="logItems">' +
-                '<a class="log_href" href="javascript:;" data-external="' + createNav.external + '" data-url="' + createNav.setHref + '">'
-                + createNav.title + createNav.img + '</a></div>';
-        }
-        $("#" + nav.id).append(createNav.html);
+            $("#" + nav.id).append(createNav.html);
 
-    }
-    $("#" + nav.id).fadeIn(150);
-    // callback
-    // if (nav.callback) {
-    //     nav.callback(nav);
-    // }
-    $("#" + nav.id).find('.log_href').click(function () {
-        if ($(this).attr('data-external')) {
-            if (nav.callback) {
-                nav.callback($(this).attr('data-url'));
-            }
-        } else {
-            href_A($(this).attr('data-url'));
         }
-    });
-
-    // 事件
-    $(".viewLog .logItemsTrue").each(function () {
-        $(this).hover(function () {
-            $(this).find('.logItemsSelect').slideDown(100);
-            $(this).find('h3 img').addClass('imgRotate');
-        }, function () {
-            $(this).find('.logItemsSelect').slideUp(100);
-            $(this).find('h3 img').removeClass('imgRotate');
+        $("#" + nav.id).fadeIn(150);
+        // callback
+        // if (nav.callback) {
+        //     nav.callback(nav);
+        // }
+        // 点击事件回调
+        $("#" + nav.id).find('.log_href').click(function () {
+            if ($(this).attr('data-external')) {
+                if (nav.callback) {
+                    nav.callback($(this).attr('data-url'));
+                }
+            } else {
+                href_A($(this).attr('data-url'));
+            }
         });
-    });
+
+        // 事件
+        $(".viewLog .logItemsTrue").each(function () {
+            $(this).hover(function () {
+                $(this).find('.logItemsSelect').slideDown(100);
+                $(this).find('h3 img').addClass('imgRotate');
+            }, function () {
+                $(this).find('.logItemsSelect').slideUp(100);
+                $(this).find('h3 img').removeClass('imgRotate');
+            });
+        });
+    }
 }
 
 // 顶部导航
@@ -296,7 +222,7 @@ function topNav(src, data) {
                 if (data.callback) {
                     var getData = data.callback(parame);
                     leftNav(src, getData);
-                    $(".viewLeftToggle h2 span").text($(this).text())
+                    $(".viewLeftToggle h2 span").text($(this).text());
                 }
             });
         })(i, createDiv.parameter);
@@ -316,15 +242,15 @@ function leftNav(src, data) {
         children: '',
         dl: '',
         href: '',
-        toggleText:''
+        toggleText: ''
     };
     if (data.toggle) {
-        if ($(".viewTopNav ul li").length>0){
-            createHtml.toggleText=$(".viewTopNav ul li").eq(0).find('a span').text()
+        if ($(".viewTopNav ul li").length > 0) {
+            createHtml.toggleText = $(".viewTopNav ul li").eq(0).find('a span').text();
         }
         createHtml.toggle = '<div class="viewLeftToggle">\n' +
-            '<h2><span>'+createHtml.toggleText+'</span></h2>\n' +
-            '<h3 class="viewSlideH3"><img src="images/toggle.png" alt=""></h3>\n' +
+            '<h2><span>' + createHtml.toggleText + '</span></h2>\n' +
+            '<h3 class="viewSlideH3"><img src="' + src + '/toggle.png" alt=""></h3>\n' +
             '</div>';
     }
     for (var i = 0; i < data.data.length; i++) {
@@ -344,7 +270,7 @@ function leftNav(src, data) {
                 '        <a href="javascript:;">\n' +
                 '        <i><strong><img src="' + src + '/' + getData.ico + '" alt=""></strong></i>\n' +
                 '        <span>' + getData.text + '</span>\n' +
-                '        <em><img src="images/nav-arrow.png" alt=""></em>\n' +
+                '        <em><img src="' + src + '/nav-arrow.png" alt=""></em>\n' +
                 '        </a>\n' +
                 '        </h2>\n' +
                 '        <dl>' + createHtml.dl + '</dl>\n' +
@@ -452,9 +378,22 @@ function leftNav(src, data) {
                 $(".viewLeftUl li").eq(0).find('h2').addClass('viewLeftUlActive');
                 $("#" + data.id).find('.viewLeftList').addClass('viewLeftListAuto');
             }
+            if (data.callback) {
+                data.callback($(this));
+            }
         }
         $(this).click(function () {
-            href_A($(this).attr('data-url'));
+            var getData;
+            if (data.reload($(this).attr('data-url'))) {
+                getData = data.reload($(this).attr('data-url'));
+                href_A(getData);
+            } else {
+                href_A($(this).attr('data-url'));
+            }
+            if (data.callback) {
+                data.callback($(this));
+            }
+
         });
     });
 

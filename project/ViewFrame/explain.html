@@ -54,6 +54,12 @@
                     ]},
                 {img:"shutdown.png",href:'http://www.baidu.com',external:true}
             ],
+            reload: function (dat, callback) {
+                // if (callback) {
+                //     callback(getCount(dat));
+                // }
+                return getCount(dat)
+            },
             callback: function (href) {
                 if (href == '#') {
                     window.location.reload();
@@ -76,6 +82,13 @@
                     children中的tips接受的参数为true或是false，该参数可不配置，该参数的作用为，在不触发下拉列表的时候提示的信息数量；<br>
                     external为链接为非iframe的链接(如：外部链接，退出登入)，可在callback中配置，回调中的参数为链接；<br>
                     callback，data中的配置external的数据可执行的回调方法。</p>
+                <p>reload:<br>
+                    reload接受两个参数，data、callback<br>
+                    对于data中的数据的修改，可返回data中的数据，或是把data中的数据传入回调函数中
+                </p>
+                <p>callback:<br>
+                    接收到参数：点击按钮返回出当前按钮的链接
+                </p>
             </div>
             <h4>顶部导航</h4>
             <h6><img src="images/topnav.png" alt=""></h6>
@@ -145,7 +158,21 @@
                     ]
                 },
                 {text: '待办事项3', ico: 'home.png', href: 'http://www.hao123.com'}
-            ]
+            ],
+            reload: function (href) {
+                if (href == '#') {
+                    return 'javascript:;';
+                } else {
+                    return false;
+                }
+            },
+            callback: function (obj) {
+                var createA = {
+                    html: '',
+                    lable01: '',
+                    lable02: ''
+                };
+            }
         });
             </pre>
             <div class="proP">
@@ -156,6 +183,13 @@
                     text为标题<br>
                     children为二级菜单<br>
                     ico为图标
+                </p>
+                <p>reload：<br>
+                    reload接受跳转链接的地址<br>
+                    reload会把重新配置的地址返回出来
+                </p>
+                <p>callback：<br>
+                    参数：点击的当前按钮返回当前的dom对象
                 </p>
             </div>
         </div>

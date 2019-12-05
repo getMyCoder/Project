@@ -46,6 +46,12 @@
                         ]},
                     {img:"shutdown.png",href:'iframe/loginOut.html',external:true}
                 ],
+                // reload: function (dat, callback) {
+                //     // if (callback) {
+                //     //     callback(getCount(dat));
+                //     // }
+                //     return getCount(dat)
+                // },
                 callback:function (href) {
                     if (href=='#'){
                         window.location.reload()
@@ -139,7 +145,17 @@
                             {text:'代码生成',href:'iframe/nav-left02.html'},
                             {text:'系统接口',href:'iframe/nav-left02.html'}
                         ]}
-                ]
+                ],
+                // reload: function (href) {
+                //     if (href == '#') {
+                //         return 'javascript:;';
+                //     } else {
+                //         return false;
+                //     }
+                // },
+                // callback: function (obj) {
+                //
+                // }
             }
         })
     });
