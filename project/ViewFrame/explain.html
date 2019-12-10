@@ -137,6 +137,9 @@
                     callback中返回的数据会根据ajax请求的数据生成左侧是导航<br>
                     callback中返回的数据在左侧导航中
                 </p>
+                <p>toggle:<br>
+                    右侧导航的大小切换，参数为布尔值，flage为不使用
+                </p>
             </div>
             <h4>左侧导航</h4>
             <h6><img src="images/leftnav.png" alt=""></h6>
@@ -154,7 +157,11 @@
                 {
                     text: '待办事项2', ico: 'home.png', children: [
                         {text: '待办事项', href: 'http://www.baidu.com'},
-                        {text: '待办事项', href: 'http://www.baidu.com'}
+                        {text: '待办事项', href: 'http://www.baidu.com',children:[
+                                    {menuName:'待办事项01',url:'iframe/nav-left03.html'},
+                                    {menuName:'待办事项02',url:'iframe/nav-left03.html'},
+                                    {menuName:'待办事项03',url:'iframe/nav-left03.html'}
+                                ]}
                     ]
                 },
                 {text: '待办事项3', ico: 'home.png', href: 'http://www.hao123.com'}
@@ -190,6 +197,15 @@
                 </p>
                 <p>callback：<br>
                     参数：点击的当前按钮返回当前的dom对象
+                </p>
+                <p>支持三级导航：<br>
+                    <pre>
+            children:[
+                {menuName:'待办事项01',url:'iframe/nav-left03.html'},
+                {menuName:'待办事项02',url:'iframe/nav-left03.html'},
+                {menuName:'待办事项03',url:'iframe/nav-left03.html'}
+            ]
+                </pre>
                 </p>
             </div>
         </div>

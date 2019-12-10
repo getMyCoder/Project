@@ -135,7 +135,7 @@ function navLog(src, data) {
                             createNav.tipVal = '<div class="tipVal">' + childData.value + '</div>';
                         }
                         createNav.chilHref += '<li>' +
-                            '<a class="log_href" href="javascript:;" data-external="' + createNav.external + '" data-url="' + createNav.flageHref + '">'
+                            '<a class="log_href" href="javascript:;" id="msg'+i+j+'" data-external="' + createNav.external + '" data-url="' + createNav.flageHref + '">'
                             + childData.text + '(' + childData.value + ')</a>' +
                             '</li>';
                     } else {
@@ -242,7 +242,14 @@ function leftNav(src, data) {
         children: '',
         dl: '',
         href: '',
-        toggleText: ''
+        toggleText: '',
+        three: {
+            dl: '',
+            dd: '',
+            data: null,
+            text: '',
+            href: ''
+        }
     };
     if (data.toggle) {
         if ($(".viewTopNav ul li").length > 0) {
@@ -263,7 +270,36 @@ function leftNav(src, data) {
                 } else {
                     createHtml.href = 'javascript:;';
                 }
-                createHtml.dl += '<dd><h3><a class="newHref" href="javascript:;" data-url="' + createHtml.href + '">' + getData.children[j].text + '</a></h3></dd>';
+                if (getData.children[j].children && getData.children[j].children.length > 0) {
+                    createHtml.three.dl = '';
+                    createHtml.three.data = getData.children[j].children;
+                    for (var k = 0; k < createHtml.three.data.length; k++) {
+                        createHtml.three.text = createHtml.three.data[k].menuName;
+                        createHtml.three.href = createHtml.three.data[k].url;
+                        createHtml.three.dl += '<p>' +
+                            '<a class="newHref" href="javascript:;" data-url="' + createHtml.three.href + '">'
+                            + createHtml.three.text +
+                            '</a>' +
+                            '</p>';
+                    }
+                    createHtml.dl += '<dd>' +
+                        '<h3 data-select="0">' +
+                        '<a href="javascript:;" data-url="javascript:;">' +
+                        '<span>' + getData.children[j].text + '</span>' +
+                        '<em><img src="' + src + '/nav-arrow.png" alt=""></em>' +
+                        '</a>' +
+                        '</h3>' +
+                        '<h4>' + createHtml.three.dl + '</h4>' +
+                        '</dd>';
+                } else {
+                    createHtml.dl += '<dd>' +
+                        '<h3>' +
+                        '<a class="newHref" href="javascript:;" data-url="' + createHtml.href + '">' +
+                        '<span>' + getData.children[j].text + '</span>' +
+                        '</a>' +
+                        '</h3>' +
+                        '</dd>';
+                }
             }
             createHtml.li += '<li>\n' +
                 '    <h2 data-select="0">\n' +
@@ -298,9 +334,9 @@ function leftNav(src, data) {
     $(".viewLeftUl li").each(function () {
         var _this = this;
         $(this).find('h2').click(function () {
+            $(this).addClass('viewLeftUlActive');
+            $(_this).siblings().find('h2').removeClass('viewLeftUlActive');
             if ($("#" + data.id).attr('data-select') == '0') {
-                $(this).addClass('viewLeftUlActive');
-                $(_this).siblings().find('h2').removeClass('viewLeftUlActive');
                 $(_this).siblings().find('dl dd').removeClass('viewLeftUlActive');
                 if ($(this).attr('data-select') == '0') {
                     $(this).find('em img').addClass('viewLeftUlImgActive');
@@ -309,6 +345,9 @@ function leftNav(src, data) {
                     $(_this).siblings().find('h2').attr('data-select', '0');
                     $(_this).find('dl').slideDown(100);
                     $(_this).siblings().find('dl').slideUp(100);
+                    $(_this).find('h4').hide();
+                    $(_this).find('h3').attr('data-select', '0');
+                    $(_this).find('h3 em img').removeClass('viewLeftUlImgActive');
                 } else {
                     $(this).find('em img').removeClass('viewLeftUlImgActive');
                     $(this).attr('data-select', '0');
@@ -316,12 +355,54 @@ function leftNav(src, data) {
                 }
             }
         });
-
+        $(this).find('h2').hover(function () {
+            $(_this).find('h4').removeClass('viewLeftUlListP');
+            if ($("#" + data.id).attr('data-select') == '1') {
+                $(_this).find('dl').click(function () {
+                    $(_this).find('h2').addClass('viewLeftUlActive');
+                    $(_this).siblings().find('h2').removeClass('viewLeftUlActive');
+                });
+            }
+        });
         $(this).find('dl dd').each(function () {
-            $(this).click(function () {
-                $(_this).find('h2').removeClass('viewLeftUlActive');
-                $(_this).siblings().find('dl dd').removeClass('viewLeftUlActive');
-                $(this).addClass('viewLeftUlActive').siblings().removeClass('viewLeftUlActive');
+            var _this_ = this;
+            $(this).find('h3').click(function () {
+                $(this).addClass('viewLeftUlActive');
+                $(_this_).siblings().find('h3').removeClass('viewLeftUlActive');
+                if ($("#" + data.id).attr('data-select') == '0') {
+                    // $(_this).find('h2').removeClass('viewLeftUlActive');
+                    $(_this).siblings().find('dl dd h3').removeClass('viewLeftUlActive');
+                    $(".viewLeftUl li").find('dl dd h4 p').removeClass('viewLeftUlActive');
+                    $(_this_).siblings().find('h4').hide();
+                    $(_this_).siblings().find('h3 em img').removeClass('viewLeftUlImgActive');
+                    $(_this_).siblings().find('h3').attr('data-select', '0');
+                    if ($(this).attr('data-select') == '0') {
+                        $(this).attr('data-select', '1');
+                        $(_this_).find('em img').addClass('viewLeftUlImgActive');
+                        $(_this_).find('h4').slideDown(100);
+                    } else {
+                        $(this).attr('data-select', '0');
+                        $(_this_).find('em img').removeClass('viewLeftUlImgActive');
+                        $(_this_).find('h4').slideUp(100);
+                    }
+                }
+            });
+
+            $(this).find('h3').hover(function () {
+                if ($("#" + data.id).attr('data-select') == '1') {
+                    $(_this_).find('h4').addClass('viewLeftUlListP');
+                    $(_this_).siblings().find('h4').removeClass('viewLeftUlListP');
+                } else {
+                    $(_this_).find('h4').removeClass('viewLeftUlListP');
+                }
+            });
+
+            $(this).find('h4 p').each(function () {
+                $(this).click(function () {
+                    $(this).addClass('viewLeftUlActive').siblings().removeClass('viewLeftUlActive');
+                    $(_this_).siblings().find('h4 p').removeClass('viewLeftUlActive');
+                    $(".viewLeftUl li").find('dl dd h3').removeClass('viewLeftUlActive');
+                });
             });
         });
     });
@@ -334,6 +415,9 @@ function leftNav(src, data) {
     }
     // toggle
     $(".viewSlideH3").click(function () {
+        $(".viewLeftUl li dl").hide();
+        $(".viewLeftUl li dl").find('h4').hide();
+        $(".viewLeftUl li dl").find('h3 em img').removeClass('viewLeftUlImgActive');
         $(".viewLeftUl li h2").find('em img').removeClass('viewLeftUlImgActive');
         $(".viewLeftUl li h2").attr('data-select', '0');
         if ($("#" + data.id).attr('data-select') == '0') {
@@ -384,7 +468,7 @@ function leftNav(src, data) {
         }
         $(this).click(function () {
             var getData;
-            if (data.reload($(this).attr('data-url'))) {
+            if (data.reload && data.reload($(this).attr('data-url'))) {
                 getData = data.reload($(this).attr('data-url'));
                 href_A(getData);
             } else {
@@ -393,16 +477,15 @@ function leftNav(src, data) {
             if (data.callback) {
                 data.callback($(this));
             }
-
         });
     });
 
-    // min状态的children
     function toggleMin() {
         var flageDl = '1', flageValue = '';
         $(".viewLeftUl li").each(function () {
             var _this = this;
-            $(this).hover(function () {
+            $(this).unbind('mouseenter').bind('mouseenter', function () {
+                $(_this).find('dl').removeClass('toggleDl');
                 if ($("#" + data.id).attr('data-select') == '1') {
                     if ($(_this).find('dl').length == 0) {
                         flageValue = $(_this).find('h2 a').attr('data-url');
@@ -423,7 +506,8 @@ function leftNav(src, data) {
                     $(_this).find('dl').removeClass('toggleDl');
                     $(_this).find('.viewToggleDd').remove();
                 }
-            }, function () {
+            });
+            $(this).unbind('mouseleave').bind('mouseleave', function () {
                 if (flageDl == '0') {
                     $(_this).find('dl').remove();
                     flageDl = '1';
