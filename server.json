@@ -15,5 +15,9 @@
     {"name": "canvas树","src": "DataCenter01.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index01.html"},
     {"name": "canvas特效","src": "DataCenter03.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index03.html"},
     {"name": "音频播放器","src": "music.png","href": "https://getmycoder.github.io/Project/project/musicNav/index.html"}
+  ],
+  "function": [
+    {"name": "数组简单排序","src": "array.png","href": "./project/function/arraySort.html"},
+    {"name": "ajax轮询优化","src": "loopAjax.png","href": "./project/function/loopAjax.html"}
   ]
 }

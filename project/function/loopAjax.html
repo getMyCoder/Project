@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        body {margin: 0;padding: 0;font-family: '微软雅黑'}
+        pre{font-size: 16px}
+    </style>
+</head>
+<body>
+<pre>
+    $(function () {
+        var getData = null, Arr = null;
+        setInterval(function () {
+            $.ajax({
+                type: "POST",
+                url: "./data/data.json",
+                success: function (data) {
+                    // 判断数据类型
+                    if (data.__proto__ == Array.prototype) {
+                        Arr = {
+                            data: data
+                        };
+                    } else {
+                        Arr = data;
+                    }
+                    // 判断数据
+                    if (!getData || JSON.stringify(getData) != JSON.stringify(Arr)) {
+                    //数据加载
+                        console.log(Arr);
+                        getData = Arr;
+                    } else {
+                        console.log('数据未变化');
+                        return
+                    }
+                }
+            });
+        }, 3000);
+    });
+</pre>
+</body>
+</html>

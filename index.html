@@ -8,7 +8,7 @@
     <title>Document</title>
     <script type="text/javascript" src="jquery.min.js"></script>
     <style type="text/css">
-        body {margin: 0;padding: 0;}
+        body {margin: 0;padding: 0;position: relative;}
 
         .main {width: 98%;margin: 15px auto;border: 1px solid #ccc;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
 
@@ -24,17 +24,39 @@
 
         @media (max-width: 1000px) {
             .mainUl li {width: 16%;margin: 15px 0.3%;}
-        }
+            }
 
         @media (min-width: 1000px) and (max-width: 1200px) {
             .mainUl li {width: 12%;margin: 15px 0.25%;}
-        }
+            }
 
         .title {width: 100%;margin: 0 auto;height: 40px;background: #f1f1f1;line-height: 40px;border-bottom: 1px solid #ccc;}
 
         .title h2 {font-size: 14px;color: #666; margin: 0;padding: 0 0 0 15px;}
 
         .top-title {width: 98%;margin: 10px auto;text-align: center;font-size: 16px;color: #666;background: #f1f1f1;height: 45px;line-height: 45px;border: 1px solid #ccc;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
+
+        .pop {position: fixed;background: rgba(0, 0, 0, 0.5);top: 0;left: 0;width: 0;display: none;height: 0;}
+
+        .popMain {background: #fff;width: 80%;margin: 5% auto;
+            -webkit-box-shadow: 0 0 5px 0 #ccc;
+            -moz-box-shadow: 0 0 5px 0 #ccc;
+            box-shadow: 0 0 5px 0 #ccc;
+            display: none;
+            position: relative;
+            }
+
+        .popTitle {text-align: center;height: 35px;line-height: 35px;background: #ddd;font-size: 16px;color: #666;position: relative;}
+
+        .popTitle h2 {text-align: center;height: 35px;line-height: 35px;background: #ddd;font-size: 16px;color: #666;font-weight: normal}
+
+        .popTitle span {position: absolute;top: 3px;right: 5px;font-size: 22px;color: #666;font-weight: bold;display: block;height: 26px;width: 26px;text-align: center;line-height: 26px;cursor: pointer;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;border: 1px solid #ccc}
+
+        .popTitle span:hover {background: #ccc;}
+
+        .btnBottom {width: 100%;position: absolute;bottom: 0;left: 0;height: 46px;background: #f6f6f6;}
+
+        .btnBottom button {float: right;width: 96px;height: 32px;background: #009688;border: none;color: #fff;font-size: 14px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;margin: 7px 15px;cursor: pointer;outline: none;}
     </style>
 </head>
 <body>
@@ -47,11 +69,28 @@
     <div class="title"><h2>插件</h2></div>
     <ul class="mainUl mainPlu"></ul>
 </div>
+<div class="main">
+    <div class="title"><h2>实用性方法汇总</h2></div>
+    <ul class="mainUl mainFun"></ul>
+</div>
+<!--弹窗-->
+<div class="pop">
+    <div class="popMain">
+        <div class="popTitle"><h2></h2><span class="closePop">&times;</span></div>
+        <div class="popCon">
+            <iframe src="" frameborder="0"></iframe>
+        </div>
+        <div class="btnBottom">
+            <button class="closePop">关闭</button>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     $(function () {
         $(window).resize(function () {
             loading();
         });
+
         function loading() {
             $(" .mainUl li a").width($(".mainUl li").width() - 2);
             $(".mainUl li").height($(".mainUl li").width());
@@ -59,37 +98,112 @@
                 'height': $(".mainUl li").height() * 0.2 - 1 + "px",
                 'lineHeight': $(".mainUl li").height() * 0.2 - 1 + "px"
             });
+            // 弹窗
+            popFun();
         }
+
+        // 弹窗
+        function popFun() {
+            var setThis = null;
+            $(".mainFun li").each(function () {
+                $(this).find('a').click(function () {
+                    var _this = this;
+                    // 展示
+                    popStyle.show($(_this));
+                    // iframe数据
+                    popStyle.dataIframe($(_this));
+                    setThis = this;
+                });
+                // 关闭
+                $(".closePop").unbind('click').click(function () {
+                    popStyle.hide($(setThis));
+                });
+            });
+            var popStyle = {
+                show: function (obj) {
+                    console.log(obj.offset().left + obj.width() * 0.5);
+                    $(".pop").css({
+                        'top': obj.offset().top + obj.height() * 0.5 + "px",
+                        'left': obj.offset().left + obj.width() * 0.5 + "px"
+                    });
+                    $(".pop").show();
+                    $(".pop").animate({
+                        'width': "100%",
+                        'height': document.documentElement.clientHeight + "px",
+                        'top': 0,
+                        'left': 0
+                    }, 200, function () {
+                        $(".popMain").fadeIn(0, function () {
+                            $(".popMain").height(document.documentElement.clientHeight * 0.8);
+                            $(".popCon iframe").css({
+                                'width': $(".popMain").width() + "px",
+                                'height': $(".popMain").height() - $(".popTitle").height() + "px"
+                            });
+                        });
+                    });
+                },
+                hide: function (obj) {
+                    console.log(obj.offset().left + obj.width() * 0.5);
+                    $(".pop").animate({
+                        'width': 0,
+                        'height': 0,
+                        'top': obj.offset().top + obj.height() * 0.5 + "px",
+                        'left': obj.offset().left + obj.width() * 0.5 + "px"
+                    }, 200, function () {
+                        $(".pop").hide();
+                        $(".popMain").hide();
+                    });
+                },
+                dataIframe: function (obj) {
+                    $(".popCon iframe").attr('src', obj.attr('data-url'));
+                    $(".popTitle h2").text(obj.find('span').text());
+                }
+            };
+        }
+
         $.ajax({
             type: "GET",
             url: "server.json",
             success: function (data) {
+                // 项目
                 var proData = '';
                 for (var i = 0; i < data.project.length; i++) {
                     proData += '<li>' +
                         '<a href="' + data.project[i].href + '" target="_blank">' +
-                        '<img src="images/'+ data.project[i].src + '" alt="">' +
+                        '<img src="images/' + data.project[i].src + '" alt="">' +
                         '<span>' + data.project[i].name + '</span>' +
                         '</a>' +
-                        '</li>'
+                        '</li>';
                 }
                 $(".mainPro").append(proData);
+                // 插件
                 var plgData = '';
                 for (var j = 0; j < data.plug.length; j++) {
                     plgData += '<li>' +
                         '<a href="' + data.plug[j].href + '" target="_blank">' +
-                        '<img src="images/'+ data.plug[j].src+'" alt="">' +
+                        '<img src="images/' + data.plug[j].src + '" alt="">' +
                         '<span>' + data.plug[j].name + '</span>' +
                         '</a>' +
-                        '</li>'
+                        '</li>';
                 }
                 $(".mainPlu").append(plgData);
+                // 实用性方法汇总
+                var funData = '';
+                for (var k = 0; k < data.function.length; k++) {
+                    funData += '<li>' +
+                        '<a href="javascript:;" data-url="' + data.function[k].href + '">' +
+                        '<img src="images/' + data.function[k].src + '" alt="">' +
+                        '<span>' + data.function[k].name + '</span>' +
+                        '</a>' +
+                        '</li>';
+                }
+                $(".mainFun").append(funData);
                 loading();
             },
             error: function (err) {
                 console.log(err);
             }
-        })
+        });
     });
 </script>
 </body>
