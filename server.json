@@ -18,6 +18,7 @@
   ],
   "function": [
     {"name": "数组简单排序","src": "array.png","href": "./project/function/arraySort.html"},
-    {"name": "ajax轮询优化","src": "loopAjax.png","href": "./project/function/loopAjax.html"}
+    {"name": "ajax轮询优化","src": "loopAjax.png","href": "./project/function/loopAjax.html"},
+    {"name": "列表数据转树类型","src": "treeData.png","href": "./project/function/treeData.html"}
   ]
 }
