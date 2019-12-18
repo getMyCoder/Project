@@ -66,8 +66,12 @@
     <ul class="mainUl mainPro"></ul>
 </div>
 <div class="main">
-    <div class="title"><h2>插件</h2></div>
-    <ul class="mainUl mainPlu"></ul>
+    <div class="title"><h2>Dom插件</h2></div>
+    <ul class="mainUl mainPluDom"></ul>
+</div>
+<div class="main">
+    <div class="title"><h2>Canvas插件</h2></div>
+    <ul class="mainUl mainPluCanvas"></ul>
 </div>
 <div class="main">
     <div class="title"><h2>实用性方法汇总</h2></div>
@@ -174,17 +178,28 @@
                         '</li>';
                 }
                 $(".mainPro").append(proData);
-                // 插件
-                var plgData = '';
-                for (var j = 0; j < data.plug.length; j++) {
-                    plgData += '<li>' +
-                        '<a href="' + data.plug[j].href + '" target="_blank">' +
-                        '<img src="images/' + data.plug[j].src + '" alt="">' +
-                        '<span>' + data.plug[j].name + '</span>' +
+                // Dom插件
+                var plgDataDom = '';
+                for (var j = 0; j < data.plugDom.length; j++) {
+                    plgDataDom += '<li>' +
+                        '<a href="' + data.plugDom[j].href + '" target="_blank">' +
+                        '<img src="images/' + data.plugDom[j].src + '" alt="">' +
+                        '<span>' + data.plugDom[j].name + '</span>' +
                         '</a>' +
                         '</li>';
                 }
-                $(".mainPlu").append(plgData);
+                $(".mainPluDom").append(plgDataDom);
+                // Canvas插件
+                var plgDataCanvas = '';
+                for (var j = 0; j < data.plugCanvas.length; j++) {
+                    plgDataCanvas += '<li>' +
+                        '<a href="' + data.plugCanvas[j].href + '" target="_blank">' +
+                        '<img src="images/' + data.plugCanvas[j].src + '" alt="">' +
+                        '<span>' + data.plugCanvas[j].name + '</span>' +
+                        '</a>' +
+                        '</li>';
+                }
+                $(".mainPluCanvas").append(plgDataCanvas);
                 // 实用性方法汇总
                 var funData = '';
                 for (var k = 0; k < data.function.length; k++) {

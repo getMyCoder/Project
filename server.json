@@ -7,14 +7,16 @@
     {"name": "移动端","src": "yd.png","href": "https://getmycoder.github.io/Project/project/Mobile/index.html"},
     {"name": "程序开发","src": "tz.png","href": "https://getmycoder.github.io/Project/project/DragDrop/index.html"}
   ],
-  "plug": [
+  "plugDom": [
     {"name": "Kui框架","src": "kui.png","href": "http://www.nodeserver.gq/kui/"},
     {"name": "后台管理框架","src": "nav.png","href": "https://getmycoder.github.io/Project/project/ViewFrame/index.html"},
-    {"name": "canvas数据","src": "canvas.png","href": "https://getmycoder.github.io/echart/"},
     {"name": "树插件","src": "tree.png","href": "https://getmycoder.github.io/Tree/"},
-    {"name": "canvas树","src": "DataCenter01.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index01.html"},
-    {"name": "canvas特效","src": "DataCenter03.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index03.html"},
     {"name": "音频播放器","src": "music.png","href": "https://getmycoder.github.io/Project/project/musicNav/index.html"}
+  ],
+  "plugCanvas": [
+    {"name": "canvas数据","src": "canvas.png","href": "https://getmycoder.github.io/echart/"},
+    {"name": "canvas树","src": "DataCenter01.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index01.html"},
+    {"name": "canvas特效","src": "DataCenter03.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index03.html"}
   ],
   "function": [
     {"name": "数组简单排序","src": "array.png","href": "./project/function/arraySort.html"},
