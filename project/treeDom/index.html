@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/style.js"></script>
+    <style type="text/css">
+        .main {border: 1px solid #ccc;}
+
+        .right {float: left;height: inherit;width: 990px;border-left: 1px solid #ccc;}
+
+        .right h2 {text-align: center;line-height: 200px;color: #666;font-size: 20px; }
+    </style>
+</head>
+<body>
+<div class="main" id="main">
+    <div class="left" id="left"></div>
+    <div class="right">
+        <h2></h2>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var data = [
+            {id: 0, text: 'list-1', subId: -1, drapFlage: false},
+            {id: 1, text: 'list-2', subId: -1, drapFlage: false},
+            {id: 2, text: 'list-3', subId: -1, drapFlage: false},
+            {id: 18, text: 'list-18', subId: -1, drapFlage: true},
+
+            {id: 3, text: 'list-1-1', subId: 0, drapFlage: true},
+            {id: 4, text: 'list-1-2', subId: 0, drapFlage: true},
+            {id: 5, text: 'list-1-3', subId: 0, drapFlage: true},
+
+            {id: 6, text: 'list-2-1', subId: 1, drapFlage: true},
+            {id: 7, text: 'list-2-2', subId: 1, drapFlage: true},
+            {id: 8, text: 'list-2-3', subId: 1, drapFlage: true},
+
+            {id: 9, text: 'list-3-1', subId: 2, drapFlage: true},
+            {id: 10, text: 'list-3-2', subId: 2, drapFlage: false},
+            {id: 11, text: 'list-3-3', subId: 2, drapFlage: true},
+
+            {id: 12, text: 'list-3-2-1', subId: 10, drapFlage: true},
+            {id: 13, text: 'list-3-2-2', subId: 10, drapFlage: false},
+            {id: 14, text: 'list-3-2-3', subId: 10, drapFlage: true},
+
+            {id: 15, text: 'list-3-2-2-1', subId: 13, drapFlage: true},
+            {id: 16, text: 'list-3-2-2-2', subId: 13, drapFlage: true},
+            {id: 17, text: 'list-3-2-2-3', subId: 13, drapFlage: true}
+        ];
+        treeDom({
+            data: data,
+            callback: {
+                click: function (data) {
+                    $(".right h2").html(JSON.stringify(data));
+                },
+                mousedown: function (data) {
+                    console.log(data);
+                },
+                mouseup: function (data) {
+                    console.log(data);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

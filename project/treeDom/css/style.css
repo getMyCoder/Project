@@ -1,0 +1,67 @@
+body {margin: 0;padding: 0;font-family: '微软雅黑';position: relative;background: #f9f9fb;}
+
+h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dd, dt, p {list-style: none;margin: 0;padding: 0;}
+
+a {text-decoration: none;outline: none}
+
+a:link {}
+
+a:visited {}
+
+a:active { outline: none;background: none;text-decoration: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;}
+
+img {margin: 0;padding: 0;}
+
+.clear {clear: both;}
+
+.main {position: relative;width: 1200px;height: 700px;margin: 0 auto;}
+
+/*border: 1px solid #ccc;*/
+
+.items {position: absolute;width: 120px;height: 32px;background: #ccc;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;cursor: pointer;line-height: 32px;text-align: center;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+
+.items:hover {background: orange;}
+
+.left {width: 200px;float: left; }
+
+.left > ul {margin: 0 3px;}
+
+.left ul {}
+
+.left ul ul {margin-left: 20px;display: none}
+
+/*padding-left: 25px;*/
+.left ul li {margin: 3px 0;}
+
+.left ul li h2 {-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;background: #01AAED;cursor: pointer;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;font-weight: normal;position: relative;height: 30px;}
+
+.left ul li h2 span {font-size: 14px;color: #fff;padding-left: 5px;display: block;width: 100%;height: inherit;line-height: 30px;}
+
+.left ul li h2 i {position: absolute;right: 15px;top: 8px;font-size: 16px;color: #333;}
+
+.iActiveO {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+    -webkit-transition: all 0.15s;
+    -moz-transition: all 0.15s;
+    -ms-transition: all 0.15s;
+    -o-transition: all 0.15s;
+    transition: all 0.15s;
+    }
+
+.iActiveI {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: all 0.15s;
+    -moz-transition: all 0.15s;
+    -ms-transition: all 0.15s;
+    -o-transition: all 0.15s;
+    transition: all 0.15s;
+    }
