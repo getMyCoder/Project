@@ -121,10 +121,9 @@
             });
             var popStyle = {
                 show: function (obj) {
-                    console.log(obj.offset().left + obj.width() * 0.5);
                     $(".pop").css({
-                        'top': obj.offset().top + obj.height() * 0.5 + "px",
-                        'left': obj.offset().left + obj.width() * 0.5 + "px"
+                        'top': obj.offset().top + "px",
+                        'left': obj.offset().left + "px"
                     });
                     $(".pop").show();
                     $(".pop").animate({
@@ -137,18 +136,17 @@
                             $(".popMain").height(document.documentElement.clientHeight * 0.8);
                             $(".popCon iframe").css({
                                 'width': $(".popMain").width() + "px",
-                                'height': $(".popMain").height() - $(".popTitle").height() -$(".btnBottom").height() + "px"
+                                'height': $(".popMain").height() - $(".popTitle").height() - $(".btnBottom").height() + "px"
                             });
                         });
                     });
                 },
                 hide: function (obj) {
-                    console.log(obj.offset().left + obj.width() * 0.5);
                     $(".pop").animate({
-                        'width': 0,
-                        'height': 0,
-                        'top': obj.offset().top + obj.height() * 0.5 + "px",
-                        'left': obj.offset().left + obj.width() * 0.5 + "px"
+                        'width': $(".mainFun li").eq(0).width(),
+                        'height': $(".mainFun li").eq(0).height(),
+                        'top': obj.offset().top + "px",
+                        'left': obj.offset().left + "px"
                     }, 200, function () {
                         $(".pop").hide();
                         $(".popMain").hide();
