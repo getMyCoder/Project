@@ -1,0 +1,110 @@
+body {margin: 0;padding: 0;font-family: '微软雅黑';position: relative;background: #f9f9fb;}
+
+h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dd, dt, p {list-style: none;margin: 0;padding: 0;}
+
+a {text-decoration: none;outline: none}
+
+a:link {}
+
+a:visited {}
+
+a:active { outline: none;background: none;text-decoration: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;}
+
+button, input, textarea {outline: none;}
+
+img {margin: 0;padding: 0;}
+
+.clear {clear: both;}
+
+.main {position: relative;width: 1200px;height: 700px;margin: 0 auto;border: 1px solid #ccc;}
+
+/*border: 1px solid #ccc;*/
+
+.items {position: absolute;width: 160px;height: 30px;background: #01AAED;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;cursor: pointer;line-height: 30px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;font-size: 14px;color: #fff;clear: both;z-index: 99;}
+
+.items span {display: block;width: 135px;height: 30px;line-height: 30px;float: left;text-align: center;overflow: hidden;}
+
+.items i {font-size: 16px;color: #fff;font-weight: normal;float: right;display: none;width: 20px;height: 30px;line-height: 30px;text-align: center;margin-right: 1px;}
+
+.items:hover {background: #038ac0;}
+
+.items:hover i {display: block;}
+
+.items:hover em {display: block;}
+
+.items em {position: absolute;left: 49%;width: 6px;height: 6px;-webkit-border-radius: 50%;-moz-border-radius: 50%;border-radius: 50%;border: 1px solid #01AAED; cursor: auto}
+
+.itemsTop {top: -4px;background: #01AAED;}
+
+.itemsBottom {bottom: -4px;background: #fff;}
+
+/*.itemsIActive {display: block !important;}*/
+
+.left {width: 200px;float: left;height: inherit;}
+
+.left > ul {margin: 0 3px;}
+
+.left ul {}
+
+.left ul ul {margin-left: 20px;display: none}
+
+/*padding-left: 25px;*/
+.left ul li {margin: 3px 0;}
+
+.left ul li h2 {-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;background: #01AAED;cursor: pointer;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;font-weight: normal;position: relative;height: 30px;}
+
+.left ul li h2 span {font-size: 14px;color: #fff;padding-left: 5px;display: block;width: 100%;height: inherit;line-height: 30px;}
+
+.left ul li h2 i {position: absolute;right: 15px;top: 8px;font-size: 16px;color: #fff;}
+
+.iActiveO {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+    -webkit-transition: all 0.15s;
+    -moz-transition: all 0.15s;
+    -ms-transition: all 0.15s;
+    -o-transition: all 0.15s;
+    transition: all 0.15s;
+    }
+
+.iActiveI {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: all 0.15s;
+    -moz-transition: all 0.15s;
+    -ms-transition: all 0.15s;
+    -o-transition: all 0.15s;
+    transition: all 0.15s;
+    }
+
+/*拖拽*/
+.right {width: 999px;border-left: 1px solid #ccc;height: inherit;float: left;position: relative;}
+
+/*提示弹窗*/
+.closeRemove {width: 250px;height: 140px;position: absolute;top: 0;left: 0;background: #fff;z-index: 999;
+    -webkit-box-shadow: 0 0 15px 0 #ccc;
+    -moz-box-shadow: 0 0 15px 0 #ccc;
+    box-shadow: 0 0 15px 0 #ccc;}
+
+.closeTitle {height: 30px;background: #f3f3f3;line-height: 30px;text-align: center;font-size: 14px;color: #666;}
+
+.closeRemove h2 {text-align: center;font-size: 14px;color: #666;height: 60px;line-height: 60px;font-weight: normal;}
+
+.closeRemove h3 {text-align: center;font-size: 14px;color: #666;height: 50px;overflow: hidden;}
+
+.closeRemove h3 button {width: 60px;height: 26px;font-size: 14px;border: none;margin: 12px 10px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;cursor: pointer;}
+
+.itemsClose {float: left;background: #ddd;color: #666;}
+
+.itemsClose:hover {background: #ccc;}
+
+.itemsRemove {float: right;background: #01AAED;color: #fff;}
+
+.itemsRemove:hover {background: #038ac0;}

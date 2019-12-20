@@ -9,6 +9,7 @@
   ],
   "plugDom": [
     {"name": "Kui框架","src": "kui.png","href": "http://www.nodeserver.gq/kui/"},
+    {"name": "Tree节点拖拽","src": "drapNode.png","href": "./project/drapNode/index.html"},
     {"name": "后台管理框架","src": "nav.png","href": "https://getmycoder.github.io/Project/project/ViewFrame/index.html"},
     {"name": "树插件","src": "treeDom.png","href": "./project/treeDom/index.html"},
     {"name": "音频播放器","src": "music.png","href": "https://getmycoder.github.io/Project/project/musicNav/index.html"}
