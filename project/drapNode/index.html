@@ -10,13 +10,16 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/style.js"></script>
     <style type="text/css">
-        svg{position: absolute;z-index: 9;}
+        .button {width: 250px;height: 60px;background: #01AAED;color: #fff;border: none;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;cursor: pointer;}
     </style>
 </head>
 <body>
-<div class="main" id="main" style="margin: 50px 30px;">
+<div class="main" id="main" style="margin: 50px 30px 0 30px;">
     <div class="left" id="left"></div>
     <div class="right" id="right"></div>
+</div>
+<div style="width: 250px;height: 60px;margin: 0 auto;">
+    <button class="button">保存</button>
 </div>
 <script type="text/javascript">
     $(function () {
@@ -52,10 +55,22 @@
             callback: {
                 mousedown: function (data, obj, evt) {
                     // 拖拽
-                    drag(data, obj, evt)
+                    drag(data, obj, evt);
                 }
             }
         });
+        $(".button").click(function () {
+            savaNode(function (data) {
+                if (!window.localStorage.getItem('node') || window.localStorage.getItem('node') != JSON.stringify(data)) {
+                    window.localStorage.setItem('node', JSON.stringify(data));
+                }
+                console.log(window.localStorage.getItem('node'));
+            });
+        });
+        if (window.localStorage.getItem('node')) {
+            // loadNode(JSON.parse(window.localStorage.getItem('node')))
+        }
+
     });
 </script>
 </body>

@@ -115,6 +115,8 @@ function treeDom(dataList) {
     });
 }
 
+// 存放节点参数数据(load加载的时候如果存在节点判断赋值)
+var saveData = {};
 // 拖拽
 var flageIndex = 0;
 
@@ -144,6 +146,7 @@ function drag(data, obj, evt) {
                     '</div>');
                 $('#' + createPos.randomDom)[0].parameter_data = {};
                 $('#' + createPos.randomDom)[0].parameter_data = data;
+
                 flageIndex++;
             }
             $('#' + createPos.randomDom).css({
@@ -164,6 +167,16 @@ function drag(data, obj, evt) {
     $(document).unbind('mouseup').mouseup(function (evtUp) {
         $(document).unbind();
         if (Math.abs(createPos.x - evtUp.clientX) > 1 || Math.abs(createPos.y - evtUp.clientY) > 1) {
+            saveData[createPos.randomDom] = {
+                original: {
+                    id: createPos.randomDom,
+                    // pos: {
+                    //     x: $('#' + createPos.randomDom).offset().left - $("#right").offset().left,
+                    //     y: $('#' + createPos.randomDom).offset().top - $("#right").offset().top
+                    // }
+                    index: flageIndex
+                }
+            };
             // 位置
             drapEvt.posItems({
                 x_start: 0,
@@ -187,8 +200,10 @@ function drag(data, obj, evt) {
                         x: evD.clientX,
                         y: evD.clientY,
                         this_x: $(_this).position().left,
-                        this_y: $(_this).position().top
+                        this_y: $(_this).position().top,
+                        thisWidth: $(_this).find('.itemsBottom').height() * 0.5
                     };
+
                     $(document).mousemove(function (evM) {
                         $(_this).css({
                             'left': craeteEvD.this_x + (evM.clientX - craeteEvD.x) + "px",
@@ -202,6 +217,56 @@ function drag(data, obj, evt) {
                             y_end: $("#right").height() - $('#' + createPos.randomDom).height(),
                             obj: $(_this)
                         });
+
+                        if (saveData[$(_this).attr('id')]) {
+                            // 当前dom作为线的出发点
+                            if (saveData[$(_this).attr('id')].original.id) {
+                                // 连接到
+                                if (saveData[$(_this).attr('id')].connectedTo && saveData[$(_this).attr('id')].connectedTo.length > 0) {
+                                    for (var i = 0; i < saveData[$(_this).attr('id')].connectedTo.length; i++) {
+                                        svgDom.pathRoute({
+                                            svgId: saveData[$(_this).attr('id')].connectedTo[i].line.svgId,
+                                            pathId: saveData[$(_this).attr('id')].connectedTo[i].line.pathId,
+                                            path: {
+                                                start: {
+                                                    x: $(_this).find('.itemsBottom').offset().left - $("#right").offset().left + craeteEvD.thisWidth,
+                                                    y: $(_this).find('.itemsBottom').offset().top - $("#right").offset().top + craeteEvD.thisWidth
+                                                },
+                                                end: {
+                                                    x: $("#" + saveData[$(_this).attr('id')].connectedTo[i].id).find('.itemsTop').offset().left
+                                                        - $("#right").offset().left + craeteEvD.thisWidth,
+                                                    y: $("#" + saveData[$(_this).attr('id')].connectedTo[i].id).find('.itemsTop').offset().top
+                                                        - $("#right").offset().top + craeteEvD.thisWidth,
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                                // 连接来自
+                                if (saveData[$(_this).attr('id')].connectedFrom && saveData[$(_this).attr('id')].connectedFrom.length > 0) {
+                                    for (var j = 0; j < saveData[$(_this).attr('id')].connectedFrom.length; j++) {
+                                        svgDom.pathRoute({
+                                            svgId: saveData[$(_this).attr('id')].connectedFrom[j].line.svgId,
+                                            pathId: saveData[$(_this).attr('id')].connectedFrom[j].line.pathId,
+                                            path: {
+                                                start: {
+                                                    x: $(_this).find('.itemsTop').offset().left
+                                                        - $("#right").offset().left + $(_this).find('.itemsBottom').width() * 0.5,
+                                                    y: $(_this).find('.itemsTop').offset().top
+                                                        - $("#right").offset().top + $(_this).find('.itemsBottom').height() * 0.5
+                                                },
+                                                end: {
+                                                    x: $("#" + saveData[$(_this).attr('id')].connectedFrom[j].id).find('.itemsBottom').offset().left
+                                                        - $("#right").offset().left + $(_this).find('.itemsBottom').width() * 0.5,
+                                                    y: $("#" + saveData[$(_this).attr('id')].connectedFrom[j].id).find('.itemsBottom').offset().top
+                                                        - $("#right").offset().top + $(_this).find('.itemsBottom').height() * 0.5,
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
                     });
                     $(document).mouseup(function () {
                         $(document).unbind('mousemove');
@@ -209,24 +274,58 @@ function drag(data, obj, evt) {
                 });
                 // 删除节点
                 drapEvt.removeItems($(this));
-
-
                 // 判断上下两个节点是否存在连接
                 // 拖拽线条
-                nodeLine($(this));
-
-
-
+                nodeLine($(_this));
             });
         },
         // 节点删除
         removeItems: function (obj) {
+            var creatDel = {
+                from: {//删除的当前节点的from线
+                    data: null,
+                    dataFrom: null,
+                    index: null
+                },
+                to: {//删除的当前节点的to线
+                    data: null,
+                    dataTo: null,
+                    index: null
+                }
+            };
             obj.find('i').unbind('click').click(function () {
                 removePop({
                     title: '温馨提示',
                     text: '确定要删除吗？',
                 }, function () {
                     obj.remove();
+                    // 删除obj的被连接线
+                    if (saveData[obj.attr('id')].connectedFrom && saveData[obj.attr('id')].connectedFrom.length > 0) {
+                        for (var i = 0; i < saveData[obj.attr('id')].connectedFrom.length; i++) {
+                            $("#" + saveData[obj.attr('id')].connectedFrom[i].line.svgId).remove();
+                            for (var k = 0; k < saveData[saveData[obj.attr('id')].connectedFrom[i].id].connectedTo.length; k++) {
+                                creatDel.from.dataFrom = saveData[saveData[obj.attr('id')].connectedFrom[i].id].connectedTo[k];
+                                if (creatDel.from.dataFrom.id == obj.attr('id')) {
+                                    creatDel.from.index = k;
+                                }
+                            }
+                            saveData[saveData[obj.attr('id')].connectedFrom[i].id].connectedTo.splice(creatDel.from.index, 1);
+                        }
+                    }
+                    // 删除obj的连接线
+                    if (saveData[obj.attr('id')].connectedTo && saveData[obj.attr('id')].connectedTo.length > 0) {
+                        for (var j = 0; j < saveData[obj.attr('id')].connectedTo.length; j++) {
+                            $("#" + saveData[obj.attr('id')].connectedTo[j].line.svgId).remove();
+                            for (var l = 0; l < saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom.length; l++) {
+                                creatDel.to.dataTo = saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom[l];
+                                if (creatDel.to.dataTo.id == obj.attr('id')) {
+                                    creatDel.to.index = l;
+                                }
+                            }
+                            saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom.splice(creatDel.to.index, 1);
+                        }
+                    }
+                    delete saveData[obj.attr('id')];
                 });
             });
         },
@@ -246,11 +345,7 @@ function drag(data, obj, evt) {
                 'top': createPos.posItems.y + "px",
                 'left': createPos.posItems.x + "px"
             });
-        },
-        //拖拽点-line
-        // drapLine: function (obj) {
-        //     nodeLine(obj);
-        // }
+        }
     };
 }
 
@@ -281,7 +376,83 @@ var svgPos = {
 };
 var InstantiateSvg = {
     index: 0,
-    rangeSize:10
+    rangeSize: 10
+};
+
+// 各个svg方法
+var svgDom = {
+    createSvg: function (svgStyle) {    //创建svg
+        var main = document.getElementById('right');
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute(
+            'style',
+            'height:' + svgStyle.height + "px" +
+            ';width:' + svgStyle.width + "px" +
+            ';top:' + svgStyle.pos.s.y + "px" +
+            ';left:' + svgStyle.pos.s.x + "px"
+        );
+        svg.id = svgStyle.svgId;
+        main.appendChild(svg);
+    },
+    createPath: function (Ppath) {  //创建path
+        var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.id = Ppath.pathId;
+        path.setAttribute('d', Ppath.path);
+        path.setAttribute('style', 'stroke:#01AAED;fill:transparent');
+        document.getElementById(Ppath.svgId).appendChild(path);
+    },
+    pathRoute: function (coordinate) {
+        var coordinateVal = {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 0,
+            yPath1: 0,
+            yPath2: 0,
+            svgTop: 0,
+            svgLeft: 0
+        };
+        // 起始位置X
+        if (coordinate.path.start.x < coordinate.path.end.x) {
+            coordinateVal.svgLeft = coordinate.path.start.x;
+            coordinateVal.x1 = 0;
+            coordinateVal.x2 = Math.abs(coordinate.path.start.x - coordinate.path.end.x);
+        } else {
+            coordinateVal.svgLeft = coordinate.path.end.x;
+            coordinateVal.x1 = Math.abs(coordinate.path.start.x - coordinate.path.end.x);
+            coordinateVal.x2 = 0;
+        }
+        // 起始位置Y
+        if (coordinate.path.start.y < coordinate.path.end.y) {
+            coordinateVal.svgTop = coordinate.path.start.y;
+            coordinateVal.y1 = 0;
+            coordinateVal.y2 = Math.abs(coordinate.path.start.y - coordinate.path.end.y);
+        } else {
+            coordinateVal.svgTop = coordinate.path.end.y;
+            coordinateVal.y1 = Math.abs(coordinate.path.start.y - coordinate.path.end.y);
+            coordinateVal.y2 = 0;
+        }
+        // 曲线的坐标计算
+        if (coordinateVal.y1 >= coordinateVal.y2) {
+            coordinateVal.yPath1 = 3 / 8 * coordinateVal.y2 + 5 / 8 * coordinateVal.y1;
+            coordinateVal.yPath2 = 5 / 8 * coordinateVal.y2 + 3 / 8 * coordinateVal.y1;
+        } else {
+            coordinateVal.yPath1 = 3 / 8 * coordinateVal.y1 + 5 / 8 * coordinateVal.y2;
+            coordinateVal.yPath2 = 5 / 8 * coordinateVal.y1 + 3 / 8 * coordinateVal.y2;
+        }
+        $("#" + coordinate.svgId).css({
+            'width': Math.abs(coordinate.path.start.x - coordinate.path.end.x) + "px",
+            'height': Math.abs(coordinate.path.start.y - coordinate.path.end.y) + "px",
+            'top': coordinateVal.svgTop + "px",
+            'left': coordinateVal.svgLeft + "px"
+        });
+
+        var routeId = document.getElementById(coordinate.pathId);
+        routeId.setAttribute('d', 'M ' + coordinateVal.x1 + ' ' + coordinateVal.y1 +
+            ' C ' + coordinateVal.x1 + ' ' + coordinateVal.yPath1 + ','
+            + coordinateVal.x2 + ' ' + coordinateVal.yPath2 + ',' +
+            coordinateVal.x2 + ' ' + coordinateVal.y2);
+    }
 };
 
 function nodeLine(dom) {
@@ -359,7 +530,10 @@ function nodeLine(dom) {
             });
         });
         $(document).unbind('mouseup').mouseup(function () {
-            var flage = false;
+            var flageVal = {
+                flage: false,
+                obj: null
+            };
             obj.find('.items').each(function () {
                 var _this = this;
                 if ($(this).attr('id') != dom.attr('id')) {
@@ -378,93 +552,157 @@ function nodeLine(dom) {
                                 }
                             }
                         });
-                        flage = true;
+                        flageVal = {
+                            flage: true,
+                            obj: $(_this)
+                        };
                     }
                 }
             });
-            if (!flage) {
+            if (!flageVal.flage) {
                 $("#" + svgPos.svgId).remove();
+            } else {
+                if (!saveData[dom.attr('id')].connectedTo) {
+                    saveData[dom.attr('id')].connectedTo = [];
+                }
+                saveData[dom.attr('id')].connectedTo.push({
+                    id: flageVal.obj.attr('id'),
+                    // pos: {x: flageVal.obj.position().left, y: flageVal.obj.position().top},
+                    line: {svgId: svgPos.svgId, pathId: svgPos.pathId}
+                });
+                if (!saveData[flageVal.obj.attr('id')].connectedFrom) {
+                    saveData[flageVal.obj.attr('id')].connectedFrom = [];
+                }
+                saveData[flageVal.obj.attr('id')].connectedFrom.push({
+                    id: dom.attr('id'),
+                    // pos: {x:dom.position().left, y: dom.position().top},
+                    line: {svgId: svgPos.svgId, pathId: svgPos.pathId}
+                });
             }
             $(document).unbind();
         });
     });
-    // 方法
-    var svgDom = {
-        createSvg: function (svgStyle) {    //创建svg
-            var main = document.getElementById('right');
-            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svg.setAttribute(
-                'style',
-                'height:' + svgStyle.height +
-                ';width:' + svgStyle.width +
-                ';top:' + svgStyle.pos.y +
-                ';left:' + svgStyle.pos.x
-            );
-            svg.id = svgStyle.svgId;
-            main.appendChild(svg);
-        },
-        createPath: function (Ppath) {  //创建path
-            var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            path.id = Ppath.pathId;
-            path.setAttribute('d', Ppath.path);
-            path.setAttribute('style', 'stroke:#01AAED;fill:transparent');
-            document.getElementById(Ppath.svgId).appendChild(path);
-        },
-        pathRoute: function (coordinate) {
-            var coordinateVal = {
-                x1: 0,
-                y1: 0,
-                x2: 0,
-                y2: 0,
-                yPath1: 0,
-                yPath2: 0,
-                svgTop: 0,
-                svgLeft: 0
-            };
-            // 起始位置X
-            if (coordinate.path.start.x < coordinate.path.end.x) {
-                coordinateVal.svgLeft = coordinate.path.start.x;
-                coordinateVal.x1 = 0;
-                coordinateVal.x2 = Math.abs(coordinate.path.start.x - coordinate.path.end.x);
-            } else {
-                coordinateVal.svgLeft = coordinate.path.end.x;
-                coordinateVal.x1 = Math.abs(coordinate.path.start.x - coordinate.path.end.x);
-                coordinateVal.x2 = 0;
-            }
-            // 起始位置Y
-            if (coordinate.path.start.y < coordinate.path.end.y) {
-                coordinateVal.svgTop = coordinate.path.start.y;
-                coordinateVal.y1 = 0;
-                coordinateVal.y2 = Math.abs(coordinate.path.start.y - coordinate.path.end.y);
-            } else {
-                coordinateVal.svgTop = coordinate.path.end.y;
-                coordinateVal.y1 = Math.abs(coordinate.path.start.y - coordinate.path.end.y);
-                coordinateVal.y2 = 0;
-            }
-            // 曲线的坐标计算
-            if (coordinateVal.y1 >= coordinateVal.y2) {
-                coordinateVal.yPath1 = 3 / 8 * coordinateVal.y2 + 5 / 8 * coordinateVal.y1;
-                coordinateVal.yPath2 = 5 / 8 * coordinateVal.y2 + 3 / 8 * coordinateVal.y1;
-            } else {
-                coordinateVal.yPath1 = 3 / 8 * coordinateVal.y1 + 5 / 8 * coordinateVal.y2;
-                coordinateVal.yPath2 = 5 / 8 * coordinateVal.y1 + 3 / 8 * coordinateVal.y2;
-            }
-            $("#" + coordinate.svgId).css({
-                'width': Math.abs(coordinate.path.start.x - coordinate.path.end.x) + "px",
-                'height': Math.abs(coordinate.path.start.y - coordinate.path.end.y) + "px",
-                'top': coordinateVal.svgTop + "px",
-                'left': coordinateVal.svgLeft + "px"
-            });
-
-            var routeId = document.getElementById(coordinate.pathId);
-            routeId.setAttribute('d', 'M ' + coordinateVal.x1 + ' ' + coordinateVal.y1 +
-                ' C ' + coordinateVal.x1 + ' ' + coordinateVal.yPath1 + ','
-                + coordinateVal.x2 + ' ' + coordinateVal.yPath2 + ',' +
-                coordinateVal.x2 + ' ' + coordinateVal.y2);
-        }
-    };
 }
 
+// 保存各个节点信息
+function savaNode(callback) {
+    for (var data in saveData) {
+        saveData[data].original.pos = {};
+        saveData[data].original.data = {};
+        saveData[data].original.pos = {
+            x: $("#" + data).position().left,
+            y: $("#" + data).position().top
+        };
+        saveData[data].original.data = $("#" + data)[0].parameter_data;
+    }
+    if (callback) {
+        callback(saveData);
+    }
+}
+
+// 页面加载的时候获取节点信息，渲染
+function loadNode(nodeData) {
+    saveData = nodeData;
+    var loadNode = {
+        junction: 0,
+        junctionPos: 0,
+        items: null,
+        junctionTo: 0,
+        junctionPosTo: 0,
+        itemsTo: 0,
+        pos: {
+            s: {x: 0, y: 0},
+            e: {x: 0, y: 0}
+        },
+        pathPos: {
+            s: {x: 0, y: 0},
+            e: {x: 0, y: 0}
+        },
+        svgIndex: 0
+    };
+    for (var item in nodeData) {
+        $("#right").append(
+            '<div class="items" id="' + item + '" style="top: ' + nodeData[item].original.pos.y + 'px; left: ' + nodeData[item].original.pos.x + 'px;">' +
+            '<span>' + nodeData[item].original.data.text + '</span>' +
+            '<i class="fa fa-times-circle"></i>' +
+            '<em class="itemsTop"></em>' +
+            '<em class="itemsBottom"></em>' +
+            '</div>'
+        );
+    }
+    for (var itemSvg in nodeData) {
+        loadNode.junction = $("#" + itemSvg).find('.itemsBottom');
+        loadNode.junctionTo = $("#" + itemSvg).find('.itemsTop');
+        $("#" + itemSvg)[0].parameter_data = nodeData[itemSvg].original.data;
+        if (nodeData[itemSvg].connectedTo && nodeData[itemSvg].connectedTo.length > 0) {
+            for (var i = 0; i < nodeData[itemSvg].connectedTo.length; i++) {
+                loadNode.items = nodeData[itemSvg].original.pos;
+                loadNode.itemsTo = nodeData[nodeData[itemSvg].connectedTo[i].id];
+                // 连接线的位置X轴判断
+                if (loadNode.itemsTo.original.pos.x - loadNode.items.x > 0) {
+                    loadNode.pos.s.x = loadNode.items.x + loadNode.junction.position().left + loadNode.junction.width() * 0.5;
+                    loadNode.pos.e.x = loadNode.itemsTo.original.pos.x + loadNode.junctionTo.position().left + loadNode.junction.width() * 0.5;
+                } else {
+                    loadNode.pos.s.x = loadNode.itemsTo.original.pos.x + loadNode.junctionTo.position().left + loadNode.junction.width() * 0.5;
+                    loadNode.pos.e.x = loadNode.items.x + loadNode.junction.position().left + loadNode.junction.width() * 0.5;
+                }
+                // 连接线的位置Y轴判断
+                if (loadNode.itemsTo.original.pos.y - loadNode.items.y > 0) {
+                    loadNode.pos.s.y = loadNode.items.y + loadNode.junction.position().top + loadNode.junction.width() * 0.5;
+                    loadNode.pos.e.y = loadNode.itemsTo.original.pos.y + loadNode.junction.width() * 0.5;
+                } else {
+                    loadNode.pos.s.y = loadNode.itemsTo.original.pos.y + loadNode.junction.width() * 0.5;
+                    loadNode.pos.e.y = loadNode.items.y + loadNode.junction.position().top + loadNode.junction.width() * 0.5;
+                }
+                // 创建svg
+                svgDom.createSvg({
+                    svgId: nodeData[itemSvg].connectedTo[i].line.svgId,
+                    pos: {
+                        s: loadNode.pos.s,
+                        e: loadNode.pos.e
+                    },
+                    width: Math.abs(loadNode.itemsTo.original.pos.x - loadNode.items.x),
+                    height: Math.abs(loadNode.itemsTo.original.pos.y - loadNode.items.y - $("#" + itemSvg).height()) + loadNode.junction.width() * 0.5
+                });
+                // 创建path
+                svgDom.createPath({
+                    svgId: nodeData[itemSvg].connectedTo[i].line.svgId,
+                    pathId: nodeData[itemSvg].connectedTo[i].line.pathId,
+                    path: ''
+                });
+                // path线
+                loadNode.pathPos = {
+                    s: {
+                        x: loadNode.items.x + loadNode.junction.position().left + loadNode.junction.width() * 0.5,
+                        y: loadNode.items.y + loadNode.junction.position().top + loadNode.junction.width() * 0.5
+                    },
+                    e: {
+                        x: loadNode.itemsTo.original.pos.x + loadNode.junctionTo.position().left + loadNode.junction.width() * 0.5,
+                        y: loadNode.itemsTo.original.pos.y + loadNode.junction.width() * 0.5
+                    }
+                };
+                svgDom.pathRoute({
+                    svgId: nodeData[itemSvg].connectedTo[i].line.svgId,
+                    pathId: nodeData[itemSvg].connectedTo[i].line.pathId,
+                    path: {
+                        start: loadNode.pathPos.s,
+                        end: loadNode.pathPos.e
+                    }
+                });
+            }
+        }
+        if (flageIndex < nodeData[itemSvg].original.index) {
+            flageIndex = nodeData[itemSvg].original.index;
+            while ($("#" + 'svg_' + loadNode.svgIndex).length > 0) {
+                loadNode.svgIndex++;
+                InstantiateSvg.index = loadNode.svgIndex;
+            }
+        }
+        nodeLine($("#" + itemSvg));
+        // Items二拖拽及其事件
+        // drapEvt.itemsDrap();
+    }
+}
 
 // 组织冒泡
 function preventBubble(evt) {
@@ -512,4 +750,5 @@ function removePop(tip, callback) {
         }
     });
 }
+
 

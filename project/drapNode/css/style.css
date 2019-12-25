@@ -86,7 +86,7 @@ img {margin: 0;padding: 0;}
 
 /*拖拽*/
 .right {width: 999px;border-left: 1px solid #ccc;height: inherit;float: left;position: relative;}
-
+#right svg{position: absolute;z-index: 9;}
 /*提示弹窗*/
 .closeRemove {width: 250px;height: 140px;position: absolute;top: 0;left: 0;background: #fff;z-index: 999;
     -webkit-box-shadow: 0 0 15px 0 #ccc;
