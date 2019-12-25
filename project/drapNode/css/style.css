@@ -86,7 +86,9 @@ img {margin: 0;padding: 0;}
 
 /*拖拽*/
 .right {width: 999px;border-left: 1px solid #ccc;height: inherit;float: left;position: relative;}
-#right svg{position: absolute;z-index: 9;}
+
+#right svg {position: absolute;z-index: 9;}
+
 /*提示弹窗*/
 .closeRemove {width: 250px;height: 140px;position: absolute;top: 0;left: 0;background: #fff;z-index: 999;
     -webkit-box-shadow: 0 0 15px 0 #ccc;
@@ -108,3 +110,5 @@ img {margin: 0;padding: 0;}
 .itemsRemove {float: right;background: #01AAED;color: #fff;}
 
 .itemsRemove:hover {background: #038ac0;}
+
+.tip{width: 300px;height: 35px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;background: rgba(1,170,237,0.8);color: #fff;text-align: center;line-height: 35px;font-size: 14px;position: absolute;top: 0;left: 0;}

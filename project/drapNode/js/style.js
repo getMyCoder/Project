@@ -119,9 +119,177 @@ function treeDom(dataList) {
 var saveData = {};
 // 拖拽
 var flageIndex = 0;
+var createPos = null;
+var drapEvt = {
+    // Items二拖拽及其事件
+    itemsDrap: function (callback) {
+        $("#right .items").each(function () {
+            var _this = this;
+            $(this).unbind('mousedown').mousedown(function (evD) {
+                var craeteEvD = {
+                    x: evD.clientX,
+                    y: evD.clientY,
+                    this_x: $(_this).position().left,
+                    this_y: $(_this).position().top,
+                    thisWidth: $(_this).find('.itemsBottom').height() * 0.5
+                };
 
-function drag(data, obj, evt) {
-    var createPos = {
+                $(document).mousemove(function (evM) {
+                    $(_this).css({
+                        'left': craeteEvD.this_x + (evM.clientX - craeteEvD.x) + "px",
+                        'top': craeteEvD.this_y + (evM.clientY - craeteEvD.y) + "px",
+                    });
+                    // 二次拖动判断位置
+                    drapEvt.posItems({
+                        x_start: 0,
+                        x_end: $("#right").width() - $(_this).width(),
+                        y_start: 0,
+                        y_end: $("#right").height() - $(_this).height(),
+                        obj: $(_this)
+                    });
+
+                    if (saveData[$(_this).attr('id')]) {
+                        // 当前dom作为线的出发点
+                        if (saveData[$(_this).attr('id')].original.id) {
+                            // 连接到
+                            if (saveData[$(_this).attr('id')].connectedTo && saveData[$(_this).attr('id')].connectedTo.length > 0) {
+                                for (var i = 0; i < saveData[$(_this).attr('id')].connectedTo.length; i++) {
+                                    svgDom.pathRoute({
+                                        svgId: saveData[$(_this).attr('id')].connectedTo[i].line.svgId,
+                                        pathId: saveData[$(_this).attr('id')].connectedTo[i].line.pathId,
+                                        path: {
+                                            start: {
+                                                x: $(_this).find('.itemsBottom').offset().left - $("#right").offset().left + craeteEvD.thisWidth,
+                                                y: $(_this).find('.itemsBottom').offset().top - $("#right").offset().top + craeteEvD.thisWidth
+                                            },
+                                            end: {
+                                                x: $("#" + saveData[$(_this).attr('id')].connectedTo[i].id).find('.itemsTop').offset().left
+                                                    - $("#right").offset().left + craeteEvD.thisWidth,
+                                                y: $("#" + saveData[$(_this).attr('id')].connectedTo[i].id).find('.itemsTop').offset().top
+                                                    - $("#right").offset().top + craeteEvD.thisWidth,
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                            // 连接来自
+                            if (saveData[$(_this).attr('id')].connectedFrom && saveData[$(_this).attr('id')].connectedFrom.length > 0) {
+                                for (var j = 0; j < saveData[$(_this).attr('id')].connectedFrom.length; j++) {
+                                    svgDom.pathRoute({
+                                        svgId: saveData[$(_this).attr('id')].connectedFrom[j].line.svgId,
+                                        pathId: saveData[$(_this).attr('id')].connectedFrom[j].line.pathId,
+                                        path: {
+                                            start: {
+                                                x: $(_this).find('.itemsTop').offset().left
+                                                    - $("#right").offset().left + $(_this).find('.itemsBottom').width() * 0.5,
+                                                y: $(_this).find('.itemsTop').offset().top
+                                                    - $("#right").offset().top + $(_this).find('.itemsBottom').height() * 0.5
+                                            },
+                                            end: {
+                                                x: $("#" + saveData[$(_this).attr('id')].connectedFrom[j].id).find('.itemsBottom').offset().left
+                                                    - $("#right").offset().left + $(_this).find('.itemsBottom').width() * 0.5,
+                                                y: $("#" + saveData[$(_this).attr('id')].connectedFrom[j].id).find('.itemsBottom').offset().top
+                                                    - $("#right").offset().top + $(_this).find('.itemsBottom').height() * 0.5,
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
+                $(document).mouseup(function () {
+                    $(document).unbind('mousemove');
+                });
+            });
+            // 删除节点
+            drapEvt.removeItems($(this));
+            // 拖拽线条
+            nodeLine($(_this));
+            // 节点的双击返回当前节点的数据
+            $(this).unbind('dblclick').dblclick(function () {
+                if (callback) {
+                    callback($(_this)[0].parameter_data);
+                }
+            });
+        });
+    },
+    // 节点删除
+    removeItems: function (obj) {
+        var creatDel = {
+            from: {//删除的当前节点的from线
+                data: null,
+                dataFrom: null,
+                index: null
+            },
+            to: {//删除的当前节点的to线
+                data: null,
+                dataTo: null,
+                index: null
+            }
+        };
+        obj.find('i').unbind('click').click(function () {
+            removePop({
+                title: '温馨提示',
+                text: '确定要删除吗？',
+            }, function () {
+                obj.remove();
+                tip('该节点成功删除！');
+                // 删除obj的被连接线
+                if (saveData[obj.attr('id')].connectedFrom && saveData[obj.attr('id')].connectedFrom.length > 0) {
+                    for (var i = 0; i < saveData[obj.attr('id')].connectedFrom.length; i++) {
+                        $("#" + saveData[obj.attr('id')].connectedFrom[i].line.svgId).remove();
+                        for (var k = 0; k < saveData[saveData[obj.attr('id')].connectedFrom[i].id].connectedTo.length; k++) {
+                            creatDel.from.dataFrom = saveData[saveData[obj.attr('id')].connectedFrom[i].id].connectedTo[k];
+                            if (creatDel.from.dataFrom.id == obj.attr('id')) {
+                                creatDel.from.index = k;
+                            }
+                        }
+                        saveData[saveData[obj.attr('id')].connectedFrom[i].id].connectedTo.splice(creatDel.from.index, 1);
+                    }
+                }
+                // 删除obj的连接线
+                if (saveData[obj.attr('id')].connectedTo && saveData[obj.attr('id')].connectedTo.length > 0) {
+                    for (var j = 0; j < saveData[obj.attr('id')].connectedTo.length; j++) {
+                        $("#" + saveData[obj.attr('id')].connectedTo[j].line.svgId).remove();
+                        for (var l = 0; l < saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom.length; l++) {
+                            creatDel.to.dataTo = saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom[l];
+                            if (creatDel.to.dataTo.id == obj.attr('id')) {
+                                creatDel.to.index = l;
+                            }
+                        }
+                        saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom.splice(creatDel.to.index, 1);
+                    }
+                }
+                delete saveData[obj.attr('id')];
+            });
+        });
+    },
+    // 位置判断
+    posItems: function (pos) {
+        if (!createPos) {
+            createPos = {};
+        }
+        createPos.posItems = {};
+        createPos.posItems = {
+            x: pos.obj.position().left,
+            y: pos.obj.position().top
+        };
+        // x
+        createPos.posItems.x = createPos.posItems.x < pos.x_start ? pos.x_start : createPos.posItems.x;
+        createPos.posItems.x = createPos.posItems.x > pos.x_end ? pos.x_end : createPos.posItems.x;
+        // y
+        createPos.posItems.y = createPos.posItems.y < pos.y_start ? pos.y_start : createPos.posItems.y;
+        createPos.posItems.y = createPos.posItems.y > pos.y_end ? pos.y_end : createPos.posItems.y;
+        pos.obj.css({
+            'top': createPos.posItems.y + "px",
+            'left': createPos.posItems.x + "px"
+        });
+    }
+};
+
+function drag(data, obj, evt, callback) {
+    createPos = {
         obj_left: obj.offset().left,
         obj_top: obj.offset().top,
         top: obj.offset().top - $("#left").offset().top,
@@ -186,167 +354,13 @@ function drag(data, obj, evt) {
                 obj: $('#' + createPos.randomDom)
             });
             // Items二拖拽及其事件
-            drapEvt.itemsDrap();
+            if (callback) {
+                drapEvt.itemsDrap(callback);
+            } else {
+                drapEvt.itemsDrap();
+            }
         }
     });
-
-    var drapEvt = {
-        // Items二拖拽及其事件
-        itemsDrap: function () {
-            $("#right .items").each(function () {
-                var _this = this;
-                $(this).unbind('mousedown').mousedown(function (evD) {
-                    var craeteEvD = {
-                        x: evD.clientX,
-                        y: evD.clientY,
-                        this_x: $(_this).position().left,
-                        this_y: $(_this).position().top,
-                        thisWidth: $(_this).find('.itemsBottom').height() * 0.5
-                    };
-
-                    $(document).mousemove(function (evM) {
-                        $(_this).css({
-                            'left': craeteEvD.this_x + (evM.clientX - craeteEvD.x) + "px",
-                            'top': craeteEvD.this_y + (evM.clientY - craeteEvD.y) + "px",
-                        });
-                        // 二次拖动判断位置
-                        drapEvt.posItems({
-                            x_start: 0,
-                            x_end: $("#right").width() - $('#' + createPos.randomDom).width(),
-                            y_start: 0,
-                            y_end: $("#right").height() - $('#' + createPos.randomDom).height(),
-                            obj: $(_this)
-                        });
-
-                        if (saveData[$(_this).attr('id')]) {
-                            // 当前dom作为线的出发点
-                            if (saveData[$(_this).attr('id')].original.id) {
-                                // 连接到
-                                if (saveData[$(_this).attr('id')].connectedTo && saveData[$(_this).attr('id')].connectedTo.length > 0) {
-                                    for (var i = 0; i < saveData[$(_this).attr('id')].connectedTo.length; i++) {
-                                        svgDom.pathRoute({
-                                            svgId: saveData[$(_this).attr('id')].connectedTo[i].line.svgId,
-                                            pathId: saveData[$(_this).attr('id')].connectedTo[i].line.pathId,
-                                            path: {
-                                                start: {
-                                                    x: $(_this).find('.itemsBottom').offset().left - $("#right").offset().left + craeteEvD.thisWidth,
-                                                    y: $(_this).find('.itemsBottom').offset().top - $("#right").offset().top + craeteEvD.thisWidth
-                                                },
-                                                end: {
-                                                    x: $("#" + saveData[$(_this).attr('id')].connectedTo[i].id).find('.itemsTop').offset().left
-                                                        - $("#right").offset().left + craeteEvD.thisWidth,
-                                                    y: $("#" + saveData[$(_this).attr('id')].connectedTo[i].id).find('.itemsTop').offset().top
-                                                        - $("#right").offset().top + craeteEvD.thisWidth,
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                                // 连接来自
-                                if (saveData[$(_this).attr('id')].connectedFrom && saveData[$(_this).attr('id')].connectedFrom.length > 0) {
-                                    for (var j = 0; j < saveData[$(_this).attr('id')].connectedFrom.length; j++) {
-                                        svgDom.pathRoute({
-                                            svgId: saveData[$(_this).attr('id')].connectedFrom[j].line.svgId,
-                                            pathId: saveData[$(_this).attr('id')].connectedFrom[j].line.pathId,
-                                            path: {
-                                                start: {
-                                                    x: $(_this).find('.itemsTop').offset().left
-                                                        - $("#right").offset().left + $(_this).find('.itemsBottom').width() * 0.5,
-                                                    y: $(_this).find('.itemsTop').offset().top
-                                                        - $("#right").offset().top + $(_this).find('.itemsBottom').height() * 0.5
-                                                },
-                                                end: {
-                                                    x: $("#" + saveData[$(_this).attr('id')].connectedFrom[j].id).find('.itemsBottom').offset().left
-                                                        - $("#right").offset().left + $(_this).find('.itemsBottom').width() * 0.5,
-                                                    y: $("#" + saveData[$(_this).attr('id')].connectedFrom[j].id).find('.itemsBottom').offset().top
-                                                        - $("#right").offset().top + $(_this).find('.itemsBottom').height() * 0.5,
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    });
-                    $(document).mouseup(function () {
-                        $(document).unbind('mousemove');
-                    });
-                });
-                // 删除节点
-                drapEvt.removeItems($(this));
-                // 判断上下两个节点是否存在连接
-                // 拖拽线条
-                nodeLine($(_this));
-            });
-        },
-        // 节点删除
-        removeItems: function (obj) {
-            var creatDel = {
-                from: {//删除的当前节点的from线
-                    data: null,
-                    dataFrom: null,
-                    index: null
-                },
-                to: {//删除的当前节点的to线
-                    data: null,
-                    dataTo: null,
-                    index: null
-                }
-            };
-            obj.find('i').unbind('click').click(function () {
-                removePop({
-                    title: '温馨提示',
-                    text: '确定要删除吗？',
-                }, function () {
-                    obj.remove();
-                    // 删除obj的被连接线
-                    if (saveData[obj.attr('id')].connectedFrom && saveData[obj.attr('id')].connectedFrom.length > 0) {
-                        for (var i = 0; i < saveData[obj.attr('id')].connectedFrom.length; i++) {
-                            $("#" + saveData[obj.attr('id')].connectedFrom[i].line.svgId).remove();
-                            for (var k = 0; k < saveData[saveData[obj.attr('id')].connectedFrom[i].id].connectedTo.length; k++) {
-                                creatDel.from.dataFrom = saveData[saveData[obj.attr('id')].connectedFrom[i].id].connectedTo[k];
-                                if (creatDel.from.dataFrom.id == obj.attr('id')) {
-                                    creatDel.from.index = k;
-                                }
-                            }
-                            saveData[saveData[obj.attr('id')].connectedFrom[i].id].connectedTo.splice(creatDel.from.index, 1);
-                        }
-                    }
-                    // 删除obj的连接线
-                    if (saveData[obj.attr('id')].connectedTo && saveData[obj.attr('id')].connectedTo.length > 0) {
-                        for (var j = 0; j < saveData[obj.attr('id')].connectedTo.length; j++) {
-                            $("#" + saveData[obj.attr('id')].connectedTo[j].line.svgId).remove();
-                            for (var l = 0; l < saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom.length; l++) {
-                                creatDel.to.dataTo = saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom[l];
-                                if (creatDel.to.dataTo.id == obj.attr('id')) {
-                                    creatDel.to.index = l;
-                                }
-                            }
-                            saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom.splice(creatDel.to.index, 1);
-                        }
-                    }
-                    delete saveData[obj.attr('id')];
-                });
-            });
-        },
-        // 位置判断
-        posItems: function (pos) {
-            createPos.posItems = {
-                x: pos.obj.position().left,
-                y: pos.obj.position().top
-            };
-            // x
-            createPos.posItems.x = createPos.posItems.x < pos.x_start ? pos.x_start : createPos.posItems.x;
-            createPos.posItems.x = createPos.posItems.x > pos.x_end ? pos.x_end : createPos.posItems.x;
-            // y
-            createPos.posItems.y = createPos.posItems.y < pos.y_start ? pos.y_start : createPos.posItems.y;
-            createPos.posItems.y = createPos.posItems.y > pos.y_end ? pos.y_end : createPos.posItems.y;
-            pos.obj.css({
-                'top': createPos.posItems.y + "px",
-                'left': createPos.posItems.x + "px"
-            });
-        }
-    };
 }
 
 // 节点之间的曲线
@@ -455,6 +469,7 @@ var svgDom = {
     }
 };
 
+// 节点之间的连线
 function nodeLine(dom) {
     var obj = $('#right'), Div = dom.find('.itemsBottom');
     Div.unbind('mousedown').mousedown(function (evtD) {
@@ -595,13 +610,14 @@ function savaNode(callback) {
         };
         saveData[data].original.data = $("#" + data)[0].parameter_data;
     }
+    tip('保存成功！');
     if (callback) {
         callback(saveData);
     }
 }
 
 // 页面加载的时候获取节点信息，渲染
-function loadNode(nodeData) {
+function loadNode(nodeData, callback) {
     saveData = nodeData;
     var loadNode = {
         junction: 0,
@@ -699,9 +715,14 @@ function loadNode(nodeData) {
             }
         }
         nodeLine($("#" + itemSvg));
-        // Items二拖拽及其事件
-        // drapEvt.itemsDrap();
     }
+    // 加载完成后直接操作
+    if (callback) {
+        drapEvt.itemsDrap(callback);
+    } else {
+        drapEvt.itemsDrap();
+    }
+
 }
 
 // 组织冒泡
@@ -751,4 +772,20 @@ function removePop(tip, callback) {
     });
 }
 
+// 提示窗
+function tip(text) {
+    $("body").append('<div class="tip">' + text + '</div>');
+    $(".tip").hide();
+    $(".tip").css({
+        'top': document.documentElement.clientHeight * 0.4 + "px",
+        'left': (document.documentElement.clientWidth - $(".tip").width()) * 0.5 + "px"
+    });
+    $(".tip").fadeIn(function () {
+        setTimeout(function () {
+            $(".tip").fadeOut(function () {
+                $(".tip").remove();
+            });
+        }, 1000);
+    });
 
+}
