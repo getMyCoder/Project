@@ -13,7 +13,7 @@ function treeDom(dataList) {
                 childrenFlage = domData[k].drapFlage ? 1 : 0;
                 $("#left ul").append('<li>' +
                     '<h2 data-id="' + domData[k].id + '" data-children="' + childrenFlage + '">' +
-                    '<span>' + domData[k].text + "|id:" + domData[k].id + '</span>' +
+                    '<span>' + domData[k].text + '</span>' +
                     '</h2>' +
                     '</li>');
             }
@@ -40,7 +40,7 @@ function treeDom(dataList) {
                                     childrenFlage = domData[i].drapFlage ? 1 : 0;
                                     $(this).siblings('ul').append('<li>' +
                                         '<h2 data-id="' + domData[i].id + '" data-children="' + childrenFlage + '">' +
-                                        '<span>' + domData[i].text + "|id:" + domData[i].id + '</span></h2>' +
+                                        '<span>' + domData[i].text + '</span></h2>' +
                                         '</li>');
                                 }
                             });
@@ -259,6 +259,13 @@ var drapEvt = {
                             }
                         }
                         saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom.splice(creatDel.to.index, 1);
+                        // 删除箭头
+                        if (
+                            !saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom ||
+                            saveData[saveData[obj.attr('id')].connectedTo[j].id].connectedFrom.length == 0
+                        ) {
+                            $("#" + saveData[obj.attr('id')].connectedTo[j].id).find('.itemsTop strong').removeClass('itemsStrong');
+                        }
                     }
                 }
                 delete saveData[obj.attr('id')];
@@ -307,9 +314,9 @@ function drag(data, obj, evt, callback) {
             if ($('#' + createPos.randomDom).length == 0) {
                 $("#right").append('' +
                     '<div class="items" id="' + createPos.randomDom + '" style="top: ' + createPos.top + 'px;left: ' + createPos.left + 'px;">' +
-                    '<span>' + data.text + "|id:" + data.id + '</span>' +
+                    '<span>' + data.text + '</span>' +
                     '<i class="fa fa-times-circle"></i>' +
-                    '<em class="itemsTop"></em>' +
+                    '<em class="itemsTop"><strong>&#9660;</strong></em>' +
                     '<em class="itemsBottom"></em>' +
                     '</div>');
                 $('#' + createPos.randomDom)[0].parameter_data = {};
@@ -496,6 +503,7 @@ function nodeLine(dom) {
                 m: []
             }
         };
+
         InstantiateSvg.index++;
         svgDom.createSvg({
             svgId: svgPos.svgId,
@@ -595,6 +603,7 @@ function nodeLine(dom) {
                 });
             }
             $(document).unbind();
+            flageVal.obj.find("strong").addClass('itemsStrong');
         });
     });
 }
@@ -641,7 +650,7 @@ function loadNode(nodeData, callback) {
             '<div class="items" id="' + item + '" style="top: ' + nodeData[item].original.pos.y + 'px; left: ' + nodeData[item].original.pos.x + 'px;">' +
             '<span>' + nodeData[item].original.data.text + '</span>' +
             '<i class="fa fa-times-circle"></i>' +
-            '<em class="itemsTop"></em>' +
+            '<em class="itemsTop"><strong>&#9660;</strong></em>' +
             '<em class="itemsBottom"></em>' +
             '</div>'
         );
@@ -705,14 +714,18 @@ function loadNode(nodeData, callback) {
                         end: loadNode.pathPos.e
                     }
                 });
+                // svg的id
+                if (InstantiateSvg.index <= parseInt(nodeData[itemSvg].connectedTo[i].line.svgId.replace('svg_', ''))) {
+                    InstantiateSvg.index = parseInt(nodeData[itemSvg].connectedTo[i].line.svgId.replace('svg_', '')) + 1;
+                }
             }
         }
         if (flageIndex < nodeData[itemSvg].original.index) {
             flageIndex = nodeData[itemSvg].original.index;
-            while ($("#" + 'svg_' + loadNode.svgIndex).length > 0) {
-                loadNode.svgIndex++;
-                InstantiateSvg.index = loadNode.svgIndex;
-            }
+        }
+        // 添加箭头
+        if (nodeData[itemSvg].connectedFrom && nodeData[itemSvg].connectedFrom.length > 0) {
+            $("#" + nodeData[itemSvg].original.id).find('.itemsTop strong').addClass('itemsStrong');
         }
         nodeLine($("#" + itemSvg));
     }
@@ -722,7 +735,6 @@ function loadNode(nodeData, callback) {
     } else {
         drapEvt.itemsDrap();
     }
-
 }
 
 // 组织冒泡

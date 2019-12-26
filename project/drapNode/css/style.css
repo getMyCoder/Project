@@ -35,7 +35,11 @@ img {margin: 0;padding: 0;}
 
 .items em {position: absolute;left: 49%;width: 6px;height: 6px;-webkit-border-radius: 50%;-moz-border-radius: 50%;border-radius: 50%;border: 1px solid #01AAED; cursor: auto}
 
-.itemsTop {top: -4px;background: #01AAED;}
+.itemsTop {top: -4px;background: #01AAED;padding-top: -10px;}
+
+.itemsTop strong {margin: -20px 0 0 -5px;font-style: normal;font-size: 14px;font-weight: bold;color: #01AAED;display: none;}
+
+.itemsStrong {display: block !important;}
 
 .itemsBottom {bottom: -4px;background: #fff;}
 
@@ -87,7 +91,7 @@ img {margin: 0;padding: 0;}
 /*拖拽*/
 .right {width: 999px;border-left: 1px solid #ccc;height: inherit;float: left;position: relative;}
 
-#right svg {position: absolute;z-index: 9;}
+#right svg {position: absolute;z-index: 9;min-width: 1px;}
 
 /*提示弹窗*/
 .closeRemove {width: 250px;height: 140px;position: absolute;top: 0;left: 0;background: #fff;z-index: 999;
@@ -111,4 +115,4 @@ img {margin: 0;padding: 0;}
 
 .itemsRemove:hover {background: #038ac0;}
 
-.tip{width: 300px;height: 35px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;background: rgba(1,170,237,0.8);color: #fff;text-align: center;line-height: 35px;font-size: 14px;position: absolute;top: 0;left: 0;}
+.tip {width: 300px;height: 35px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;background: rgba(1, 170, 237, 0.8);color: #fff;text-align: center;line-height: 35px;font-size: 14px;position: absolute;top: 0;left: 0;}
