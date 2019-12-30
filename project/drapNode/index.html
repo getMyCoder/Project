@@ -15,6 +15,8 @@
         .main {width: 98%;}
 
         body {overflow: hidden;}
+
+        .left {width: 200px;}
     </style>
 </head>
 <body>
@@ -32,6 +34,7 @@
             'height': (document.documentElement.clientHeight) * 0.98 + "px",
             'margin': (document.documentElement.clientHeight) * 0.01 + "px auto"
         });
+        $(".right").width($(".main").width() - $(".left").width() - 2);
         // 左侧树列表
         var data = [
             {id: 0, text: 'list-1', subId: -1, drapFlage: false},

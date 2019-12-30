@@ -45,7 +45,7 @@ img {margin: 0;padding: 0;}
 
 /*.itemsIActive {display: block !important;}*/
 
-.left {width: 200px;float: left;height: inherit;}
+.left {float: left;height: inherit;}
 
 .left > ul {margin: 0 3px;}
 
@@ -89,7 +89,7 @@ img {margin: 0;padding: 0;}
     }
 
 /*拖拽*/
-.right {width: 999px;border-left: 1px solid #ccc;height: inherit;float: left;position: relative;}
+.right {border-left: 1px solid #ccc;height: inherit;float: left;position: relative;}
 
 #right svg {position: absolute;z-index: 9;min-width: 1px;}
 
