@@ -126,8 +126,10 @@
             var popStyle = {
                 show: function (obj) {
                     $(".pop").css({
-                        'top': obj.offset().top + "px",
-                        'left': obj.offset().left + "px"
+                        'top': obj.offset().top -$(window).scrollTop()+ "px",
+                        'left': obj.offset().left + "px",
+                        'width':obj.width()+"px",
+                        'height':obj.find('img').height()+"px"
                     });
                     $(".pop").show();
                     $(".pop").animate({
@@ -148,8 +150,8 @@
                 hide: function (obj) {
                     $(".pop").animate({
                         'width': $(".mainFun li").eq(0).width(),
-                        'height': $(".mainFun li").eq(0).height(),
-                        'top': obj.offset().top + "px",
+                        'height': $(".mainFun li").eq(0).find('img').height(),
+                        'top': (obj.offset().top-$(window).scrollTop())+ "px",
                         'left': obj.offset().left + "px"
                     }, 200, function () {
                         $(".pop").hide();
