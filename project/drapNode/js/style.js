@@ -737,7 +737,7 @@ function loadNode(nodeData, callback) {
     }
 }
 
-// 组织冒泡
+// 阻止冒泡
 function preventBubble(evt) {
     var e = evt || window.event;
     if (e.stopPropagation) {

@@ -37,7 +37,7 @@ img {margin: 0;padding: 0;}
 
 .itemsTop {top: -4px;background: #01AAED;padding-top: -10px;}
 
-.itemsTop strong {margin: -20px 0 0 -5px;font-style: normal;font-size: 14px;font-weight: bold;color: #01AAED;display: none;}
+.itemsTop strong {margin: -20px 0 0 -4px;font-style: normal;font-size: 14px;font-weight: bold;color: #01AAED;display: none;}
 
 .itemsStrong {display: block !important;}
 
