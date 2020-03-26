@@ -4,13 +4,14 @@ a {text-decoration: none}
 img {margin: 0;padding: 0;vertical-align: top}
 button{outline: none;padding: 0 !important;}
 /*left*/
-.survey{width: 1100px;margin: 30px auto;border:1px solid #ccc;position: relative;height: 1200px;}
-.survey-left{float: left;width: 240px;border-right: 1px solid #ccc;height: inherit;background: rgba(250, 250, 250, 1);min-height: inherit}
-.survey-right{float: right;width: 840px;height: inherit;border-left: 1px solid #ccc;background: rgba(250, 250, 250, 1);;min-height: inherit}
+.survey{margin: 10px 20px;position: relative;overflow: hidden;min-width: 1100px;overflow-x: auto}
+/*height: 1200px;*/
+.survey-left{float: left;width: 240px;border:1px solid #e4e4e4;background: rgba(250, 250, 250, 1); position: fixed;}
+.survey-right{float: right;min-width: 840px;height: inherit;border:1px solid #e4e4e4;background: rgba(250, 250, 250, 1);;min-height: inherit}
 .survey-left-items{}
 .survey-left-title{height: 30px;line-height: 30px;font-size: 14px;color: #666;padding-left: 10px;}
 .survey-left-con{overflow: hidden;}
-.moveActive h2{float: left;overflow: hidden;font-weight: normal;border:1px solid #ccc;width: 100px;height: 26px;line-height: 24px;cursor: pointer;margin: 5px 8px;
+.moveActive h2{float: left;overflow: hidden;font-weight: normal;border:1px solid #e4e4e4;width: 100px;height: 26px;line-height: 24px;cursor: pointer;margin: 5px 8px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -18,17 +19,18 @@ button{outline: none;padding: 0 !important;}
     }
 .moveActive h2 span{float: left;display: block;font-size: 12px;height: inherit;width: 80px;color: #999;}
 .ico-span{display: block;width: 20px !important;float: left;text-align: center;margin-top: 5px;}
-/*.moveActive h2 i{float: right;display: block;height: inherit;width: 25%;font-weight: bold;font-style: normal;font-size: 18px;text-align: center;color: #999;}*/
 .moveActive{}
 .moveItems{position: absolute;background: #fff;}
 .moveItems h2{margin: 0 !important;}
-.survey-right-title{border:1px solid #eee;background: #fff;height: 45px;line-height: 45px;margin: 15px;padding: 0 15px;color: #666;font-size: 12px;}
+.survey-right-title{border:1px solid #e4e4e4;background: #fff;height: 45px;line-height: 45px;margin: 15px;padding: 0 15px;color: #666;font-size: 12px;}
 .survey-right-items{min-height: 60px;padding: 15px 0 0 0;cursor: move;}
-.survey-right-con{margin: 0 15px;min-height: 600px;height: inherit;position: relative;}
-.survey-right-main{width: 100%;overflow-x: hidden;overflow-y: auto; max-height: 792px;min-height: 500px}
-.survey-right-save{border-top: 1px solid #ccc;margin-top: 30px;}
-.survey-right-save button{width: 120px;height: 35px;border:none;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;margin: 15px 10px;font-size: 14px}
-.survey-btn-del{color: #333;background: rgba(204, 204, 204, 1);margin-left: 225px !important;}
+.survey-right-con{margin: 0 15px;min-height: 100px; position: relative;}
+.survey-right-main{width: 100%;overflow-x: hidden;overflow-y: auto;}
+/*max-height: 792px;min-height: 500px*/
+.survey-right-save{border-top: 1px solid #e4e4e4; }
+.survey-right-save-con{width: 420px;margin: 0 auto;}
+.survey-right-save button{width: 120px;height: 35px;border:none;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;margin: 15px 10px;font-size: 14px;float: left;}
+.survey-btn-del{color: #333;background: rgba(204, 204, 204, 1);}
 .survey-btn-save{color: #fff;background: rgba(22, 155, 213, 1);}
 .survey-btn-release{color: #fff;background: rgba(22, 155, 213, 1);}
 /*模板*/
@@ -82,6 +84,7 @@ button{outline: none;padding: 0 !important;}
 .mask-box h3{font-size: 14px;color: #666;padding: 15px;}
 .mask-box h3 i{font-style: normal}
 .line-survey{width: 100%;height: 1px; }
+.line-survey-end{width: 100%;height: 1px; margin-top: 80px;}
 /*弹窗*/
 .pop{position: fixed;background: #fff;border:1px solid #eee;width: 300px;top: 100px;left: 100px;z-index: 999999;
     -webkit-box-shadow: 0 0 10px 1px #ccc;

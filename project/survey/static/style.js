@@ -3,13 +3,14 @@ function CreateItems() {
     this.boxSize = 80;
     this.data = null;
     this.flageInit = false;
+    this.boxSize = null;
     this.focusFlage = {
         edit: false,
         add: false
     };
     this.WH = {
         w: document.documentElement.clientWidth,
-        h: document.documentElement.clientHeight,
+        h: document.documentElement.clientHeight
     };
 }
 
@@ -29,10 +30,16 @@ CreateItems.prototype = {
         }
     },
     style: function () {
-        $(".survey").css('minHeight', this.WH.h - 30);
-        // $(".survey-right-con").css('minHeight', $(".survey-right").height() - $(".survey-right-title").height() - parseInt($(".survey-right-title").css('marginTop')) * 2 - 20);
-        // $(".survey-right-main").css('minHeight', $(".survey-right").height() - $(".survey-right-title").height() - parseInt($(".survey-right-title").css('marginTop')) * 2 - 20);
+        $(".survey-left").css({
+            'top': $(".survey").offset().top + "px",
+            'left': $(".survey").offset().left + "px",
+            'height': this.WH.h - 22 + "px"
+        });
         $(".survey-right-con").append('<div class="line-survey"></div>');
+        $(".survey-right").width($(".survey").width() - $(".survey-left").width() - 30);
+        $(window).resize(function () {
+            $(".survey-right").width($(".survey").width() - $(".survey-left").width() - 30);
+        });
     },
     globalEvent: { //全局事件
         cursor_auto: function () {
@@ -40,6 +47,10 @@ CreateItems.prototype = {
         },
         cursor_move: function () {
             $(".survey-right-con .survey-right-items").css('cursor', 'move');
+        },
+        setSurveyBox: function () {
+            $(".line-survey-end").remove();
+            $(".survey-right-con").append('<div class="line-survey-end"></div>');
         }
     },
     dragItems: function () {// 拖动
@@ -196,6 +207,8 @@ CreateItems.prototype = {
             this.move_del();
             // 移动
             this.items_move();
+            //设置容器的高度
+            this.globalEvent.setSurveyBox();
         }
     },
     move_edit: function () {//编辑
@@ -459,6 +472,9 @@ CreateItems.prototype = {
                                 'height': $(_this).height() + "px",
                                 'top': itemsPos.y + "px"
                             });
+                            // 设置容器的高度
+                            _that.boxSize = $(".survey-right-con").height();
+                            $(".survey-right-con").height(_that.boxSize);
                             // 获取当前的data-type和html
                             itemsPos.del_height = $(_this).height();
                             itemsPos.temporary.html = $(_this).html();
@@ -470,6 +486,9 @@ CreateItems.prototype = {
                                     $(".mask-box").remove();
                                     // 鼠标抬起创建标签
                                     _that.createLable({addHtml: itemsPos.temporary.html});
+                                    // 设置容器的高度
+                                    $(".survey-right-con").height('auto');
+                                    _that.boxSize=null
                                 });
                             }
                         }
