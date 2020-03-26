@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <script type="text/javascript" src="static/jquery.min.js"></script>
+    <script type="text/javascript" src="static/style.js"></script>
+    <style type="text/css">
+        * {
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            }
+    </style>
+</head>
+<body>
+<div class="survey">
+    <!--left-->
+    <div class="survey-left">
+        <div class="survey-left-items">
+            <div class="survey-left-title">选择题</div>
+            <div class="survey-left-con moveActive">
+                <h2 data-type="radio"><span class="ico-span glyphicon glyphicon-record"></span><span>单选框</span></h2>
+            </div>
+        </div>
+        <div class="survey-left-items">
+            <div class="survey-left-title">多选题</div>
+            <div class="survey-left-con moveActive">
+                <h2 data-type="checkbox"><span class="ico-span glyphicon glyphicon-check"></span><span>多选框</span></h2>
+            </div>
+        </div>
+        <div class="survey-left-items">
+            <div class="survey-left-title">填空题</div>
+            <div class="survey-left-con moveActive">
+                <h2 data-type="text"><span class="ico-span glyphicon glyphicon-pencil"></span><span>输入框</span></h2>
+            </div>
+        </div>
+    </div>
+    <!--right-->
+    <div class="survey-right">
+        <div class="survey-right-title">欢迎语：感谢您能抽出几分钟时间来参加本次答题，现在我们就马上开始吧！</div>
+        <div class="survey-right-main">
+            <div class="survey-right-con"></div>
+        </div>
+        <div class="survey-right-save">
+            <button class="survey-btn-del">取消</button>
+            <button class="survey-btn-save">保存</button>
+            <button class="survey-btn-release">保存并发布</button>
+        </div>
+    </div>
+</div>
+<!--template-->
+<div class="template">
+    <!--单选框-->
+    <div class="type-radio">
+        <div class="template-html" data-type="radio">
+            <div class="template-main">
+                <div class="template-title"><i>1</i><em>、</em><span contenteditable="false">请选择一个标题</span></div>
+                <div class="template-con radio-con">
+                    <h2>
+                        <input type="radio" class="input-template" name="sex" id="radio1"/>
+                        <label for="radio1" class="label-template"><span>选项</span></label>
+                        <p class="del-lable"><i>&times;</i></p>
+                    </h2>
+                </div>
+            </div>
+            <div class="featuresBtn removeBtn">
+                <button class="template-edit" data-edit="no">编辑</button>
+                <button class="template-up">上移</button>
+                <button class="template-down">下移</button>
+                <button class="template-del">删除</button>
+            </div>
+            <div class="addBtn removeBtn" data-text="no">
+                <div class="parameter-add">
+                    <input type="text" class="addInput">
+                    <button class="add-determine">确定</button>
+                    <button class="add-cancel">取消</button>
+                </div>
+                <button class="template-add">+ 添加单个选项</button>
+            </div>
+        </div>
+    </div>
+    <!--复选框-->
+    <div class="type-checkbox">
+        <div class="template-html" data-type="checkbox">
+            <div class="template-main">
+                <div class="template-title"><i>2</i><em>、</em><span contenteditable="false">请选择一个标题</span></div>
+                <div class="template-con checkbox-con">
+                    <h2>
+                        <input type="checkbox" name="sex" class="input-template" id="checkbox"/>
+                        <label for="checkbox" class="label-template"><span>选项</span></label>
+                        <p class="del-lable"><i>&times;</i></p>
+                    </h2>
+                </div>
+            </div>
+            <div class="featuresBtn removeBtn">
+                <button class="template-edit" data-edit="no">编辑</button>
+                <button class="template-up">上移</button>
+                <button class="template-down">下移</button>
+                <button class="template-del">删除</button>
+            </div>
+            <div class="addBtn removeBtn" data-text="no">
+                <div class="parameter-add">
+                    <input type="text" class="addInput">
+                    <button class="add-determine">确定</button>
+                    <button class="add-cancel">取消</button>
+                </div>
+                <button class="template-add">+ 添加单个选项</button>
+            </div>
+        </div>
+    </div>
+    <!--输入框-->
+    <div class="type-text">
+        <div class="template-html" data-type="text">
+            <div class="template-main">
+                <div class="template-title"><i>2</i><em>、</em><span contenteditable="false">请选择一个标题</span></div>
+                <div class="template-con input-con">
+                    <h2>
+                        <input type="text" class="input-template" id="text"/>
+                        <label for="text" class="label-template"><span>选项</span></label>
+                        <p class="del-lable"><i>&times;</i></p>
+                    </h2>
+                </div>
+            </div>
+            <div class="featuresBtn removeBtn">
+                <button class="template-edit" data-edit="no">编辑</button>
+                <button class="template-up">上移</button>
+                <button class="template-down">下移</button>
+                <button class="template-del">删除</button>
+            </div>
+            <div class="addBtn removeBtn" data-text="no">
+                <div class="parameter-add">
+                    <input type="text" class="addInput">
+                    <button class="add-determine">确定</button>
+                    <button class="add-cancel">取消</button>
+                </div>
+                <button class="template-add">+ 添加单个选项</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var data = [
+            {
+                type: "checkbox",
+                title: "请选择一个标题",
+                label: [
+                    {id: "123", text: "选项"},
+                    {id: "456", text: 'first'},
+                    {id: "789", text: 'second'}
+                ]
+            }
+        ];
+        // 初始化
+        survey.init(data);
+        // 保存
+        $(".survey-btn-save").click(function () {
+            var saveData = survey.saveData();
+        });
+        // 取消
+        $(".survey-btn-del").click(function () {
+            survey.removeData();
+        });
+    });
+</script>
+</body>
+</html>
