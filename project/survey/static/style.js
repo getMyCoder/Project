@@ -3,7 +3,6 @@ function CreateItems() {
     this.boxSize = 80;
     this.data = null;
     this.flageInit = false;
-    this.boxSize = null;
     this.focusFlage = {
         edit: false,
         add: false
@@ -51,6 +50,21 @@ CreateItems.prototype = {
         setSurveyBox: function () {
             $(".line-survey-end").remove();
             $(".survey-right-con").append('<div class="line-survey-end"></div>');
+        },
+        changeVal: function (obj, fla) { //编辑和添加 防止编辑和添加的时候回车换行
+            var changeVal = '';
+            if (fla && fla == 'addInput') {
+                obj.find(".setSpanVal").each(function (index) {
+                    changeVal = $(this).html();
+                    $(this).html('');
+                    $(this).append('<input type="text" value="' + changeVal + '">');
+                });
+            } else {
+                obj.find(".setSpanVal").each(function (index) {
+                    changeVal = $(this).find('input').val();
+                    $(this).html(changeVal);
+                });
+            }
         }
     },
     dragItems: function () {// 拖动
@@ -226,6 +240,8 @@ CreateItems.prototype = {
                 _this.focusFlage.edit = true;
                 _this.focusFlage.add = false;
                 _this.globalEvent.cursor_auto();
+                // 编辑对输入框的处理
+                _this.globalEvent.changeVal($(this).parents('.survey-right-items'), 'addInput');
                 // 编辑标签
                 $(this).attr('data-edit', 'select');
                 $(this).text('保存');
@@ -249,6 +265,8 @@ CreateItems.prototype = {
                     });
                 });
             } else {
+                // 编辑对输入框的处理
+                _this.globalEvent.changeVal($(this).parents('.survey-right-items'));
                 _this.globalEvent.cursor_move();
                 // 编辑标签
                 _this.edit_save($(this));
@@ -355,21 +373,21 @@ CreateItems.prototype = {
         if (str == 'radio') {
             getLabel = '<h2>\n' +
                 '   <input type="radio" class="input-template" name="sex" id="' + obj.id + '"/>\n' +
-                '   <label for="' + obj.id + '" class="label-template"><span>' + obj.val + '</span></label>\n' +
+                '   <label for="' + obj.id + '" class="label-template"><span class="setSpanVal">' + obj.val + '</span></label>\n' +
                 '   <p class="del-lable"><i>&times;</i></p>\n' +
                 '</h2>';
         }
         if (str == 'checkbox') {
             getLabel = '<h2>\n' +
                 '    <input type="checkbox" name="sex" class="input-template" id="' + obj.id + '"/>\n' +
-                '    <label for="' + obj.id + '" class="label-template"><span>' + obj.val + '</span></label>\n' +
+                '    <label for="' + obj.id + '" class="label-template"><span class="setSpanVal">' + obj.val + '</span></label>\n' +
                 '    <p class="del-lable"><i>&times;</i></p>\n' +
                 '</h2>';
         }
         if (str == 'text') {
             getLabel = '<h2>\n' +
                 '    <input type="text" class="input-template" id="' + obj.id + '"/>\n' +
-                '    <label for="' + obj.id + '" class="label-template"><span>' + obj.val + '</span></label>\n' +
+                '    <label for="' + obj.id + '" class="label-template"><span class="setSpanVal">' + obj.val + '</span></label>\n' +
                 '    <p class="del-lable"><i>&times;</i></p>\n' +
                 '</h2>';
         }
@@ -381,6 +399,8 @@ CreateItems.prototype = {
         });
     },
     del_other_select: function (obj, all) { //解除其他模块的编辑和添加
+        // 编辑对输入框的处理
+        this.globalEvent.changeVal($(".survey-right-con .survey-right-items"));
         // 解除除了当前的模块的编辑和添加
         if (all && all == 'all') {
             var this_obj = $(".survey-right-con .survey-right-items");
@@ -414,7 +434,7 @@ CreateItems.prototype = {
             $(this).parent('.addBtn').find('.parameter-add').show();
             $(this).parent('.addBtn').attr('data-text', 'select');
             // 确定
-            $(".add-determine").unbind().bind("click", function () {
+            $(".add-determine").unbind().bind("click", function () { ;
                 // 判断添加是否被激活
                 _that.focusFlage.add = false;
                 _that.globalEvent.cursor_move();
@@ -488,7 +508,7 @@ CreateItems.prototype = {
                                     _that.createLable({addHtml: itemsPos.temporary.html});
                                     // 设置容器的高度
                                     $(".survey-right-con").height('auto');
-                                    _that.boxSize=null
+                                    _that.boxSize = null;
                                 });
                             }
                         }

@@ -61,11 +61,11 @@
     <div class="type-radio">
         <div class="template-html" data-type="radio">
             <div class="template-main">
-                <div class="template-title"><i>1</i><em>、</em><span contenteditable="false">请选择一个标题</span></div>
+                <div class="template-title"><i>1</i><em>、</em><span class="setSpanVal" contenteditable="false">请选择一个标题</span></div>
                 <div class="template-con radio-con">
                     <h2>
                         <input type="radio" class="input-template" name="sex" id="radio1"/>
-                        <label for="radio1" class="label-template"><span>选项</span></label>
+                        <label for="radio1" class="label-template"><span class="setSpanVal">选项</span></label>
                         <p class="del-lable"><i>&times;</i></p>
                     </h2>
                 </div>
@@ -90,11 +90,11 @@
     <div class="type-checkbox">
         <div class="template-html" data-type="checkbox">
             <div class="template-main">
-                <div class="template-title"><i>2</i><em>、</em><span contenteditable="false">请选择一个标题</span></div>
+                <div class="template-title"><i>2</i><em>、</em><span class="setSpanVal" contenteditable="false">请选择一个标题</span></div>
                 <div class="template-con checkbox-con">
                     <h2>
                         <input type="checkbox" name="sex" class="input-template" id="checkbox"/>
-                        <label for="checkbox" class="label-template"><span>选项</span></label>
+                        <label for="checkbox" class="label-template"><span class="setSpanVal">选项</span></label>
                         <p class="del-lable"><i>&times;</i></p>
                     </h2>
                 </div>
@@ -119,11 +119,11 @@
     <div class="type-text">
         <div class="template-html" data-type="text">
             <div class="template-main">
-                <div class="template-title"><i>2</i><em>、</em><span contenteditable="false">请选择一个标题</span></div>
+                <div class="template-title"><i>2</i><em>、</em><span class="setSpanVal" contenteditable="false">请选择一个标题</span></div>
                 <div class="template-con input-con">
                     <h2>
                         <input type="text" class="input-template" id="text"/>
-                        <label for="text" class="label-template"><span>选项</span></label>
+                        <label for="text" class="label-template"><span class="setSpanVal">选项</span></label>
                         <p class="del-lable"><i>&times;</i></p>
                     </h2>
                 </div>
@@ -145,7 +145,6 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     $(function () {
         var data = [
@@ -156,6 +155,15 @@
                     {id: "123", text: "选项"},
                     {id: "456", text: 'first'},
                     {id: "789", text: 'second'}
+                ]
+            },
+            {
+                type: "text",
+                title: "请选择一个标题",
+                label: [
+                    {id: "111", text: "选项"},
+                    {id: "222", text: 'first'},
+                    {id: "333", text: 'second'}
                 ]
             }
         ];
