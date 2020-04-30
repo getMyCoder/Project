@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="js/style.css"/>
+    <script type="text/javascript" src="js/jquery3.4.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <!--<script type="text/javascript" src="js/map-api.js"></script>-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=AT8XfGq42Z67CaH9YG7nGir2ideHSkvY"></script>
+    <script type="text/javascript" src="js/map-echarts.js"></script>
+    <script type="text/javascript" src="js/bmap.js"></script>
+    <script type="text/javascript" src="js/style.js"></script>
+</head>
+<body id="body">
+<!--title-->
+<div class="title filexBox">
+    <h2>泰安市整体攻击态势</h2>
+</div>
+<!--攻击次数-->
+<div class="title-val title-left">
+    <span>本周攻击次数：</span>
+    <i class="title-left-i">2567</i>
+</div>
+<div class="title-val title-right">
+    <span>高危攻击次数：</span>
+    <i class="title-right-i">857</i>
+</div>
+<!--left-world-->
+<div class="left filexBox">
+    <div class="left-world">
+        <img src="images/map-world.png" alt="">
+    </div>
+</div>
+<!--底部-->
+<div class="bottom">
+    <div class="bottom-con">
+        <div class="items-box items-box-i">
+            <div class="items-toggle-title">
+                <h2 class="title-active">国外IP排名 TOP7</h2>
+                <h2>国外攻击手法分布</h2>
+            </div>
+            <div class="items-box-con">
+                <div class="items-box-con-i">
+                    <div id="left01" style="height: 100%;width: 100%;"></div>
+                </div>
+                <div class="items-box-con-i">
+                    <div id="left02" style="height: 100%;width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="items-box items-box-m">
+            <div class="items-box-title">泰安市被攻击IP信息流动</div>
+            <div class="items-box-con items-box-con-w">
+                <div class="items-box-con-w-con">
+                    <div class="table-title">
+                        <ul>
+                            <li>被攻击IP</li>
+                            <li>单位</li>
+                            <li>行业</li>
+                            <li>攻击IP</li>
+                            <li>攻击时间</li>
+                        </ul>
+                    </div>
+                    <div class="table-con"></div>
+                </div>
+            </div>
+        </div>
+        <div class="items-box items-box-i">
+            <div class="items-toggle-title">
+                <h2 class="title-active">国内IP排名 TOP7</h2>
+                <h2>国内攻击手法分布</h2>
+            </div>
+            <div class="items-box-con">
+                <div class="items-box-con">
+                    <div class="items-box-con-i">
+                        <div id="right01" style="height: 100%;width: 100%;"></div>
+                    </div>
+                    <div class="items-box-con-i">
+                        <div id="right02" style="height: 100%;width: 100%;">111</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--right-china-->
+<div class="right filexBox">
+    <div class="right-china">
+        <img src="images/map-china.png" alt="">
+    </div>
+</div>
+<div id="map-container" style="width: 100%;"></div>
+<script type="text/javascript">
+    $(function () {
+        // map
+        mapPage('index');
+        // 国外IP排名 TOP7
+        var arr01 = {
+            name: ['192.110.12.1', '192.110.12.1', '192.110.12.1', '192.110.12.1', '192.110.12.1', '192.110.12.1', '192.110.12.1'],
+            val: [1.66, 2.86, 1.82, 1.8, 1.53, 1.47, 1.3]
+        };
+        ranking(arr01, '#01fff7', "left01");
+        // 国内IP排名 TOP7
+        var arr02 = {
+            name: ['192.110.12.1', '192.110.12.1', '192.110.12.1', '192.110.12.1', '192.110.12.1', '192.110.12.1', '192.110.12.1'],
+            val: [1.66, 2.86, 1.82, 1.8, 1.53, 1.47, 1.3]
+        };
+        ranking(arr02, '#fb815b', "right01");
+
+        // 国外攻击手法分布
+        var arr03 = [
+            {value: 335, legendname: '恶意小程序'},
+            {value: 310, legendname: '摆渡攻击'},
+            {value: 234, legendname: '木马植入'},
+            {value: 154, legendname: '登录用户爆破'},
+            {value: 154, legendname: '服务器端口漏洞'}
+        ];
+        AttackTechnique(arr03, "left02");
+        // 国内攻击手法分布
+        var arr04 = [
+            {value: 335, legendname: '恶意小程序'},
+            {value: 310, legendname: '摆渡攻击'},
+            {value: 234, legendname: '木马植入'},
+            {value: 154, legendname: '登录用户爆破'},
+            {value: 154, legendname: '服务器端口漏洞'}
+        ];
+        AttackTechnique(arr04, "right02");
+        var arr05 = [
+            {attackToIp: '192.168.2.3', company: "泰安市公安局1", industry: "政府", attackIp: '192.110.12.1', time: "2020-03-28"},
+            {attackToIp: '192.168.2.3', company: "泰安市公安局2", industry: "政府", attackIp: '192.110.12.1', time: "2020-03-28"},
+            {attackToIp: '192.168.2.3', company: "泰安市公安局3", industry: "政府", attackIp: '192.110.12.1', time: "2020-03-28"},
+            {attackToIp: '192.168.2.3', company: "泰安市公安局4", industry: "政府", attackIp: '192.110.12.1', time: "2020-03-28"},
+            {attackToIp: '192.168.2.3', company: "泰安市公安局5", industry: "政府", attackIp: '192.110.12.1', time: "2020-03-28"},
+            {attackToIp: '192.168.2.3', company: "泰安市公安局6", industry: "政府", attackIp: '192.110.12.1', time: "2020-03-28"},
+            {attackToIp: '192.168.2.3', company: "泰安市公安局7", industry: "政府", attackIp: '192.110.12.1', time: "2020-03-28"}
+        ];
+        scrollTable(arr05);
+    });
+</script>
+</body>
+</html>

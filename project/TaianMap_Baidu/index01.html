@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="js/style.css"/>
+    <script type="text/javascript" src="js/jquery3.4.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <!--<script type="text/javascript" src="js/map-api.js"></script>-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=AT8XfGq42Z67CaH9YG7nGir2ideHSkvY"></script>
+    <script type="text/javascript" src="js/map-echarts.js"></script>
+    <script type="text/javascript" src="js/bmap.js"></script>
+    <script type="text/javascript" src="js/style.js"></script>
+</head>
+<body id="body">
+<!--title-->
+<div class="statistics-title filexBox">
+    <h2>泰安市重保单位统计中心</h2>
+</div>
+<div class="statistics-left filexBox">
+    <div class="statistics-left-box">
+        <div class="statistics-left-box-con">
+            <!--<div class="statistics-left-box-items">-->
+            <!--<div class="statistics-box-title">-->
+            <!--单位等级-->
+            <!--</div>-->
+            <!--<div class="statistics-left-box-items-con">-->
+            <!--<h5>-->
+            <!--<p>-->
+            <!--<span><i><img src="images/check.png" alt=""></i></span>-->
+            <!--<em>一级</em>-->
+            <!--</p>-->
+            <!--</h5> -->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="statistics-border">
+            <div class="statistics-border-img">
+                <div class="statistics-ltbr-bg statistics-leftTop-bg"><img src="images/top-left.png" alt=""></div>
+                <div class="statistics-ltbr-bg statistics-rightTop-bg"><img src="images/top-right.png" alt=""></div>
+                <div class="statistics-ltbr-bg statistics-leftBottom-bg"><img src="images/bottom-left.png" alt=""></div>
+                <div class="statistics-ltbr-bg statistics-rightBottom-bg"><img src="images/bottom-right.png" alt=""></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="statistics-right filexBox">
+    <div class="statistics-right-title">
+        <ul>
+            <li>
+                <h2><img src="images/ico/stat-ico01.png" alt=""></h2>
+                <h3>
+                    <span>2732</span>
+                    <p>重保单位</p>
+                </h3>
+            </li>
+            <li>
+                <h2><img src="images/ico/stat-ico02.png" alt=""></h2>
+                <h3>
+                    <span>2732</span>
+                    <p>关键客户</p>
+                </h3>
+            </li>
+        </ul>
+    </div>
+    <div class="statistics-right-box">
+        <div class="statistics-right-items statistics-right-items01">
+            <div class="statistics-box-title">
+                重保单位行业统计
+            </div>
+            <div id="statistics-right-box01" style="width: 100%;"></div>
+        </div>
+        <div class="statistics-right-items statistics-right-items02">
+            <div class="statistics-box-title">
+                重保单位风险等级
+            </div>
+            <div id="statistics-right-box02" style="width: 100%;"></div>
+        </div>
+        <div class="statistics-right-items statistics-right-items03">
+            <div class="statistics-box-title">
+                单位等级
+            </div>
+            <div id="statistics-right-box03" style="width: 100%;"></div>
+        </div>
+    </div>
+</div>
+
+<div id="map-container" style="width: 100%;"></div>
+<script type="text/javascript">
+    $(function () {
+        // map
+        mapPage('index01');
+        // 选择框
+        var arr = [
+            {
+                title: "单位等级",
+                column: 3,
+                data: ['一级', '二级', '三级', '四级', '五级']
+            },
+            {
+                title: "行业类别",
+                column: 2,
+                data: ['综合行业', '电信运营', '电力行业', '交运物流', '民航机场', '软件服务', '电子元件', '文教休闲', '医疗行业', '文化传媒', '软件服务', '公用事业', '其他等']
+            },
+            {
+                title: "风险等级",
+                column: 3,
+                data: ['高危', '中危', '低危', '安全']
+            },
+            {
+                title: "服务类型",
+                column: 2,
+                data: ['Web服务', '文件服务', 'DNS服务', '中间件服务', 'FTP服务', '邮件服务', '流媒体服务', '域控服务', '其他']
+            }
+        ];
+        for (var i = 0; i < arr.length; i++) {
+            if (i == arr.length - 1) {
+                createCheck(arr[i], true);
+            } else {
+                createCheck(arr[i]);
+            }
+
+        }
+        // 重保单位行业统计
+        var arr01 = {
+            name: ['综合行业', '电信运营', '电力运营', '交运物流', '民航机场', '软件服务', '电子元件', '文教休闲', '医疗行业', '文化传媒', '公用事业', '其他'],
+            data: [20, 60, 92, 55, 60, 98, 22, 89, 95, 150, 110, 150]
+        };
+        echart_right01(arr01);
+        // 重保单位风险等级
+        var arr02 = [
+            {value: 335, name: '高危'},
+            {value: 310, name: '中危'},
+            {value: 234, name: '低危'},
+            {value: 154, name: '安全'}
+        ];
+        echart_ritht02(arr02);
+        // 单位等级
+        var arr03 = [
+            {value: 38, name: '一级'},
+            {value: 5, name: '二级'},
+            {value: 9, name: '三级'},
+            {value: 22, name: '四级'},
+            {value: 26, name: '五级'}
+        ];
+        echart_right03(arr03);
+    });
+</script>
+</body>
+</html>
