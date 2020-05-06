@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>泰安市整体攻击态势</title>
+    <link rel="stylesheet" type="text/css" href="js/style.css"/>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+    <script type="text/javascript" src="js/jquery3.4.js"></script>
+    <script type="text/javascript" src="js/API.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/style.js"></script>
+    <script type="text/javascript" src="map/world.js"></script>
+    <script type="text/javascript" src="map/china.js"></script>
+    <script type="text/javascript" src="map/taian.js"></script>
+    <script type="text/javascript" src="js/map-echarts.js"></script>
+</head>
+<body id="body">
+<!--title-->
+<div class="title filexBox">
+    <h2>泰安市整体攻击态势</h2>
+</div>
+<!--攻击次数-->
+<div class="title-val title-left">
+    <span>受攻击次数：</span>
+    <i class="title-left-i">0</i>
+</div>
+<div class="title-val title-right">
+    <span>高危攻击次数：</span>
+    <i class="title-right-i">0</i>
+</div>
+<!--时间选择-->
+<div class="time-select">
+    <div class="layui-inline" style="width: 120px;"> <!-- 注意：这一层元素并不是必须的 -->
+        <input type="text" class="layui-input" id="test1" placeholder="开始时间" style="background:rgba(255,255,255,0.1);color: #fff;">
+    </div>
+    <div class="layui-inline" style="width: 120px;"> <!-- 注意：这一层元素并不是必须的 -->
+        <input type="text" class="layui-input" id="test2" placeholder="结束时间" style="background:rgba(255,255,255,0.1);color: #fff;">
+    </div>
+    <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+        <button id="timerSubmit">确定</button>
+    </div>
+</div>
+<!--left-world-->
+<div class="left filexBox">
+    <div class="left-world" id="world-map"></div>
+    <div class="get-world-data get-attack-data">
+        <h2>攻击点</h2>
+        <ul></ul>
+    </div>
+</div>
+<!--底部-->
+<div class="bottom">
+    <div class="bottom-con">
+        <div class="items-box items-box-i">
+            <div class="items-toggle-title">
+                <h2 class="title-active">国外IP排名 TOP7</h2>
+                <h2>国外攻击手法分布</h2>
+            </div>
+            <div class="items-box-con">
+                <div class="items-box-con-i">
+                    <div id="left01" style="height: 100%;width: 100%;"></div>
+                </div>
+                <div class="items-box-con-i">
+                    <div id="left02" style="height: 100%;width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="items-box items-box-m">
+            <div class="items-box-title">泰安市被攻击IP信息流动</div>
+            <div class="items-box-con items-box-con-w">
+                <div class="items-box-con-w-con">
+                    <div class="table-title">
+                        <ul>
+                            <li>被攻击IP</li>
+                            <li>单位</li>
+                            <li>行业</li>
+                            <li>攻击IP</li>
+                            <li>攻击时间</li>
+                        </ul>
+                    </div>
+                    <div class="table-con"></div>
+                </div>
+            </div>
+        </div>
+        <div class="items-box items-box-i">
+            <div class="items-toggle-title">
+                <h2 class="title-active">国内IP排名 TOP7</h2>
+                <h2>国内攻击手法分布</h2>
+            </div>
+            <div class="items-box-con">
+                <div class="items-box-con">
+                    <div class="items-box-con-i">
+                        <div id="right01" style="height: 100%;width: 100%;"></div>
+                    </div>
+                    <div class="items-box-con-i">
+                        <div id="right02" style="height: 100%;width: 100%;">111</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--right-china-->
+<div class="right filexBox">
+    <div class="right-china" id="china-map"></div>
+    <div class="get-china-data get-attack-data">
+        <h2>攻击点</h2>
+        <ul></ul>
+    </div>
+</div>
+<!--middle-taian-->
+<div class="middle-map filexBox">
+    <div class="taian-map" id="taian-map"></div>
+</div>
+<div id="map-container" style="width: 100%;height: 100%;"></div>
+<script type="text/javascript">
+    $(function () {
+        // 初次加载
+        var getProTime=new Date();
+        var setTimePro=new Date(getProTime.getFullYear()+"-"+(getProTime.getMonth()+1)+"-"+getProTime.getDate()).getTime()
+        // var setTimePro=1588558476134
+        // console.log(setTimePro);
+        var getNowTime=getProTime.getTime()
+        holisticAttackApi(setTimePro,getNowTime);
+        // 时间选择
+        layuiGetTime(function (getTimer) {
+        //     $("#timerSubmit").click(function () {
+        //         flageTime=true
+        //         if (timerOver){
+        //             clearInterval(timerOver)
+        //         }
+        //         holisticAttackApi(new Date(getTimer.start).getTime(),new Date(getTimer.end+" 23:59:59").getTime());
+        //     });
+        });
+    });
+</script>
+</body>
+</html>
