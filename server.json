@@ -6,7 +6,8 @@
     {"name": "数据中心","val":"公司项目，数据展示，canvas树状结构图形","src": "DataCenter02.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index02.html"},
     {"name": "移动端","val":"移动端项目，微信公众号项目，公司展示页面","src": "yd.png","href": "https://getmycoder.github.io/Project/project/Mobile/index.html"},
     {"name": "程序开发","val":"程序页面，前端页面实时展示后台的程序运行状态，如果出现问题，会实时展示各种错误的状态","src": "tz.png","href": "https://getmycoder.github.io/Project/project/DragDrop/index.html"},
-    {"name": "攻击","val":"百度地图攻击效果","src": "baidu_map.png","href": "./project/TaianMap_Baidu/index.html"}
+    {"name": "百度地图攻击","val":"百度地图攻击效果","src": "baidu_map.png","href": "./project/TaianMap_Baidu/index.html"},
+    {"name": "地图攻击","val":"地图攻击效果","src": "baidu_map.png","href": "./project/map/holisticAttack.html"}
   ],
   "plugDom": [
     {"name": "Kui框架","val":"视图UI，包括栅格系统，按钮，各种小插件，方法等","src": "kui.png","href": "http://www.nodeserver.gq/kui/"},
