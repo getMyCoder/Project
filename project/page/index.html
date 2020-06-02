@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="../../jquery.min.js"></script>
+    <style type="text/css">
+        body {margin: 0;padding: 0;font-family: "微软雅黑"}
+
+        .pageAll{width: 100%;height: 30px;text-align: center;margin-top: 100px;}
+        .page input {outline: none;}
+
+        .page {height: 32px;display: inline-block;line-height: 30px;overflow: hidden;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+
+        .page-text {display: block;float: left;margin: 0 5px;}
+
+        .page-num {display: block;float: left;}
+
+        .page-jump {display: block;float: left;margin: 0 5px;}
+
+        .page-jump-con {display: block;float: left;position: relative;width: 34px;height: 32px;}
+
+        .page-jump-con input {background: none;height: 28px !important;position: absolute;top: 0;left: 0;cursor: text}
+
+        .page-num-left {display: block;float: left;}
+
+        .page-num-con {display: block;float: left;}
+
+        .page-num-con ul {overflow: hidden;list-style: none;margin: 0;padding: 0; }
+
+        .page-num-con ul li {float: left;margin: 0 3px;padding: 0;}
+
+
+        .page-num-right {display: block;float: left;}
+
+        .box-border {text-align: center;line-height: 30px;cursor: pointer;width: 30px;height: 30px;border: 1px solid #e4e4e4;margin: 0 1px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+        }
+
+        .page-num-first {display: block;float: left;}
+
+        .page-num-end {display: block;float: left;}
+
+        .box-border-active {background: #1abc9c !important; color: #fff !important;border-color: #1abc9c !important;}
+    </style>
+</head>
+<body>
+<div class="pageAll">
+    <div class="page" id="page"></div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        pageInit({
+            allData: 100, //共多少条数据
+            pageAll: 10, //共多少页
+            pageSize: 4,  //当前的分页显示几个
+            callback: function (index) {
+                console.log(index);
+            }
+        })
+
+        function pageInit(data) {
+            var pageAll = data.pageAll, pageSize =  4, centerSize = (pageSize + 2) / 2 - 1, pageValue = 1, listIndex = 0, minSize = 6;
+            if (data.pageSize){
+                pageSize= data.pageSize
+            }
+            if (data.pageSize>data.pageAll){
+                pageSize= data.pageAll-1
+            }
+            // 创建标签
+            $("#page").append('<div class="page-text">共' + pageAll + '页/' + data.allData + '条数据</div>\n' +
+                '    <div class="page-num">\n' +
+                '        <div class="page-num-left box-border"><</div>\n' +
+                '        <div class="page-num-first box-border"></div>\n' +
+                '        <div class="page-num-con">\n' +
+                '            <ul></ul>\n' +
+                '        </div>\n' +
+                '        <div class="page-num-end box-border"></div>\n' +
+                '        <div class="page-num-right box-border">></div>\n' +
+                '    </div>\n' +
+                '    <div class="page-jump">跳转至</div>\n' +
+                '    <div class="page-jump-con"><input type="text" class="box-border" id="box-input"></div>')
+            for (var i = 2; i <= pageSize; i++) {
+                $(".page-num-con ul").append('<li class="box-border">' + i + '</li>')
+            }
+            $(".page-num-con ul li").eq(0).before('<li class="box-border">···</li>')
+            $(".page-num-con ul").append('<li class="box-border">···</li>')
+            $(".page-num-first").text(1)
+            $(".page-num-end").text(pageAll)
+            $(".page-num-first").addClass('box-border-active')
+            // 点击的选中样式
+            var endStart = {
+                endStartFocue: function () {
+                    $(".page-num-first").click(function () {
+                        $('.box-border').removeClass('box-border-active')
+                        $(this).addClass('box-border-active')
+                        // page列表的数据
+                        setPageVal((centerSize + 1))
+                        if (pageAll < minSize){
+                            $(".page-num-con ul li").eq(0).hide()
+                            $(".page-num-con ul li").last().hide()
+                            if (pageAll<=1){
+                                $(".page-num-end").hide()
+                            }
+                        }else{
+                            $(".page-num-con ul li").eq(0).hide()
+                            $(".page-num-con ul li").last().show()
+                        }
+
+                        pageValue = 1
+                        listIndex = 0
+                        if (data.callback) {
+                            data.callback(pageValue)
+                        }
+                    })
+                    $(".page-num-end").click(function () {
+                        $('.box-border').removeClass('box-border-active')
+                        $(this).addClass('box-border-active')
+                        // page列表的数据
+                        setPageVal(pageAll - centerSize)
+                        if (pageAll < minSize){
+                            $(".page-num-con ul li").eq(0).hide()
+                            $(".page-num-con ul li").last().hide()
+                            if (pageAll<=1){
+                                $(".page-num-end").hide()
+                            }
+                        }else{
+                            $(".page-num-con ul li").eq(0).show()
+                            $(".page-num-con ul li").last().hide()
+                        }
+                        pageValue = pageAll
+                        listIndex = $(".page-num-con ul li").length - 1
+                        if (data.callback) {
+                            data.callback(pageValue)
+                        }
+                    })
+                },
+                endStartBure: function () {
+                    $(".page-num-first").removeClass('box-border-active')
+                    $(".page-num-end").removeClass('box-border-active')
+                }
+            }
+            // 开始和结束添加样式
+            endStart.endStartFocue()
+
+            if (data.callback) {
+                data.callback(pageValue)
+            }
+
+            // page列表的数据
+            function setPageVal(centerVal) {
+                for (var i = 1; i < pageSize; i++) {
+                    $(".page-num-con ul li").eq(i).text((centerVal - centerSize) + i)
+                }
+            }
+
+            $(".page-num-con ul li").eq(0).hide()
+
+            if (pageAll < minSize) {
+                $(".page-num-con ul li").last().hide()
+                if (pageAll<=1){
+                    $(".page-num-end").hide()
+                }
+            }
+
+            $(".page-num-con ul li").each(function (index) {
+                $(this).click(function () {
+                    if (index != 0 && index != $(".page-num-con ul li").length - 1) {
+                        listIndex = index
+                        pageMain()
+                        if (data.callback) {
+                            data.callback(pageValue)
+                        }
+                    }
+                })
+            })
+
+            // 内部函数封装
+            function pageMain(value) {
+                var _this = $(".page-num-con ul li").eq(listIndex)
+                // 开始和结束取消样式
+                endStart.endStartBure()
+                pageValue = value ? value : parseInt(_this.text())
+                if (pageValue <= (centerSize + 1)) {
+                    if (pageAll < minSize){
+                        $(".page-num-con ul li").eq(0).hide()
+                        $(".page-num-con ul li").last().hide()
+                        if (pageAll<=1){
+                            $(".page-num-end").hide()
+                        }
+                    }else{
+                        $(".page-num-con ul li").eq(0).hide()
+                        $(".page-num-con ul li").last().show()
+                    }
+
+                    // page列表的数据
+                    setPageVal((centerSize + 1))
+                    if (pageValue == (centerSize + 1)) {
+                        $(".page-num-con ul li").eq(centerSize).addClass("box-border-active").siblings().removeClass("box-border-active")
+                        listIndex = centerSize
+                    } else {
+                        _this.addClass("box-border-active").siblings().removeClass("box-border-active")
+                    }
+                } else if (pageValue > (centerSize + 1) && pageValue < pageAll - centerSize) {
+                    if (pageAll < minSize){
+                        $(".page-num-con ul li").eq(0).hide()
+                        $(".page-num-con ul li").last().hide()
+                        if (pageAll<=1){
+                            $(".page-num-end").hide()
+                        }
+                    }else{
+                        $(".page-num-con ul li").eq(0).show()
+                        $(".page-num-con ul li").last().show()
+                    }
+
+                    // page列表的数据
+                    setPageVal(pageValue)
+                    $(".page-num-con ul li").eq(centerSize).addClass("box-border-active").siblings().removeClass("box-border-active")
+                } else if (pageValue >= pageAll - centerSize) {
+                    if (pageAll < minSize){
+                        $(".page-num-con ul li").eq(0).hide()
+                        $(".page-num-con ul li").last().hide()
+                        if (pageAll<=1){
+                            $(".page-num-end").hide()
+                        }
+                    }else{
+                        $(".page-num-con ul li").eq(0).show()
+                        $(".page-num-con ul li").last().hide()
+                    }
+                    // page列表的数据
+                    setPageVal(pageAll - centerSize)
+                    if (pageValue != pageAll - centerSize) {
+                        _this.addClass("box-border-active").siblings().removeClass("box-border-active")
+                    } else {
+                        $(".page-num-con ul li").eq(centerSize).addClass("box-border-active").siblings().removeClass("box-border-active")
+                        listIndex = centerSize
+                    }
+                }
+            }
+
+            // left
+            $(".page-num-left").click(function () {
+                var temporaryVal = null, temporaryPageValue = 0
+                if (pageValue > (centerSize + 1) && pageValue < pageAll - centerSize) {
+                    listIndex = centerSize
+                    pageValue--
+                    temporaryVal = pageValue
+                } else {
+                    if (listIndex > 0) {
+                        listIndex--
+                    }
+                    temporaryVal = null
+                }
+                pageMain(temporaryVal)
+                if (listIndex == 0) {
+                    $('.box-border').removeClass('box-border-active')
+                    $(".page-num-first").addClass('box-border-active')
+                    temporaryPageValue = 1
+                } else {
+                    temporaryPageValue = pageValue
+                }
+                if (data.callback) {
+                    data.callback(temporaryPageValue)
+                }
+
+            })
+            // right
+            $(".page-num-right").click(function () {
+                var temporaryVal = null, temporaryPageValue = 0
+                if (pageValue >= (centerSize + 1) && pageValue < pageAll - centerSize) {
+                    listIndex = centerSize
+                    pageValue++
+                    temporaryVal = pageValue
+                } else {
+                    if (listIndex < $(".page-num-con ul li").length - 1) {
+                        listIndex++
+                    }
+                    temporaryVal = null
+                }
+                pageMain(temporaryVal)
+                if (listIndex == $(".page-num-con ul li").length - 1) {
+                    $('.box-border').removeClass('box-border-active')
+                    $(".page-num-end").addClass('box-border-active')
+                    temporaryPageValue = pageAll
+                } else {
+                    temporaryPageValue = pageValue
+                }
+                if (data.callback) {
+                    data.callback(temporaryPageValue)
+                }
+            })
+            // 跳转
+            $("#box-input").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    if ($(this).val() && $(this).val() != '') {
+                        pageValue = parseInt($(this).val());
+                        if (pageValue >= 0 && pageValue <= pageAll) {
+                            pageMain(pageValue)
+                            // 内部页数查找
+                            if (pageValue > 0 && pageValue < pageAll) {
+                                $(".page-num-con ul li").each(function (index) {
+                                    if (parseInt($(this).text()) == pageValue) {
+                                        $(this).addClass("box-border-active").siblings().removeClass("box-border-active")
+                                        listIndex = index
+                                    }
+                                })
+                            }
+                            // 开始和结束
+                            if (pageValue == 1) {
+                                $('.box-border').removeClass('box-border-active')
+                                $(".page-num-first").addClass('box-border-active')
+                                // page列表的数据
+                                setPageVal((centerSize + 1))
+                                if (pageAll < minSize){
+                                    $(".page-num-con ul li").eq(0).hide()
+                                    $(".page-num-con ul li").last().hide()
+                                    if (pageAll<=1){
+                                        $(".page-num-end").hide()
+                                    }
+                                }else{
+                                    $(".page-num-con ul li").eq(0).hide()
+                                    $(".page-num-con ul li").last().show()
+                                }
+                                pageValue = 1
+                                listIndex = 0
+                            }
+                            if (pageValue == pageAll) {
+                                $('.box-border').removeClass('box-border-active')
+                                $(".page-num-end").addClass('box-border-active')
+                                // page列表的数据
+                                setPageVal(pageAll - centerSize)
+                                if (pageAll < minSize){
+                                    $(".page-num-con ul li").eq(0).hide()
+                                    $(".page-num-con ul li").last().hide()
+                                    if (pageAll<=1){
+                                        $(".page-num-end").hide()
+                                    }
+                                }else{
+                                    $(".page-num-con ul li").eq(0).show()
+                                    $(".page-num-con ul li").last().hide()
+                                }
+                                pageValue = pageAll
+                                listIndex = $(".page-num-con ul li").length - 1
+                            }
+                            if (data.callback) {
+                                data.callback(pageValue)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+    });
+</script>
+
+</body>
+</html>
