@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="../../jquery.min.js"></script>
+    <style type="text/css">
+        body {margin: 0;padding: 0;background: #000;}
+
+        .game h2, .game h3, .game p {margin: 0;padding: 0;}
+
+        .game {width: 500px;height: 500px;border: 1px solid #ccc; margin: 150px auto;position: relative;cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .rows {position: absolute;left: 0;top: 0;width: 100%;height: inherit;}
+
+        .rows h2 {height: 100px;width: 100%;border-top: 1px solid #ccc;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .rows h2:first-child {border-top: none;}
+
+        .columns {position: absolute;left: 0;top: 0;width: 100%;height: inherit;overflow: hidden;}
+
+        .columns h2 {width: 100px;height: inherit;border-left: 1px solid #ccc;float: left;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .columns h2:first-child {border-left: none;}
+
+        .game-items {position: absolute;top: 0;left: 0; overflow: hidden;width: 100%;height: inherit;}
+
+        .game-items-con {position: relative;}
+
+        .game-items h3 {width: 100px;height: 100px;position: absolute;top: 0;left: 0;}
+
+        .game-items h3 p {width: 80%;height: 80%;margin: 10%;color: #fff;text-align: center;line-height: 80px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+        .limit {position: absolute;width: 20px;}
+
+        .limit h2 {width: 20px;height: 20px;margin: 0 0 5px 0;-webkit-border-radius: 50%;-moz-border-radius: 50%;border-radius: 50%;}
+
+        .title {position: absolute;}
+
+        .title input {width: 60px;height: 25px;border: 1px solid #fff;background: none;color: #fff;text-align: center}
+
+        .title button {width: 48px;height: 30px;background: #fff;color: #666;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;border: none}
+    </style>
+</head>
+<body>
+<div class="title">
+    <input type="text" id="line">
+    <button class="sub">确定</button>
+</div>
+<div class="game">
+    <div class="rows"></div>
+    <div class="columns"></div>
+    <div class="game-items">
+        <div class="game-items-con">
+
+        </div>
+    </div>
+</div>
+<div class="limit"></div>
+
+<script type="text/javascript">
+    var size, colors, color;
+    $(function () {
+        size = 0
+        colors = [
+            {color: 'red', ident: 0},
+            {color: 'blue', ident: 1},
+            {color: 'green', ident: 2},
+            {color: 'orange', ident: 3},
+            {color: 'yellow', ident: 4},
+            {color: 'purple', ident: 5}
+        ], color = []
+        if (!localStorage.getItem('size')) {
+            size = 3
+        } else {
+            size = parseInt(localStorage.getItem('size'))
+            if (size >= 6) {
+                size = 6
+            }
+        }
+        color = colors.splice(0, size)
+        localStorage.removeItem('size')
+        $("#line").val(size)
+        $(".sub").click(function () {
+            localStorage.setItem('size', parseInt($("#line").val()))
+            window.location.reload()
+        })
+        game()
+    })
+
+    function game() {
+        for (var L = 0; L < size; L++) {
+            $(".rows").append('<h2></h2>')
+            $(".columns").append('<h2></h2>')
+        }
+
+        $(".game").css({
+            'height': $(".rows h2").length * ($(".rows h2").height()),
+            'width': $(".columns h2").length * ($(".columns h2").width()),
+        })
+        $(".limit").css({
+            'top': $(".game").offset().top + "px",
+            'left': ($(".game").offset().left - 30) + "px"
+        })
+        $(".title").css({
+            'top': ($(".game").offset().top - 50) + "px",
+            'left': ($(".game").offset().left) + "px"
+        })
+
+        var allColor = []
+        for (var i = 0; i < color.length; i++) {
+            allColor.push(...color)
+            $(".limit").append('<h2 style="background: ' + color[i].color + '"></h2>')
+        }
+
+        var indexNum = 0, randomColor = 0;
+        for (var i = 0; i < $(".rows h2").length; i++) {
+            for (var j = 0; j < $(".columns h2").length; j++) {
+                randomColor = parseInt(Math.random() * allColor.length)
+                $(".game-items .game-items-con").append('<h3 style="top: ' + (i * $(".rows h2").height()) + 'px;left: ' + (j * $(".columns h2").width()) + 'px;">' +
+                    '<p data-index="' + indexNum + '" data-ident="' + allColor[randomColor].ident + '" style="background: ' + allColor[randomColor].color + ';"></p>' +
+                    '</h3>')
+                allColor.splice(randomColor, 1)
+                indexNum++
+            }
+        }
+
+        var new_old_flage = {index: null, direction: null, array: []}, getDom = [], sizeH3 = $(".game-items .game-items-con h3").height();
+
+        // 移动执行的方法
+        function setDirection(index, direction) {
+            // 创建标签数组
+            if (new_old_flage.array.indexOf(index) === -1 || new_old_flage.direction !== direction) {
+                createArray(index, direction)
+                new_old_flage.array = []
+                for (var i = 0; i < getDom.length; i++) {
+                    new_old_flage.array.push(getDom[i].index)
+                }
+            }
+            // 位置移动
+            positionItems(direction)
+            // 上次的移动方向
+            new_old_flage.direction = direction
+        }
+
+        // 创建标签数组
+        function createArray(index, direction) {
+            getDom = []
+
+            // 创建dom数组
+            function addGetDom(obj, items) {
+                getDom.push({
+                    obj: obj,
+                    left: obj.position().left,
+                    top: obj.position().top,
+                    index: items
+                })
+            }
+
+            $(".game-items .game-items-con h3").each(function (ide) {
+                if (direction == 1 || direction == 3) {
+                    // 列
+                    if (ide % size == index % size) {
+                        addGetDom($(this), ide)
+                    }
+                } else {
+                    // 行
+                    if (parseInt(index / size) == parseInt(ide / size)) {
+                        addGetDom($(this), ide)
+                    }
+                }
+            })
+        }
+
+        // 位置移动
+        function positionItems(positionLT) {
+            var itemsValue = {}
+            // 开头/结尾
+            // 上
+            if (positionLT === 1) {
+                itemsValue.perLeft = 0
+                itemsValue.perTop = -sizeH3
+                itemsValue.startL = getDom.length - 1
+                itemsValue.startV = 0
+                itemsValue.symbol = 1
+            }
+            // 右
+            if (positionLT === 2) {
+                itemsValue.perLeft = sizeH3
+                itemsValue.perTop = 0
+                itemsValue.startL = 0
+                itemsValue.startV = getDom.length - 1
+                itemsValue.symbol = -1
+            }
+            // 下
+            if (positionLT === 3) {
+                itemsValue.perLeft = 0
+                itemsValue.perTop = sizeH3
+                itemsValue.startL = 0
+                itemsValue.startV = getDom.length - 1
+                itemsValue.symbol = -1
+            }
+            // 左
+            if (positionLT === 4) {
+                itemsValue.perLeft = -sizeH3
+                itemsValue.perTop = 0
+                itemsValue.startL = getDom.length - 1
+                itemsValue.startV = 0
+                itemsValue.symbol = 1
+            }
+
+            // 设置移动位置
+            setItemsM(itemsValue)
+
+            // 移动
+            function setItemsM(perVal) {
+                var startVal = [];
+                for (var i = 0; i < getDom.length; i++) {
+                    (function (index) {
+                        startVal.push(getDom[index].obj.html())
+                        getDom[index].obj.animate({
+                            'left': (getDom[index].left + perVal.perLeft) + "px",
+                            'top': (getDom[index].top + perVal.perTop) + "px"
+                        }, 150, function () {
+                            getDom[index].obj.css({
+                                'left': (getDom[index].left) + "px",
+                                'top': (getDom[index].top) + "px"
+                            })
+                            // 设置cell的值
+                            var indexValue = null;
+                            if (index === perVal.startL) {
+                                indexValue = startVal[perVal.startV]
+                            } else {
+                                indexValue = startVal[index + perVal.symbol]
+                            }
+                            getDom[index].obj.html(indexValue)
+                        })
+                    })(i)
+                }
+            }
+
+            setTimeout(function () {
+                // 判断排序是否成功
+                identical()
+            }, 200)
+
+        }
+
+        // 判断排序是否成功
+        function identical() {
+            var success = true
+            $(".game-items .game-items-con h3").each(function (index) {
+                if (color[parseInt(index / size)].ident !== parseInt($(this).find('p').attr('data-ident'))) {
+                    success = false
+                }
+            })
+            if (success) {
+                alert('胜利！！！')
+            }
+        }
+
+        var getEvtD = null, getEvtM = null, dirIndex = null, dirFlage = false, dirFlageLR = null, dirFlageMove = false;
+
+        $(".game-items .game-items-con h3").each(function (index) {
+            $(this).mousedown(function (evtD) {
+                getEvtD = {
+                    x: evtD.clientX,
+                    y: evtD.clientY
+                }
+
+                // 确定方位
+                dirFlage = true
+                dirFlageMove = true
+
+                $(document).bind('mousemove', function (evtM) {
+
+                    getEvtM = {
+                        x: evtM.clientX,
+                        y: evtM.clientY
+                    }
+
+                    if (Math.abs(getEvtM.x - getEvtD.x) - Math.abs(getEvtM.y - getEvtD.y) > 10) {
+                        if (dirFlageMove) {
+                            dirFlageLR = 'left_right'
+                            dirFlageMove = false
+                        }
+                    }
+
+                    if (Math.abs(getEvtM.y - getEvtD.y) - Math.abs(getEvtM.x - getEvtD.x) > 10) {
+                        if (dirFlageMove) {
+                            dirFlageLR = 'up_down'
+                            dirFlageMove = false
+                        }
+                    }
+
+                    // 移动方位判断
+                    if (dirFlage && !dirFlageMove) {
+                        dirFlage = false
+
+                        if (dirFlageLR == 'left_right') {
+                            // 左右移动
+                            if (getEvtM.x - getEvtD.x > 0) {
+                                // 右移动-->2
+                                dirIndex = 2
+                            } else {
+                                // 左移动-->4
+                                dirIndex = 4
+                            }
+                        } else {
+                            // 上下移动
+                            if (getEvtM.y - getEvtD.y > 0) {
+                                // 下移动-->3
+                                dirIndex = 3
+                            } else {
+                                // 上移动-->1
+                                dirIndex = 1
+                            }
+                        }
+
+                        setDirection(index, dirIndex)
+                    }
+
+                })
+            })
+            $(document).mouseup(function () {
+                $(document).unbind('mousemove')
+            })
+        })
+    }
+
+</script>
+</body>
+</html>
