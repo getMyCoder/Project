@@ -220,7 +220,12 @@
                 '    <div class="main">\n' +
                 '        <div class="title"><h2>实用性方法汇总</h2></div>\n' +
                 '        <ul class="mainUl mainFun"></ul>\n' +
-                '    </div>');
+                '    </div>\n' +
+                '    <div class="main">\n' +
+                '        <div class="title"><h2>小游戏</h2></div>\n' +
+                '        <ul class="mainUl mainGame"></ul>\n' +
+                '    </div>'
+            );
             // 项目
             var proData = '';
             for (var i = 0; i < data.project.length; i++) {
@@ -265,6 +270,17 @@
                     '</li>';
             }
             $(".mainFun").append(funData);
+            // 小游戏
+            var gameData = '';
+            for (var l = 0; l < data.game.length; l++) {
+                gameData += '<li>' +
+                    '<a href="' + data.game[l].href + '" target="_blank">' +
+                    '<img src="images/' + data.game[l].src + '" alt="">' +
+                    '<span>' + data.game[l].name + '</span>' +
+                    '</a>' +
+                    '</li>';
+            }
+            $(".mainGame").append(gameData);
             loading();
         }
 

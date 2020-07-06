@@ -16,8 +16,7 @@
     {"name": "后台管理框架","val":"简单的导航插件，简化前端的页面的逻辑","src": "nav.png","href": "https://getmycoder.github.io/Project/project/ViewFrame/index.html"},
     {"name": "树插件","val":"数据渲染成树结构的树形视图","src": "treeDom.png","href": "./project/treeDom/index.html"},
     {"name": "分页插件","val":"分页插件","src": "page.png","href": "./project/page/index.html"},
-    {"name": "音频播放器","val":"音乐","src": "music.png","href": "https://getmycoder.github.io/Project/project/musicNav/index.html"},
-    {"name": "小游戏","val":"小游戏","src": "moveBall.png","href": "./project/moveBall/index.html"}
+    {"name": "音频播放器","val":"音乐","src": "music.png","href": "https://getmycoder.github.io/Project/project/musicNav/index.html"}
   ],
   "plugCanvas": [
     {"name": "canvas数据","val":"canvas小项目","src": "canvas.png","href": "https://getmycoder.github.io/echart/"},
@@ -28,5 +27,9 @@
     {"name": "数组简单排序","val":"方法","src": "array.png","href": "./project/function/arraySort.html"},
     {"name": "ajax轮询优化","val":"方法","src": "loopAjax.png","href": "./project/function/loopAjax.html"},
     {"name": "列表数据转树类型","val":"方法","src": "treeData.png","href": "./project/function/treeData.html"}
+  ],
+  "game": [
+    {"name": "小游戏","val":"小游戏","src": "moveBall.png","href": "./project/moveBall_game/index.html"},
+    {"name": "小游戏","val":"小游戏","src": "pingtu_game.png","href": "./project/puzzle_game/index.html"}
   ]
 }

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="../../jquery.min.js"></script>
+    <style type="text/css">
+        body {margin: 0;padding: 0;background: #000;height: 100%;width: 100%;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+
+        input, button {outline: none}
+
+        .title {margin: 20px auto;width: 150px;}
+
+        .title input {border: 1px solid #fff;color: #fff;background: #000;width: 80px;height: 24px;text-align: center}
+
+        .title button {width: 60px;height: 30px;background: #fff;color: #666;border: 1px solid #fff;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
+
+        .main {position: relative;overflow: hidden; margin: 0 auto;border: 1px solid #fff;background: #fff;}
+
+        .main h2 {width: 98px;height: 98px;border: 1px solid #fff;background: #4395ff;margin: 0;padding: 0;position: absolute;line-height: 98px;text-align: center;cursor: pointer;color: #fff;}
+    </style>
+</head>
+<body>
+<div class="title">
+    <input type="text" id="lineValue">
+    <button class="sub">确定</button>
+</div>
+<div class="main"></div>
+<script type="text/javascript">
+    $(function () {
+        game.init()
+        game.setLine()
+    })
+    var game = {
+        init: function () {
+            // 添加items
+            this.addItems()
+            // 样式
+            this.style()
+            // 移动
+            this.moveItems()
+        },
+        parameter: { //参数
+            line: 3,
+            seat: {original: null, move: null}
+        },
+        style: function () { //样式
+            $(".main").css({
+                'width': this.parameter.line * ($(".main h2").width() + 2) + "px",
+                'height': this.parameter.line * ($(".main h2").width() + 2) + "px"
+            })
+        },
+        setLine: function () {
+            var _this = this
+            $(".sub").click(function () {
+                _this.parameter.line = parseInt($("#lineValue").val())
+                game.init()
+            })
+        },
+        addItems: function () { //添加
+            var addStr = '', pos = {
+                left: 0,
+                top: 0,
+                width: 100
+            }, newArr = [], randVal = null;
+            for (var j = 1; j <= Math.pow(this.parameter.line, 2) - 1; j++) {
+                newArr.push(j)
+            }
+            $(".main").empty()
+            for (var i = 0; i < Math.pow(this.parameter.line, 2) - 1; i++) {
+                randVal = parseInt(Math.random() * newArr.length)
+                addStr += '<h2 ' +
+                    'data-column="' + (i % this.parameter.line + 1) + '" ' +
+                    'data-line="' + (parseInt(i / this.parameter.line)) + '" ' +
+                    'data-val="' + newArr[randVal] + '" ' +
+                    'style="left:' + (i % this.parameter.line) * pos.width + 'px;top:' + parseInt(i / this.parameter.line) * pos.width + 'px">' + newArr[randVal] + '</h2>'
+                newArr.splice(randVal, 1)
+            }
+            $(".main").append(addStr)
+        },
+        moveItems: function () { //移动
+            var state = {}, _this = this, flage = false
+            this.parameter.seat.original = Math.pow(this.parameter.line, 2)
+            $(".main h2").each(function () {
+                var that = this
+                $(this).bind('mousedown', function (evtD) {
+                    flage = true
+                    // 设置当前that的位置
+                    _this.parameter.seat.move = parseInt($(that).attr('data-column')) + parseInt($(that).attr('data-line')) * _this.parameter.line
+                    state.down = {
+                        x: evtD.clientX,
+                        y: evtD.clientY
+                    }
+                    $(document).bind('mousemove', function (evtM) {
+                        state.move = {
+                            x: evtM.clientX,
+                            y: evtM.clientY
+                        }
+                        if (
+                            (state.move.x > $(that).offset().left && state.move.x < ($(that).offset().left + $(that).width())) &&
+                            (state.move.y > $(that).offset().top && state.move.y < ($(that).offset().top + $(that).height()))
+                        ) {
+                            if (flage) {
+                                // 上下左右判断
+                                if (Math.abs(state.move.x - state.down.x) - Math.abs(state.move.y - state.down.y) > 10) {
+                                    // 左右
+                                    if (state.move.x - state.down.x > 10) {
+                                        state.direction = 2
+                                        flage = false
+                                    }
+                                    if (state.move.x - state.down.x < -10) {
+                                        state.direction = 4
+                                        flage = false
+                                    }
+                                }
+                                if (Math.abs(state.move.x - state.down.x) - Math.abs(state.move.y - state.down.y) < -10) {
+                                    // 上下
+                                    if (state.move.y - state.down.y > 10) {
+                                        state.direction = 3
+                                        flage = false
+                                    }
+                                    if (state.move.y - state.down.y < -10) {
+                                        state.direction = 1
+                                        flage = false
+                                    }
+                                }
+                                // 移动-方位
+                                if (!flage) {
+                                    _this.direction(state.direction, that)
+                                }
+                            }
+                        } else {
+                            $(document).unbind('mousemove')
+                        }
+                    })
+                    $(this).mouseup(function () {
+                        $(document).unbind('mousemove')
+                    })
+                })
+            })
+        },
+        direction: function (position, obj) { //移动方位
+            var seat = this.parameter.seat, par_val = {
+                obj: null,
+                topVal: null,
+                leftVal: null,
+                lineVal: null,
+                dataColumnVal: null,
+                dataLineVal: null
+            }
+            if (position === 1) {
+                if (seat.original === (seat.move - this.parameter.line) && parseInt($(obj).attr('data-line')) !== 0) {
+                    par_val.obj = obj
+                    par_val.topVal = -100
+                    par_val.leftVal = 0
+                    par_val.lineVal = this.parameter.line
+                    par_val.dataColumnVal = 0
+                    par_val.dataLineVal = -1
+                }
+            }
+            if (position === 3) {
+                if (seat.original === (seat.move + this.parameter.line) && parseInt($(obj).attr('data-line')) !== (this.parameter.line - 1)) {
+                    par_val.obj = obj
+                    par_val.topVal = 100
+                    par_val.leftVal = 0
+                    par_val.lineVal = -this.parameter.line
+                    par_val.dataColumnVal = 0
+                    par_val.dataLineVal = 1
+                }
+            }
+            if (position === 2) {
+                if (seat.original === (seat.move + 1) && parseInt($(obj).attr('data-column')) !== this.parameter.line) {
+                    par_val.obj = obj
+                    par_val.topVal = 0
+                    par_val.leftVal = 100
+                    par_val.lineVal = -1
+                    par_val.dataColumnVal = 1
+                    par_val.dataLineVal = 0
+                }
+            }
+            if (position === 4) {
+                if (seat.original === (seat.move - 1) && parseInt($(obj).attr('data-column')) !== 1) {
+                    par_val.obj = obj
+                    par_val.topVal = 0
+                    par_val.leftVal = -100
+                    par_val.lineVal = 1
+                    par_val.dataColumnVal = -1
+                    par_val.dataLineVal = 0
+                }
+            }
+            this.itemsAnimate(par_val)
+        },
+        itemsAnimate: function (_value) { //判断移动的条件
+            var seat = this.parameter.seat, _this = this
+            $(_value.obj).attr('data-column', parseInt($(_value.obj).attr('data-column')) + _value.dataColumnVal)
+            $(_value.obj).attr('data-line', parseInt($(_value.obj).attr('data-line')) + _value.dataLineVal)
+            $(_value.obj).animate({
+                'top': ($(_value.obj).position().top + _value.topVal) + "px",
+                'left': ($(_value.obj).position().left + _value.leftVal) + "px",
+            }, 150, function () {
+                // 判断是否成功
+                _this.success()
+            })
+            seat.original = seat.original + _value.lineVal
+        },
+        success: function () {
+            var _this = this, flage = true
+            $(".main h2").each(function () {
+                if (parseInt($(this).attr('data-val')) !== parseInt($(this).attr('data-column')) + parseInt($(this).attr('data-line')) * _this.parameter.line) {
+                    flage = false
+                }
+            })
+            if (flage) {
+                alert('成功！')
+            }
+        }
+    }
+</script>
+</body>
+</html>
