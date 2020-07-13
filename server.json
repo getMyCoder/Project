@@ -30,6 +30,7 @@
   ],
   "game": [
     {"name": "小游戏","val":"小游戏","src": "moveBall.png","href": "./project/moveBall_game/index.html"},
-    {"name": "小游戏","val":"小游戏","src": "pingtu_game.png","href": "./project/puzzle_game/index.html"}
+    {"name": "小游戏","val":"小游戏","src": "pingtu_game.png","href": "./project/puzzle_game/index.html"},
+    {"name": "小游戏","val":"俄罗斯方块","src": "Tetris_game.png","href": "./project/Tetris_game/index.html"}
   ]
 }
