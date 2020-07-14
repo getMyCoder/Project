@@ -54,6 +54,20 @@ var game = {
                 ($("#" + this.parameter.createLable.distinguish + '-' + j).position().left + this.parameter.createLable.left * this.parameter.sizeH) + "px"
             )
         }
+
+        // 判断是否结束
+        for (var k = 0; k < this.parameter.size; k++) {
+            if (
+                this.parameter.coordinate.items.indexOf(
+                    $("#" + this.parameter.createLable.distinguish + '-' + k).position().left / this.parameter.sizeH +
+                    "-" +
+                    ($("#" + this.parameter.createLable.distinguish + '-' + k).position().top + this.parameter.sizeH) / this.parameter.sizeH
+                ) !== -1
+            ) {
+                this.gameOver()
+                return
+            }
+        }
         // 创建的标签移动
         this.moveItems()
         // 方向
@@ -181,22 +195,24 @@ var game = {
         // 设置位置
         function setPosition(array) {
             // 判断是否超出边界
-            var flageW=false
+            var flageW = false
             stopLoop()
+
             function stopLoop() {
-                flageW=true
+                flageW = true
                 for (var i = 0; i < array.length; i++) {
-                    if (objArray[i].position().left + array[i][0]>=$(".main").width()){
-                        flageW=false
+                    if (objArray[i].position().left + array[i][0] >= $(".main").width()) {
+                        flageW = false
                     }
                 }
-                if (!flageW){
+                if (!flageW) {
                     for (var i = 0; i < array.length; i++) {
-                        array[i][0]=array[i][0]-_this.parameter.sizeH
+                        array[i][0] = array[i][0] - _this.parameter.sizeH
                     }
                     stopLoop()
                 }
             }
+
             // 调整样式
             for (var i = 0; i < array.length; i++) {
                 objArray[i].css({
@@ -427,7 +443,7 @@ var game = {
                 )
             })
             // 得分
-            _this.parameter.fraction = _this.parameter.fraction + deleteArray.length * 100*deleteArray.length
+            _this.parameter.fraction = _this.parameter.fraction + deleteArray.length * 100 * deleteArray.length
             $(".value").text(_this.parameter.fraction)
         }
         // 删除当前的已排满的行数
@@ -443,5 +459,12 @@ var game = {
                 _this.parameter.coordinate.items.push(_this.parameter.coordinate.list[vval][m])
             }
         }
+    },
+    gameOver:function () {//游戏结束
+        for (var k = 0; k < this.parameter.size; k++) {
+            $("#" + this.parameter.createLable.distinguish + '-' + k).remove()
+        }
+        this.clearItemsMove()
+        alert('结束')
     }
 }
