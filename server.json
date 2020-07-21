@@ -19,6 +19,7 @@
     {"name": "音频播放器","val":"音乐","src": "music.png","href": "https://getmycoder.github.io/Project/project/musicNav/index.html"}
   ],
   "plugCanvas": [
+    {"name": "canvas-line","val":"canvas","src": "canvas_line.png","href": "./project/canvas_line/index.html"},
     {"name": "canvas数据","val":"canvas小项目","src": "canvas.png","href": "https://getmycoder.github.io/echart/"},
     {"name": "canvas树","val":"canvas树状图","src": "DataCenter01.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index01.html"},
     {"name": "canvas特效","val":"canvas插件","src": "DataCenter03.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index03.html"}

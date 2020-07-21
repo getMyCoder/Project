@@ -24,11 +24,11 @@
 
         @media (max-width: 1000px) {
             .mainUl li {width: 16%;margin: 15px 0.3%;}
-            }
+        }
 
         @media (min-width: 1000px) and (max-width: 1200px) {
             .mainUl li {width: 12%;margin: 15px 0.25%;}
-            }
+        }
 
         .title {width: 100%;margin: 0 auto;height: 40px;background: #f1f1f1;line-height: 40px;border-bottom: 1px solid #ccc;}
 
@@ -44,7 +44,7 @@
             box-shadow: 0 0 5px 0 #ccc;
             display: none;
             position: relative;
-            }
+        }
 
         .popTitle {text-align: center;height: 35px;line-height: 35px;background: #ddd;font-size: 16px;color: #666;position: relative;}
 
@@ -70,7 +70,7 @@
             -webkit-box-shadow: 0 0 15px 0 #ccc;
             -moz-box-shadow: 0 0 15px 0 #ccc;
             box-shadow: 0 0 15px 0 #ccc;
-            }
+        }
 
         .itemsCon a {text-decoration: none}
 
@@ -79,9 +79,13 @@
         .itemsCon i {display: block;font-style: normal;font-size: 16px;color: #333;line-height: 30px;}
 
         .itemsCon span {display: block;font-size: 14px;color: #666;line-height: 24px;}
+
+        #canvas {position: fixed;top: 0;left: 0;}
     </style>
 </head>
 <body>
+<canvas id="canvas"></canvas>
+<script type="text/javascript" src="./project/canvas_line/canvas.js"></script>
 <div class="top-title">web前端</div>
 <div class="container" data-mode="0"></div>
 <!--弹窗-->
