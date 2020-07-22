@@ -1,6 +1,7 @@
 {
   "project": [
     {"name": "Vue-Element","val":"vue小项目","src": "vue.png","href": "https://getmycoder.github.io/index"},
+    {"name": "vue系统","val":"vue后台系统","src": "vue_system.png","href": "./project/vue_system/index.html"},
     {"name": "大屏展示","val":"公司项目，数据展示","src": "BigScreen.png","href": "https://getmycoder.github.io/Project/project/BigScreen/index.html"},
     {"name": "业务大屏","val":"公司项目，数据展示，第二版","src": "maxNewWeb.png","href": "https://getmycoder.github.io/Project/project/maxNewWeb/index.html"},
     {"name": "数据中心","val":"公司项目，数据展示，canvas树状结构图形","src": "DataCenter02.png","href": "https://getmycoder.github.io/Project/project/DataCenter/index02.html"},

@@ -1,0 +1,61 @@
+{
+  "user": [
+    {
+      "id": "1",
+      "loginUser": "张三",
+      "user": "张三丰",
+      "department": "研发部",
+      "role": [
+        {"name":"a","value":0},
+        {"name":"a","value":0},
+        {"name":"a","value":0},
+        {"name":"a","value":0},
+        {"name":"a","value":1}
+      ],
+      "subordinate": "section-1-1",
+      "phone": 15888888888,
+      "status": 0,
+      "time": "2020-05-19 09:51:30",
+      "email": "123@qq.com",
+      "textarea": "我是张三丰"
+    },
+    {
+      "id": "2",
+      "loginUser": "李四",
+      "user": "李四丰",
+      "department": "研发部",
+      "role": [
+        {"name":"c","value":0},
+        {"name":"c","value":0},
+        {"name":"c","value":1},
+        {"name":"c","value":0},
+        {"name":"c","value":1}
+      ],
+      "subordinate": "section-1-1",
+      "phone": 15888888888,
+      "status": 0,
+      "time": "2020-05-19 09:51:30",
+      "email": "123@qq.com",
+      "textarea": "我是张三丰"
+    },
+    {
+      "id": "3",
+      "loginUser": "王五",
+      "user": "王五丰",
+      "department": "研发部",
+      "role": [
+        {"name":"b","value":1},
+        {"name":"b","value":0},
+        {"name":"b","value":0},
+        {"name":"b","value":0},
+        {"name":"b","value":0}
+      ],
+      "subordinate": "section-1-1",
+      "phone": 15888888888,
+      "status": 0,
+      "time": "2020-05-19 09:51:30",
+      "email": "123@qq.com",
+      "textarea": "我是张三丰"
+    }
+  ]
+}
