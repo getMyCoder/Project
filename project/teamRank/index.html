@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <script type="text/javascript" src="static/jquery.min.js"></script>
+    <script type="text/javascript" src="static/echarts.min.js"></script>
+    <script type="text/javascript" src="static/style.js"></script>
+</head>
+<body>
+<div class="container hide">
+    <!--头部-->
+    <div class="title">
+        <h2>展示内容</h2>
+        <h3>
+            <em>
+                <img src="images/logo.png" alt="">
+            </em>
+        </h3>
+    </div>
+    <!--头部背景-->
+    <div class="title-bg"></div>
+    <!--主体-->
+    <div class="main">
+        <!--左侧-->
+        <div class="left">
+            <div class="left-main">
+                <div class="left-main-left">
+                    <div class="title-all"><h2>本期实况</h2></div>
+                    <div class="left-main-left-main">
+                        <div class="items items01">
+                            <div class="items-title"><h2>漏洞分布情况</h2></div>
+                            <div class="items-con" id="distribution"></div>
+                        </div>
+                        <div class="items items02">
+                            <div class="items-title"><h2>战队提交漏洞数</h2></div>
+                            <div class="items-con" id="submissions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-main-right">
+                    <div class="left-main-right-main-top">
+                        <div class="items items03">
+                            <div class="items-title"><h2>防守方漏洞排名</h2></div>
+                            <div class="items-con" id="ranking"></div>
+                        </div>
+                        <div class="items items04">
+                            <div class="items-title"><h2>专家工作量</h2></div>
+                            <div class="items-con" id="expertWork"></div>
+                        </div>
+                    </div>
+                    <div class="left-main-right-main-bottom">
+                        <div class="items items05">
+                            <div class="title-all"><h2>队伍排名</h2></div>
+                            <div class="items-con teamItems05">
+                                <!--<ul class="items-ul-team">-->
+                                <!--<li>-->
+                                <!--<div class="teamFraction">2568</div>-->
+                                <!--<div class="teamHead">-->
+                                <!--<div class="teamHeadCon">-->
+                                <!--<img src="images/header.jpg" alt="">-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="teamLattice">-->
+                                <!--<div class="teamLatticeCon" style="height: 4500px;">-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="teamName">-->
+                                <!--<div class="teamName-con">-->
+                                <!--<div class="teamName-title"></div>-->
+                                <!--<div class="teamName-name">山东队</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                <!--<div class="teamFraction">2568</div>-->
+                                <!--<div class="teamHead">-->
+                                <!--<div class="teamHeadCon">-->
+                                <!--<img src="images/header.jpg" alt="">-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="teamLattice">-->
+                                <!--<div class="teamLatticeCon" style="height: 100px;"></div>-->
+                                <!--</div>-->
+                                <!--<div class="teamName">-->
+                                <!--<div class="teamName-con">-->
+                                <!--<div class="teamName-title"></div>-->
+                                <!--<div class="teamName-name">山东队</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                <!--<div class="teamFraction">2568</div>-->
+                                <!--<div class="teamHead">-->
+                                <!--<div class="teamHeadCon">-->
+                                <!--<img src="images/header.jpg" alt="">-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="teamLattice">-->
+                                <!--<div class="teamLatticeCon" style="height: 50px;"></div>-->
+                                <!--</div>-->
+                                <!--<div class="teamName">-->
+                                <!--<div class="teamName-con">-->
+                                <!--<div class="teamName-title"></div>-->
+                                <!--<div class="teamName-name">山东队</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</li>-->
+                                <!--</ul>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--右侧-->
+        <div class="right">
+            <div class="right-main">
+                <div class="title-all"><h2>往期回顾</h2></div>
+                <div class="right-main-right">
+                    <div class="items items01">
+                        <div class="items-title"><h2>往期漏洞分布情况</h2></div>
+                        <div class="items-con" id="VulnerabilityDistribution"></div>
+                    </div>
+                    <div class="items items02">
+                        <div class="items-title"><h2>往期战队提交漏洞数</h2></div>
+                        <div class="items-con" id="teamLoophole"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        // 漏洞分布情况
+        var data01 = [
+            {name: "任意文1件下载1", value: "1"},
+            {name: "任意文2件下载2", value: "2"},
+            {name: "任意文3件下载3", value: "5"},
+            {name: "任意文4件下载4", value: "8"},
+            {name: "任意文5件下载5", value: "3"}
+        ];
+        defense.distributionEchart('distribution', data01);
+        // 战队提交漏洞数
+        var data02 = [
+            {name: '山东队', value: 300},
+            {name: '上海队', value: 400},
+            {name: '北京队', value: 452}
+        ];
+        defense.submissionsEchart('submissions', data02);
+        // 防守方漏洞排名
+        var data03 = [
+            {name: "xx学会学会学会学会05", value: 120},
+            {name: "xx学会学会学会学会04", value: 130},
+            {name: "xx学会学会学会学会03", value: 140},
+            {name: "xx学会学会学会学会02", value: 150},
+            {name: "xx学会学会学会学会01", value: 180}
+        ];
+        defense.rankingEchart('ranking', data03);
+        // 专家工作量
+        var data04 = [
+            {name: "通过", value: "10"},
+            {name: "驳回", value: "20"}
+        ];
+        defense.expertWorkEchart('expertWork', data04);
+        // 队伍排名
+        var data05 = {
+            data: [
+                {name: "梦之战队", value: 30, src: 'header.jpg'},
+                {name: "云之战队", value: 180, src: 'header.jpg'},
+                {name: "三剑客战队", value: 120, src: 'header.jpg'},
+                {name: "蓝帽子战队", value: 60, src: 'header.jpg'},
+                {name: "绿萝战队", value: 50, src: 'header.jpg'}
+            ],
+            maxVal: 200
+        };
+        defense.teamRank(data05);
+        setInterval(function () {
+            data05.data[0].value += 10;
+            defense.teamRank(data05);
+        }, 1500);
+        // 往期漏洞分布情况
+        var data06 = [
+            {name: "任意文件1下载1", value: "1"},
+            {name: "任意文件2下载2", value: "2"},
+            {name: "任意文件3下载3", value: "5"},
+            {name: "任意文件4下载4", value: "8"},
+            {name: "任意文件5下载5", value: "3"}
+        ];
+        defense.distributionEchart('VulnerabilityDistribution', data06);
+        // 往期战队提交漏洞数
+        var data07 = [
+            {name: '山东队', value: 300},
+            {name: '上海队', value: 400},
+            {name: '北京队', value: 452}
+        ];
+        defense.submissionsEchart('teamLoophole', data07);
+    });
+</script>
+</body>
+</html>
