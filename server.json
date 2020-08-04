@@ -8,7 +8,8 @@
     {"name": "移动端","val":"移动端项目，微信公众号项目，公司展示页面","src": "yd.png","href": "https://getmycoder.github.io/Project/project/Mobile/index.html"},
     {"name": "程序开发","val":"程序页面，前端页面实时展示后台的程序运行状态，如果出现问题，会实时展示各种错误的状态","src": "tz.png","href": "https://getmycoder.github.io/Project/project/DragDrop/index.html"},
     {"name": "百度地图攻击","val":"百度地图攻击效果","src": "baidu_map.png","href": "./project/TaianMap_Baidu/index.html"},
-    {"name": "地图攻击","val":"地图攻击效果","src": "baidu_map.png","href": "./project/map/holisticAttack.html"}
+    {"name": "地图攻击","val":"地图攻击效果","src": "baidu_map.png","href": "./project/map/holisticAttack.html"},
+    {"name": "攻击排名","val":"攻击排名动态展示","src": "teamRank.png","href": "./project/teamRank/index.html"}
   ],
   "plugDom": [
     {"name": "Kui框架","val":"视图UI，包括栅格系统，按钮，各种小插件，方法等","src": "kui.png","href": "http://www.nodeserver.gq/kui/"},
