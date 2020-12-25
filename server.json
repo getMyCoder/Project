@@ -19,6 +19,7 @@
     {"name": "后台管理框架","val":"简单的导航插件，简化前端的页面的逻辑","src": "nav.png","href": "https://getmycoder.github.io/Project/project/ViewFrame/index.html"},
     {"name": "树插件","val":"数据渲染成树结构的树形视图","src": "treeDom.png","href": "./project/treeDom/index.html"},
     {"name": "分页插件","val":"分页插件","src": "page.png","href": "./project/page/index.html"},
+    {"name": "canvas画布签名","val":"canvas画布签名、添加文字","src": "canvas_autograph.png","href": "./project/canvas_autograph/index.html"},
     {"name": "音频播放器","val":"音乐","src": "music.png","href": "https://getmycoder.github.io/Project/project/musicNav/index.html"}
   ],
   "plugCanvas": [
